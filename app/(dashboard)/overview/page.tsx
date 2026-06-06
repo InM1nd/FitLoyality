@@ -1,0 +1,30 @@
+import { PageHeading } from "@/components/layout/page-heading";
+import { KpiCards } from "@/components/overview/kpi-cards";
+import { RetentionChart } from "@/components/overview/retention-chart";
+import { AtRiskPanel } from "@/components/overview/at-risk-panel";
+import { ActivityTable } from "@/components/overview/activity-table";
+
+export default function OverviewPage() {
+  return (
+    <div className="flex flex-col gap-6">
+      <PageHeading
+        eyebrow="Gym Dashboard"
+        title="Overview"
+        description="A live read on retention — see who's slipping, reward what works, prove the ROI."
+      />
+
+      <KpiCards />
+
+      <div className="grid grid-cols-1 gap-4 lg:grid-cols-12">
+        <div className="lg:col-span-7">
+          <RetentionChart />
+        </div>
+        <div className="lg:col-span-5">
+          <AtRiskPanel />
+        </div>
+      </div>
+
+      <ActivityTable />
+    </div>
+  );
+}

@@ -1,0 +1,103 @@
+/* ============================================================
+   FitLoyalty — Base & layout
+   ============================================================ */
+
+* { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; }
+
+body {
+  font-family: var(--font);
+  background: var(--bg);
+  color: var(--text-1);
+  font-size: var(--fs-body);
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  transition: background .35s ease, color .35s ease;
+}
+
+.num { font-variant-numeric: tabular-nums; font-feature-settings: "tnum" 1; }
+
+::selection { background: var(--accent-glow); color: var(--text-1); }
+
+/* --- Scrollbars --- */
+::-webkit-scrollbar { width: 10px; height: 10px; }
+::-webkit-scrollbar-thumb { background: var(--border-default); border-radius: 9999px; border: 2px solid transparent; background-clip: padding-box; }
+::-webkit-scrollbar-thumb:hover { background: var(--border-strong); background-clip: padding-box; }
+::-webkit-scrollbar-track { background: transparent; }
+
+/* ============================================================
+   Top navigation bar
+   ============================================================ */
+.topbar {
+  position: sticky; top: 0; z-index: 100;
+  display: flex; align-items: center; gap: var(--s-6);
+  height: 60px; padding: 0 var(--s-6);
+  background: color-mix(in srgb, var(--bg) 78%, transparent);
+  backdrop-filter: blur(18px) saturate(140%);
+  -webkit-backdrop-filter: blur(18px) saturate(140%);
+  border-bottom: 1px solid var(--border-subtle);
+}
+.brand { display: flex; align-items: center; gap: 10px; font-weight: 700; letter-spacing: -0.02em; }
+.brand .logo-mark {
+  width: 26px; height: 26px; border-radius: 7px;
+  background: var(--accent); color: var(--accent-ink);
+  display: grid; place-items: center; box-shadow: var(--shadow-glow);
+  flex: 0 0 auto;
+}
+.brand .logo-mark svg { width: 16px; height: 16px; }
+.brand .name { font-size: 15px; }
+.brand .name b { color: var(--accent); }
+
+.seg-nav { display: flex; gap: 4px; padding: 4px; background: var(--surface-1); border: 1px solid var(--border-subtle); border-radius: var(--r-md); }
+.seg-nav button {
+  font-family: inherit; font-size: 13px; font-weight: 500;
+  color: var(--text-2); background: transparent; border: none; cursor: pointer;
+  padding: 7px 14px; border-radius: var(--r-sm); display: flex; align-items: center; gap: 7px;
+  transition: color .15s, background .15s;
+}
+.seg-nav button svg { width: 15px; height: 15px; }
+.seg-nav button:hover { color: var(--text-1); }
+.seg-nav button.active { background: var(--surface-3); color: var(--text-1); box-shadow: var(--shadow-subtle); }
+
+.topbar-spacer { flex: 1; }
+
+.theme-toggle {
+  display: flex; align-items: center; gap: 8px;
+  background: var(--surface-1); border: 1px solid var(--border-subtle);
+  border-radius: var(--r-full); padding: 6px; cursor: pointer;
+  color: var(--text-2);
+}
+.theme-toggle button { all: unset; cursor: pointer; width: 28px; height: 28px; display: grid; place-items: center; border-radius: var(--r-full); color: var(--text-3); }
+.theme-toggle button svg { width: 15px; height: 15px; }
+.theme-toggle button.on { background: var(--surface-3); color: var(--accent); }
+
+.tag-pill { font-size: 11px; font-weight: 600; letter-spacing: .04em; text-transform: uppercase; color: var(--text-3); border: 1px solid var(--border-subtle); padding: 3px 8px; border-radius: var(--r-full); }
+
+/* ============================================================
+   Section / page scaffolding
+   ============================================================ */
+.section { display: none; }
+.section.active { display: block; }
+
+.page { max-width: var(--maxw); margin: 0 auto; padding: var(--s-10) var(--s-6) var(--s-16); }
+
+.page-head { margin-bottom: var(--s-8); }
+.page-head .eyebrow { font-size: var(--fs-small); font-weight: 600; letter-spacing: .12em; text-transform: uppercase; color: var(--accent); }
+.page-head h1 { font-size: 30px; font-weight: 700; letter-spacing: -0.02em; margin: 8px 0 6px; }
+.page-head p { color: var(--text-2); max-width: 60ch; margin: 0; }
+
+.block { margin-bottom: var(--s-12); }
+.block-title { display: flex; align-items: baseline; gap: 12px; margin-bottom: var(--s-5); }
+.block-title h2 { font-size: var(--fs-h2); font-weight: 600; margin: 0; letter-spacing: -0.01em; }
+.block-title .hint { font-size: var(--fs-small); color: var(--text-3); }
+.rule { height: 1px; background: var(--border-subtle); border: none; margin: 0 0 var(--s-6); }
+
+/* Showcase frame used to present screen mockups */
+.frame-label { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; white-space: nowrap; }
+.frame-label .idx { font-size: 11px; font-weight: 700; color: var(--accent-ink); background: var(--accent); border-radius: var(--r-sm); padding: 2px 7px; font-variant-numeric: tabular-nums; }
+[data-theme="light"] .frame-label .idx { color: #fff; }
+.frame-label .t { font-weight: 600; font-size: 15px; }
+.frame-label .d { font-size: 12px; color: var(--text-3); }
+
+.screen-wrap { margin-bottom: var(--s-16); }
