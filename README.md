@@ -54,9 +54,12 @@ The app ships a **marketing landing page** plus **two demo experiences**, all on
 
 ### Landing page — `/` (`app/page.tsx`)
 
-An animated, dark/cinematic marketing page (Clash Display headings, signature ECG-style "pulse"
-line, floating product mockups, bento feature grid, scroll-reveals and count-up stats — powered by
-**Motion**). CTAs funnel into the two live demos below.
+A **light editorial "data-zine"** marketing page — warm bone paper, near-black ink, electric green
+as a single sharp accent. Authorial signatures: a Swiss hairline grid, oversized Clash Display
+headlines with a highlighter-green marker swipe, IBM Plex Mono technical labels, outlined section
+numbers, dark product "exhibits" with `Fig. 0X` captions, and a scrolling member-data ticker.
+Scroll-reveals and count-up stats are powered by **Motion** (all respect `prefers-reduced-motion`).
+CTAs funnel into the two live demos below.
 
 ### Gym admin dashboard — `app/(dashboard)/` (sidebar + header shell)
 
@@ -132,7 +135,8 @@ app/
     page.tsx              # home
     {rewards,activity,profile}/page.tsx
 components/
-  landing/                # nav, hero, pulse-line, bento, showcase, steps, cta, mocks
+  landing/                # nav, hero, ticker, stats, capabilities, showcase, steps, cta,
+                          #   footer + marker, grid-lines, counter, reveal, mocks
   layout/                 # sidebar, header, shell, demo-banner, logo, page-heading
   member/                 # phone-shell, bottom-nav, qr-code
   shared/                 # cross-feature components (nudge-modal)

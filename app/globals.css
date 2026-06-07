@@ -145,6 +145,7 @@
   --color-ring: var(--accent-brand);
 
   --font-display: "Clash Display", "Satoshi", sans-serif;
+  --font-mono: var(--font-plex-mono), ui-monospace, "SFMono-Regular", monospace;
 
   --radius-sm: calc(var(--radius) - 2px);
   --radius-md: var(--radius);
@@ -194,85 +195,96 @@
 .recharts-cartesian-axis-tick text { font-size: 11px; }
 
 /* ============================================================
-   Landing page — atmosphere, typography & motion utilities
+   LANDING — "Light editorial data-zine"
+   Self-contained light world; does not touch the app's dark theme.
    ============================================================ */
+.landing {
+  --paper:    #ece6d8;
+  --paper-2:  #e4ddcc;
+  --paper-3:  #d8d0bd;
+  --ink:      #15140e;
+  --ink-2:    #5c574b;
+  --ink-3:    #948d7c;
+  --line:     rgba(21, 20, 14, 0.16);
+  --line-soft:rgba(21, 20, 14, 0.08);
+  --acid:     #16a34a;
+  --acid-bright: #22c55e;
+  --marker:   rgba(34, 197, 94, 0.42);
+
+  color-scheme: light;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+}
+/* Default border tint lives in @layer base so explicit `border-[…]` utilities win. */
+@layer base {
+  /* every border inside the landing is a warm hairline … */
+  .landing *,
+  .landing *::before,
+  .landing *::after { border-color: var(--line); }
+  /* … except the dark product "exhibits", which keep their own dark separators */
+  .landing [data-exhibit],
+  .landing [data-exhibit] * { border-color: rgba(255, 255, 255, 0.08); }
+}
+.landing ::selection { background: var(--marker); color: var(--ink); }
+
 @layer utilities {
-  .font-display {
+  .font-display { font-family: var(--font-display); letter-spacing: -0.02em; }
+
+  /* mono technical labels */
+  .mono {
+    font-family: var(--font-mono);
+    font-feature-settings: "ss01";
+  }
+  .mono-label {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+  }
+
+  /* editorial color helpers */
+  .t-ink   { color: var(--ink); }
+  .t-mut   { color: var(--ink-2); }
+  .t-faint { color: var(--ink-3); }
+  .t-acid  { color: var(--acid); }
+  .bg-paper  { background: var(--paper); }
+  .bg-paper2 { background: var(--paper-2); }
+  .bg-paper3 { background: var(--paper-3); }
+  .bg-acid   { background: var(--acid); color: #fff; }
+  .rule      { background: var(--line); }
+  .rule-soft { background: var(--line-soft); }
+
+  /* ghost / outline numerals for section markers */
+  .num-ghost {
+    color: transparent;
+    -webkit-text-stroke: 1.5px rgba(21, 20, 14, 0.24);
     font-family: var(--font-display);
-    letter-spacing: -0.02em;
+    font-weight: 600;
   }
 
-  /* Gradient brand text */
-  .text-gradient {
-    background: linear-gradient(120deg, #ffffff 0%, #bbf7d0 45%, #22c55e 100%);
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent;
-  }
-  .text-gradient-green {
-    background: linear-gradient(120deg, #4ade80 0%, #22c55e 60%, #15803d 100%);
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent;
-  }
-
-  /* Dotted / lined grid backdrop */
-  .bg-grid {
-    background-image:
-      linear-gradient(to right, rgba(255, 255, 255, 0.04) 1px, transparent 1px),
-      linear-gradient(to bottom, rgba(255, 255, 255, 0.04) 1px, transparent 1px);
-    background-size: 56px 56px;
-  }
-  .bg-dotgrid {
-    background-image: radial-gradient(rgba(255, 255, 255, 0.06) 1px, transparent 1px);
-    background-size: 22px 22px;
-  }
-
-  /* Fine grain overlay (SVG noise) */
+  /* paper grain (multiply) */
   .grain::after {
     content: "";
     position: absolute;
     inset: 0;
     pointer-events: none;
-    opacity: 0.4;
-    mix-blend-mode: overlay;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.5'/%3E%3C/svg%3E");
-  }
-
-  .glow-ring {
-    box-shadow: 0 0 0 1px rgba(34, 197, 94, 0.25), 0 0 40px -8px rgba(34, 197, 94, 0.45);
+    opacity: 0.38;
+    mix-blend-mode: multiply;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.45'/%3E%3C/svg%3E");
   }
 }
 
-/* Floating gradient orbs */
-@keyframes orb-float {
-  0%, 100% { transform: translate3d(0, 0, 0) scale(1); }
-  50%      { transform: translate3d(0, -28px, 0) scale(1.06); }
-}
-.animate-orb { animation: orb-float 14s ease-in-out infinite; }
-.animate-orb-slow { animation: orb-float 22s ease-in-out infinite; }
-
-/* Pulse line: a glow dot riding the ECG path */
-@keyframes pulse-dash {
-  to { stroke-dashoffset: 0; }
-}
-
-/* Infinite marquee */
+/* Infinite marquee / ticker */
 @keyframes marquee {
   from { transform: translateX(0); }
   to   { transform: translateX(-50%); }
 }
-.animate-marquee { animation: marquee 32s linear infinite; }
-
-/* Subtle conic shimmer for borders/cards */
-@keyframes shimmer-spin {
-  to { transform: rotate(1turn); }
-}
+.animate-marquee { animation: marquee 38s linear infinite; }
+.animate-marquee-rev { animation: marquee 38s linear infinite reverse; }
 
 @media (prefers-reduced-motion: reduce) {
-  .animate-orb,
-  .animate-orb-slow,
-  .animate-marquee {
-    animation: none !important;
-  }
+  .animate-marquee,
+  .animate-marquee-rev { animation: none !important; }
 }

@@ -1,49 +1,41 @@
 import Link from "next/link";
-import { ArrowRight, Smartphone } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 
 import { Reveal } from "@/components/landing/reveal";
-import { PulseLine } from "@/components/landing/pulse-line";
+import { Marker } from "@/components/landing/marker";
 
 export function LandingCta() {
   return (
-    <section className="px-5 py-24 md:py-32">
-      <Reveal className="mx-auto max-w-5xl">
-        <div className="grain relative overflow-hidden rounded-[32px] border border-[color-mix(in_srgb,var(--accent-brand)_30%,transparent)] bg-surface-1/60 px-6 py-16 text-center backdrop-blur md:px-16 md:py-24">
-          {/* atmosphere */}
-          <div className="pointer-events-none absolute inset-0 -z-10">
-            <div className="absolute left-1/2 top-0 h-72 w-[700px] -translate-x-1/2 rounded-full bg-[radial-gradient(closest-side,rgba(34,197,94,0.22),transparent)]" />
-            <div className="absolute inset-0 bg-dotgrid opacity-40 [mask-image:radial-gradient(ellipse_60%_60%_at_50%_50%,#000,transparent_75%)]" />
-            <PulseLine className="absolute inset-x-0 bottom-0 h-40 w-full opacity-40" />
+    <section className="px-5 pb-24 pt-8">
+      <Reveal className="mx-auto max-w-6xl">
+        <div className="grain relative overflow-hidden border border-[var(--ink)] bg-paper2 px-6 py-16 md:px-14 md:py-24">
+          <div className="flex items-center justify-between border-b border-[var(--line)] pb-4">
+            <span className="mono-label t-mut">06 — Ready?</span>
+            <span className="mono-label t-faint">Break even at 2 members/mo</span>
           </div>
 
-          <span className="inline-flex items-center gap-2 rounded-full border border-border bg-surface-2/60 px-3.5 py-1.5 text-xs font-medium text-muted-foreground backdrop-blur">
-            Break even by retaining just 2 members/month
-          </span>
-
-          <h2 className="font-display mx-auto mt-6 max-w-2xl text-4xl font-bold leading-tight tracking-tight md:text-6xl">
-            Stop losing the members
-            <br />
-            you fought to <span className="text-gradient-green">win.</span>
+          <h2 className="font-display mt-10 max-w-4xl text-5xl font-bold uppercase leading-[0.92] tracking-tight t-ink md:text-7xl lg:text-8xl">
+            Stop losing the members you <Marker>fought</Marker> to win.
           </h2>
 
-          <p className="mx-auto mt-5 max-w-lg text-muted-foreground">
+          <p className="mt-7 max-w-md text-base leading-relaxed t-mut">
             Explore the full FitLoyalty experience — admin dashboard and member app — right now. No
             signup, all data simulated.
           </p>
 
-          <div className="mt-9 flex flex-col items-center justify-center gap-3 sm:flex-row">
+          <div className="mt-9 flex flex-wrap items-center gap-x-7 gap-y-3">
             <Link
               href="/overview"
-              className="group inline-flex items-center gap-2 rounded-full bg-primary px-7 py-3.5 text-sm font-semibold text-primary-foreground shadow-[0_0_0_1px_rgba(34,197,94,0.4)] transition-all hover:shadow-[var(--shadow-glow)]"
+              className="group inline-flex items-center gap-2 bg-acid px-7 py-4 text-[13px] font-semibold uppercase tracking-[0.1em] text-white transition-transform hover:-translate-y-0.5"
             >
               Explore the dashboard
               <ArrowRight className="size-4 transition-transform group-hover:translate-x-0.5" />
             </Link>
-            <Link
-              href="/member"
-              className="inline-flex items-center gap-2 rounded-full border border-border bg-surface-2/60 px-7 py-3.5 text-sm font-semibold text-foreground backdrop-blur transition-colors hover:border-border-strong"
-            >
-              <Smartphone className="size-4" /> See the member app
+            <Link href="/member" className="mono-label group inline-flex items-center gap-1.5 t-ink">
+              <span className="underline decoration-[var(--line)] underline-offset-4 transition-colors group-hover:decoration-[var(--acid)]">
+                or see the member app
+              </span>
+              ↗
             </Link>
           </div>
         </div>
