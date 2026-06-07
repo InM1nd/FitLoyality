@@ -1,5 +1,6 @@
 import { Counter } from "@/components/landing/counter";
 import { Reveal } from "@/components/landing/reveal";
+import { HeatStrip } from "@/components/landing/heat-field";
 import { cn } from "@/lib/utils";
 
 const STATS: {
@@ -17,21 +18,26 @@ const STATS: {
 
 export function LandingStats() {
   return (
-    <section className="px-5 py-20 md:py-28">
+    <section id="streak" className="scroll-mt-20 px-5 py-20 md:py-28">
       <div className="mx-auto max-w-6xl">
-        <div className="flex flex-col gap-4 border-b border-[var(--line)] pb-5 sm:flex-row sm:items-end sm:justify-between">
-          <div>
-            <span className="mono-label t-faint">02 — By the numbers</span>
-            <h2 className="font-display mt-2 text-3xl font-semibold uppercase tracking-tight t-ink md:text-4xl">
-              The math of staying.
-            </h2>
-          </div>
-          <p className="mono max-w-xs text-[11px] leading-relaxed t-faint sm:text-right">
-            Aggregated across pilot studios · trailing 30 days
+        <Reveal className="max-w-3xl">
+          <span className="mono-label t-faint">01 — The streak effect</span>
+          <h2 className="font-display mt-3 text-3xl font-semibold leading-[1.05] tracking-tight t-ink md:text-5xl">
+            A member on a streak is a member who&apos;s{" "}
+            <span className="text-heat">staying.</span>
+          </h2>
+          <p className="mt-5 max-w-xl text-base leading-relaxed t-mut">
+            Consistency compounds. Every workout logged, every reward earned, every day kept warms
+            the grid — and the warmer it runs, the longer they stay. FitLoyalty makes that visible,
+            and acts the moment it cools.
           </p>
+        </Reveal>
+
+        <div className="mt-10">
+          <HeatStrip cols={64} seed={11} />
         </div>
 
-        <div className="grid grid-cols-2 md:grid-cols-4">
+        <div className="mt-10 grid grid-cols-2 md:grid-cols-4">
           {STATS.map((s, i) => (
             <Reveal
               key={s.label}
@@ -43,9 +49,9 @@ export function LandingStats() {
               )}
             >
               <div className="font-display num text-5xl font-semibold tracking-tight t-ink md:text-6xl">
-                {s.prefix && <span className="t-acid">{s.prefix}</span>}
+                {s.prefix && <span className="t-lime">{s.prefix}</span>}
                 <Counter to={s.value} decimals={s.decimals} />
-                {s.suffix && <span className="t-acid">{s.suffix}</span>}
+                {s.suffix && <span className="t-lime">{s.suffix}</span>}
               </div>
               <p className="mono-label mt-3 t-mut">{s.label}</p>
             </Reveal>

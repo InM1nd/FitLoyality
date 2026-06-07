@@ -144,7 +144,7 @@
   --color-input: var(--border-default);
   --color-ring: var(--accent-brand);
 
-  --font-display: "Clash Display", "Satoshi", sans-serif;
+  --font-display: "Clash Grotesk", "Satoshi", sans-serif;
   --font-mono: var(--font-plex-mono), ui-monospace, "SFMono-Regular", monospace;
 
   --radius-sm: calc(var(--radius) - 2px);
@@ -195,48 +195,49 @@
 .recharts-cartesian-axis-tick text { font-size: 11px; }
 
 /* ============================================================
-   LANDING — "Light editorial data-zine"
-   Self-contained light world; does not touch the app's dark theme.
+   LANDING — "STREAK" (dark thermal heat-grid world)
+   Self-contained; built around the activity heat-grid motif.
    ============================================================ */
 .landing {
-  --paper:    #ece6d8;
-  --paper-2:  #e4ddcc;
-  --paper-3:  #d8d0bd;
-  --ink:      #15140e;
-  --ink-2:    #5c574b;
-  --ink-3:    #948d7c;
-  --line:     rgba(21, 20, 14, 0.16);
-  --line-soft:rgba(21, 20, 14, 0.08);
-  --acid:     #16a34a;
-  --acid-bright: #22c55e;
-  --marker:   rgba(34, 197, 94, 0.42);
+  --paper:    #080a09;   /* near-black, faint green-warm */
+  --paper-2:  #0d100e;
+  --paper-3:  #141815;
+  --ink:      #ecefea;   /* warm off-white */
+  --ink-2:    #97a39a;   /* sage gray */
+  --ink-3:    #5c655e;   /* faint */
+  --line:     rgba(236, 239, 234, 0.10);
+  --line-soft:rgba(236, 239, 234, 0.05);
+  --acid:     #22c55e;
+  --lime:     #a3e635;   /* hottest */
+  --glow:     rgba(34, 197, 94, 0.45);
 
-  color-scheme: light;
+  /* heat ramp: cold/empty → hot */
+  --h0: #151916;
+  --h1: #123a23;
+  --h2: #1a7a3c;
+  --h3: #2bd45f;
+  --h4: #a3e635;
+
+  color-scheme: dark;
   background: var(--paper);
   color: var(--ink);
   font-family: var(--font-sans);
   -webkit-font-smoothing: antialiased;
 }
-/* Default border tint lives in @layer base so explicit `border-[…]` utilities win. */
+/* Default border tint in @layer base so explicit `border-[…]` utilities win. */
 @layer base {
-  /* every border inside the landing is a warm hairline … */
   .landing *,
   .landing *::before,
   .landing *::after { border-color: var(--line); }
-  /* … except the dark product "exhibits", which keep their own dark separators */
-  .landing [data-exhibit],
-  .landing [data-exhibit] * { border-color: rgba(255, 255, 255, 0.08); }
 }
-.landing ::selection { background: var(--marker); color: var(--ink); }
+.landing ::selection { background: var(--glow); color: #fff; }
 
 @layer utilities {
-  .font-display { font-family: var(--font-display); letter-spacing: -0.02em; }
-
-  /* mono technical labels */
-  .mono {
-    font-family: var(--font-mono);
-    font-feature-settings: "ss01";
+  .font-display {
+    font-family: var(--font-display);
+    letter-spacing: -0.025em;
   }
+  .mono { font-family: var(--font-mono); }
   .mono-label {
     font-family: var(--font-mono);
     font-size: 11px;
@@ -244,35 +245,50 @@
     text-transform: uppercase;
   }
 
-  /* editorial color helpers */
+  /* color helpers */
   .t-ink   { color: var(--ink); }
   .t-mut   { color: var(--ink-2); }
   .t-faint { color: var(--ink-3); }
   .t-acid  { color: var(--acid); }
+  .t-lime  { color: var(--lime); }
   .bg-paper  { background: var(--paper); }
   .bg-paper2 { background: var(--paper-2); }
   .bg-paper3 { background: var(--paper-3); }
-  .bg-acid   { background: var(--acid); color: #fff; }
+  .bg-acid   { background: var(--acid); color: #042310; }
   .rule      { background: var(--line); }
-  .rule-soft { background: var(--line-soft); }
 
-  /* ghost / outline numerals for section markers */
+  /* hot gradient text */
+  .text-heat {
+    background: linear-gradient(100deg, var(--acid) 0%, #7dd83f 55%, var(--lime) 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  /* outline numerals */
   .num-ghost {
     color: transparent;
-    -webkit-text-stroke: 1.5px rgba(21, 20, 14, 0.24);
+    -webkit-text-stroke: 1.5px rgba(236, 239, 234, 0.18);
     font-family: var(--font-display);
     font-weight: 600;
   }
 
-  /* paper grain (multiply) */
+  /* heat cells */
+  .cell { border-radius: 3px; background: var(--h0); }
+  .cell-1 { background: var(--h1); }
+  .cell-2 { background: var(--h2); }
+  .cell-3 { background: var(--h3); box-shadow: 0 0 10px rgba(43, 212, 95, 0.30); }
+  .cell-4 { background: var(--h4); box-shadow: 0 0 14px rgba(163, 230, 53, 0.45); }
+
+  /* dark film grain */
   .grain::after {
     content: "";
     position: absolute;
     inset: 0;
     pointer-events: none;
-    opacity: 0.38;
-    mix-blend-mode: multiply;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.45'/%3E%3C/svg%3E");
+    opacity: 0.05;
+    mix-blend-mode: screen;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
   }
 }
 
@@ -281,10 +297,16 @@
   from { transform: translateX(0); }
   to   { transform: translateX(-50%); }
 }
-.animate-marquee { animation: marquee 38s linear infinite; }
-.animate-marquee-rev { animation: marquee 38s linear infinite reverse; }
+.animate-marquee { animation: marquee 40s linear infinite; }
+
+/* Hot-cell breathing */
+@keyframes heat-breathe {
+  0%, 100% { opacity: 0.85; }
+  50%      { opacity: 1; }
+}
+.animate-breathe { animation: heat-breathe 3.2s ease-in-out infinite; }
 
 @media (prefers-reduced-motion: reduce) {
   .animate-marquee,
-  .animate-marquee-rev { animation: none !important; }
+  .animate-breathe { animation: none !important; }
 }

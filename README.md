@@ -54,11 +54,16 @@ The app ships a **marketing landing page** plus **two demo experiences**, all on
 
 ### Landing page — `/` (`app/page.tsx`)
 
-A **light editorial "data-zine"** marketing page — warm bone paper, near-black ink, electric green
-as a single sharp accent. Authorial signatures: a Swiss hairline grid, oversized Clash Display
-headlines with a highlighter-green marker swipe, IBM Plex Mono technical labels, outlined section
-numbers, dark product "exhibits" with `Fig. 0X` captions, and a scrolling member-data ticker.
-Scroll-reveals and count-up stats are powered by **Motion** (all respect `prefers-reduced-motion`).
+A dark **"STREAK"** marketing page built around the product's activity heat-grid. Near-black base
+with a thermal green→lime ramp; the signature is a **living heat-grid** (`HeatField`) that ignites
+in waves and "breathes", reused across the hero streak-card, the stat strip, capability hover
+accents and the CTA backdrop. Headlines in **Clash Grotesk** with heat-gradient keywords, IBM Plex
+Mono technical labels and a member-data ticker. To show prospects exactly how the product looks &
+works, it embeds **detailed, realistic replicas** of the real app screens (built on the same mock
+data): a layered hero dashboard in a browser frame, an **interactive tabbed showcase**
+(Overview / Members / Rewards / Analytics) and a 3-phone member-app gallery. Scroll-reveals and
+count-up stats are powered by **Motion** (all respect `prefers-reduced-motion`). The whole landing
+is a self-contained world via a `.landing` wrapper, so it never touches the app's dark UI theme.
 CTAs funnel into the two live demos below.
 
 ### Gym admin dashboard — `app/(dashboard)/` (sidebar + header shell)
@@ -135,8 +140,11 @@ app/
     page.tsx              # home
     {rewards,activity,profile}/page.tsx
 components/
-  landing/                # nav, hero, ticker, stats, capabilities, showcase, steps, cta,
-                          #   footer + marker, grid-lines, counter, reveal, mocks
+  landing/                # nav, hero, ticker, stats, capabilities, product-showcase,
+                          #   phone-gallery, steps, cta, footer + heat-field (signature),
+                          #   browser-frame, counter, reveal
+    screens/              # detailed product replicas (overview/members/rewards/analytics)
+                          #   built on real mock data + a shared app-chrome
   layout/                 # sidebar, header, shell, demo-banner, logo, page-heading
   member/                 # phone-shell, bottom-nav, qr-code
   shared/                 # cross-feature components (nudge-modal)

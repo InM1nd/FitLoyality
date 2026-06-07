@@ -30,7 +30,7 @@ export default function RootLayout({
         <link rel="preconnect" href="https://api.fontshare.com" crossOrigin="anonymous" />
         <link
           rel="stylesheet"
-          href="https://api.fontshare.com/v2/css?f[]=satoshi@400,500,600,700&f[]=clash-display@500,600,700&display=swap"
+          href="https://api.fontshare.com/v2/css?f[]=satoshi@400,500,600,700&f[]=clash-grotesk@500,600,700&display=swap"
         />
       </head>
       <body>
