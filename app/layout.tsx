@@ -6,9 +6,9 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { Toaster } from "@/components/ui/sonner";
 
 export const metadata: Metadata = {
-  title: "FitLoyalty — Gym Retention Dashboard",
+  title: "FitLoyalty — Turn churn into loyalty",
   description:
-    "White-label gym retention platform for independent fitness studios in the DACH region.",
+    "The white-label retention platform for independent fitness studios. Spot at-risk members, reward what works, and prove the ROI — built for the DACH region.",
 };
 
 export default function RootLayout({
@@ -22,7 +22,7 @@ export default function RootLayout({
         <link rel="preconnect" href="https://api.fontshare.com" crossOrigin="anonymous" />
         <link
           rel="stylesheet"
-          href="https://api.fontshare.com/v2/css?f[]=satoshi@400,500,600,700&display=swap"
+          href="https://api.fontshare.com/v2/css?f[]=satoshi@400,500,600,700&f[]=clash-display@500,600,700&display=swap"
         />
       </head>
       <body>

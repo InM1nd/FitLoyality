@@ -50,7 +50,13 @@ Requires **Node 18.18+** (developed on Node 22).
 
 ---
 
-The app ships **two demo experiences** that share one design system:
+The app ships a **marketing landing page** plus **two demo experiences**, all on one design system:
+
+### Landing page — `/` (`app/page.tsx`)
+
+An animated, dark/cinematic marketing page (Clash Display headings, signature ECG-style "pulse"
+line, floating product mockups, bento feature grid, scroll-reveals and count-up stats — powered by
+**Motion**). CTAs funnel into the two live demos below.
 
 ### Gym admin dashboard — `app/(dashboard)/` (sidebar + header shell)
 
@@ -115,7 +121,7 @@ shadcn/ui primitives re-skinned to the FitLoyalty tokens:
 ```
 app/
   layout.tsx              # providers only (theme + tooltip + toaster)
-  page.tsx                # redirect → /overview
+  page.tsx                # animated marketing landing page
   globals.css             # design tokens + Tailwind v4 theme mapping
   (dashboard)/            # gym-admin route group (sidebar + header shell)
     layout.tsx
@@ -126,6 +132,7 @@ app/
     page.tsx              # home
     {rewards,activity,profile}/page.tsx
 components/
+  landing/                # nav, hero, pulse-line, bento, showcase, steps, cta, mocks
   layout/                 # sidebar, header, shell, demo-banner, logo, page-heading
   member/                 # phone-shell, bottom-nav, qr-code
   shared/                 # cross-feature components (nudge-modal)
