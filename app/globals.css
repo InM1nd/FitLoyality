@@ -12,23 +12,24 @@
 
 :root {
   /* Surfaces */
-  --bg:            #fafaf9;
-  --surface-1:     #ffffff;
-  --surface-2:     #f5f5f4;
-  --surface-3:     #ececeb;
+  --bg:            #f5f2ec;   /* matches landing cream */
+  --surface-1:     #ffffff;   /* cards — white on cream = clean lift */
+  --surface-2:     #ede9e1;   /* hover states — warm tint */
+  --surface-3:     #e5e0d4;   /* selected / avatar fallback — warm tint */
 
   /* Borders */
   --border-subtle:  rgba(10, 10, 10, 0.07);
   --border-default: rgba(10, 10, 10, 0.12);
   --border-strong:  rgba(10, 10, 10, 0.20);
 
-  /* Accent — electric green */
-  --accent-brand:   #16a34a;
-  --accent-hover:   #15803d;
-  --accent-press:   #166534;
-  --accent-subtle:  rgba(22, 163, 74, 0.08);
-  --accent-glow:    rgba(22, 163, 74, 0.14);
+  /* Accent — papaya orange */
+  --accent-brand:   #ff7403;
+  --accent-hover:   #e86800;
+  --accent-press:   #cc5c00;
+  --accent-subtle:  rgba(255, 116, 3, 0.08);
+  --accent-glow:    rgba(255, 116, 3, 0.14);
   --accent-ink:     #ffffff;
+  --sky:            #93dafe;
 
   /* Text */
   --text-1: #0a0a0a;
@@ -39,19 +40,26 @@
   --success: #16a34a;
   --warning: #d97706;
   --error:   #dc2626;
-  --info:    #2563eb;
+  --info:    #93dafe;
   --success-bg: rgba(22, 163, 74, 0.10);
   --warning-bg: rgba(217, 119, 6, 0.10);
   --error-bg:   rgba(220, 38, 38, 0.10);
-  --info-bg:    rgba(37, 99, 235, 0.10);
+  --info-bg:    rgba(147, 218, 254, 0.10);
 
   /* Shadows */
   --shadow-subtle:   0 1px 2px rgba(10, 10, 10, 0.06);
   --shadow-card:     0 4px 16px rgba(10, 10, 10, 0.08);
   --shadow-elevated: 0 12px 40px rgba(10, 10, 10, 0.12);
-  --shadow-glow:     0 0 20px rgba(22, 163, 74, 0.18);
+  --shadow-glow:     0 0 20px rgba(255, 116, 3, 0.18);
 
   --grid-line: rgba(10, 10, 10, 0.07);
+
+  /* activity heat-grid ramp — sky-blue, dark→bright */
+  --h0: #0c1a27;
+  --h1: #0e3350;
+  --h2: #1a6090;
+  --h3: #3d9dbf;
+  --h4: #93dafe;
 
   --radius: 0.5rem;
   color-scheme: light;
@@ -67,12 +75,13 @@
   --border-default: rgba(255, 255, 255, 0.12);
   --border-strong:  rgba(255, 255, 255, 0.18);
 
-  --accent-brand:   #22c55e;
-  --accent-hover:   #16a34a;
-  --accent-press:   #15803d;
-  --accent-subtle:  rgba(34, 197, 94, 0.08);
-  --accent-glow:    rgba(34, 197, 94, 0.15);
-  --accent-ink:     #052e16;
+  --accent-brand:   #ff7403;
+  --accent-hover:   #e86800;
+  --accent-press:   #cc5c00;
+  --accent-subtle:  rgba(255, 116, 3, 0.08);
+  --accent-glow:    rgba(255, 116, 3, 0.15);
+  --accent-ink:     #ffffff;
+  --sky:            #93dafe;
 
   --text-1: #ffffff;
   --text-2: #a1a1aa;
@@ -81,16 +90,16 @@
   --success: #22c55e;
   --warning: #f59e0b;
   --error:   #ef4444;
-  --info:    #3b82f6;
+  --info:    #93dafe;
   --success-bg: rgba(34, 197, 94, 0.10);
   --warning-bg: rgba(245, 158, 11, 0.10);
   --error-bg:   rgba(239, 68, 68, 0.10);
-  --info-bg:    rgba(59, 130, 246, 0.10);
+  --info-bg:    rgba(147, 218, 254, 0.10);
 
   --shadow-subtle:   0 1px 3px rgba(0, 0, 0, 0.4);
   --shadow-card:     0 4px 16px rgba(0, 0, 0, 0.5);
   --shadow-elevated: 0 12px 40px rgba(0, 0, 0, 0.6);
-  --shadow-glow:     0 0 20px rgba(34, 197, 94, 0.2);
+  --shadow-glow:     0 0 20px rgba(255, 116, 3, 0.2);
 
   --grid-line: rgba(255, 255, 255, 0.06);
   color-scheme: dark;
@@ -130,6 +139,7 @@
 
   --color-brand: var(--accent-brand);
   --color-brand-subtle: var(--accent-subtle);
+  --color-sky: var(--sky);
 
   --color-destructive: var(--error);
   --color-destructive-foreground: #ffffff;
@@ -199,26 +209,24 @@
    Self-contained; built around the activity heat-grid motif.
    ============================================================ */
 .landing {
-  --paper:    #080a09;   /* near-black, faint green-warm */
-  --paper-2:  #0d100e;
-  --paper-3:  #141815;
-  --ink:      #ecefea;   /* warm off-white */
-  --ink-2:    #97a39a;   /* sage gray */
-  --ink-3:    #5c655e;   /* faint */
-  --line:     rgba(236, 239, 234, 0.10);
-  --line-soft:rgba(236, 239, 234, 0.05);
-  --acid:     #22c55e;
-  --lime:     #a3e635;   /* hottest */
-  --glow:     rgba(34, 197, 94, 0.45);
+  /* ── Surfaces ── */
+  --paper:    #f5f2ec;   /* warm cream — page background */
+  --paper-2:  #ede9e1;   /* slightly richer cream — hover, subtle cards */
+  --paper-3:  #e5e0d4;
+  /* ── Text ── */
+  --ink:      #1a1a1a;   /* primary */
+  --ink-2:    #6b6b6b;   /* muted */
+  --ink-3:    #9a9a9a;   /* faint */
+  /* ── Lines / borders ── */
+  --line:     rgba(26, 26, 26, 0.10);
+  --line-soft:rgba(26, 26, 26, 0.05);
+  /* ── Brand tokens ── */
+  --acid:     #1a1a1a;   /* primary CTA → dark button */
+  --lime:     #ff7403;   /* papaya-orange — warm energy accent */
+  --sky:      #93dafe;   /* sky blue — data / notification accent */
+  --glow:     rgba(255, 116, 3, 0.10);
 
-  /* heat ramp: cold/empty → hot */
-  --h0: #151916;
-  --h1: #123a23;
-  --h2: #1a7a3c;
-  --h3: #2bd45f;
-  --h4: #a3e635;
-
-  color-scheme: dark;
+  color-scheme: light;
   background: var(--paper);
   color: var(--ink);
   font-family: var(--font-sans);
@@ -230,7 +238,7 @@
   .landing *::before,
   .landing *::after { border-color: var(--line); }
 }
-.landing ::selection { background: var(--glow); color: #fff; }
+.landing ::selection { background: var(--glow); color: #1a1a1a; }
 
 @layer utilities {
   .font-display {
@@ -251,34 +259,32 @@
   .t-faint { color: var(--ink-3); }
   .t-acid  { color: var(--acid); }
   .t-lime  { color: var(--lime); }
+  .t-sky   { color: var(--sky); }
   .bg-paper  { background: var(--paper); }
   .bg-paper2 { background: var(--paper-2); }
   .bg-paper3 { background: var(--paper-3); }
-  .bg-acid   { background: var(--acid); color: #042310; }
+  .bg-acid   { background: var(--acid); color: var(--paper); }
   .rule      { background: var(--line); }
 
-  /* hot gradient text */
+  /* accent text — lime on cream or lime on dark */
   .text-heat {
-    background: linear-gradient(100deg, var(--acid) 0%, #7dd83f 55%, var(--lime) 100%);
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent;
+    color: var(--lime);
   }
 
   /* outline numerals */
   .num-ghost {
     color: transparent;
-    -webkit-text-stroke: 1.5px rgba(236, 239, 234, 0.18);
+    -webkit-text-stroke: 1.5px rgba(26, 26, 26, 0.14);
     font-family: var(--font-display);
     font-weight: 600;
   }
 
   /* heat cells */
-  .cell { border-radius: 3px; background: var(--h0); }
+  .cell   { border-radius: 3px; background: var(--h0); }
   .cell-1 { background: var(--h1); }
   .cell-2 { background: var(--h2); }
-  .cell-3 { background: var(--h3); box-shadow: 0 0 10px rgba(43, 212, 95, 0.30); }
-  .cell-4 { background: var(--h4); box-shadow: 0 0 14px rgba(163, 230, 53, 0.45); }
+  .cell-3 { background: var(--h3); }
+  .cell-4 { background: var(--h4); }
 
   /* dark film grain */
   .grain::after {

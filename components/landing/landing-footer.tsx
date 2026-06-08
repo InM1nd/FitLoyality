@@ -48,7 +48,7 @@ export function LandingFooter() {
               The white-label retention platform for independent fitness studios in the DACH region.
             </p>
             <p className="mono-label mt-5 inline-flex items-center gap-2 t-faint">
-              <span className="size-1.5 rounded-full bg-[var(--acid)]" />
+              <span className="size-1.5 rounded-full bg-[var(--lime)]" />
               Demo · all data simulated
             </p>
           </div>

@@ -5,9 +5,9 @@ import { COHORTS, CHURN_SERIES } from "@/lib/mock-data";
 
 function cohortColor(v: number): string {
   const stops: { p: number; c: [number, number, number] }[] = [
-    { p: 0, c: [239, 68, 68] },
-    { p: 50, c: [245, 158, 11] },
-    { p: 100, c: [34, 197, 94] },
+    { p: 0,   c: [239, 68,  68]  },
+    { p: 50,  c: [245, 158, 11]  },
+    { p: 100, c: [34,  197, 94]  },
   ];
   const val = Math.max(0, Math.min(100, v));
   let lo = stops[0];
@@ -51,7 +51,7 @@ export function AnalyticsScreen() {
                     ) : (
                       <span
                         key={i}
-                        className="flex-1 rounded-[3px] py-1.5 text-center text-[8px] font-bold text-[#052e16]"
+                        className="flex-1 rounded-[3px] py-1.5 text-center text-[8px] font-bold text-white/90"
                         style={{ backgroundColor: cohortColor(v) }}
                       >
                         {v}
@@ -64,9 +64,9 @@ export function AnalyticsScreen() {
           </div>
 
           {/* ROI */}
-          <div className="rounded-lg border border-[#22c55e]/25 bg-[#22c55e]/[0.04] p-3">
+          <div className="rounded-lg border border-[#ff7403]/25 bg-[#ff7403]/[0.04] p-3">
             <div className="flex items-center gap-1.5">
-              <span className="grid size-6 place-items-center rounded-md bg-[#22c55e]/15 text-[#22c55e]">
+              <span className="grid size-6 place-items-center rounded-md bg-[#ff7403]/15 text-[#ff7403]">
                 <Calculator className="size-3" />
               </span>
               <span className="text-[10px] font-semibold">Your ROI</span>
@@ -79,9 +79,9 @@ export function AnalyticsScreen() {
                 </div>
               ))}
             </div>
-            <div className="mt-3 rounded-md bg-[#16a34a] p-2.5 text-center text-white">
+            <div className="mt-3 rounded-md bg-[#ff7403] p-2.5 text-center text-white">
               <div className="text-lg font-bold leading-none">€1,847</div>
-              <div className="mt-1 text-[8px] opacity-90">saved / month</div>
+              <div className="mt-1 text-[8px] opacity-80">saved / month</div>
             </div>
           </div>
         </div>
@@ -99,7 +99,7 @@ export function AnalyticsScreen() {
                   className="w-full rounded-t"
                   style={{
                     height: `${(d.churn / maxChurn) * 100}%`,
-                    background: d.churn === maxChurn ? "#ef4444" : "rgba(239,68,68,0.7)",
+                    background: d.churn === maxChurn ? "#ef4444" : "rgba(239,68,68,0.6)",
                   }}
                 />
                 <span className="text-[8px] text-zinc-600">{d.month}</span>

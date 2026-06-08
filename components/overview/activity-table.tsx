@@ -20,24 +20,25 @@ export function ActivityTable() {
         <CardTitle>Recent Reward Activity</CardTitle>
         <Link
           href="/members"
-          className="inline-flex items-center gap-1 text-xs font-medium text-brand hover:underline"
+          className="group inline-flex items-center gap-1 text-[12px] font-semibold text-brand transition-opacity hover:opacity-80"
         >
-          View all <ArrowRight className="size-3.5" />
+          View all
+          <ArrowRight className="size-3.5 transition-transform group-hover:translate-x-0.5" />
         </Link>
       </CardHeader>
       <Table>
         <TableHeader>
           <TableRow className="hover:bg-transparent">
-            <TableHead className="pl-5">Member</TableHead>
-            <TableHead>Reward</TableHead>
-            <TableHead>Triggered By</TableHead>
-            <TableHead className="text-right">Points</TableHead>
-            <TableHead className="pr-5 text-right">Date</TableHead>
+            <TableHead className="pl-5 text-[11px]">Member</TableHead>
+            <TableHead className="text-[11px]">Reward</TableHead>
+            <TableHead className="text-[11px]">Triggered By</TableHead>
+            <TableHead className="text-right text-[11px]">Points</TableHead>
+            <TableHead className="pr-5 text-right text-[11px]">Date</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
           {REWARD_ACTIVITY.map((a) => (
-            <TableRow key={a.id}>
+            <TableRow key={a.id} className="group">
               <TableCell className="pl-5">
                 <div className="flex items-center gap-2.5">
                   <Avatar initials={a.initials} grad={a.grad} size="sm" />
@@ -46,15 +47,19 @@ export function ActivityTable() {
               </TableCell>
               <TableCell>
                 <span className="inline-flex items-center gap-2">
-                  <span className="text-base">{a.emoji}</span>
-                  {a.reward}
+                  <span className="text-base leading-none">{a.emoji}</span>
+                  <span className="text-sm">{a.reward}</span>
                 </span>
               </TableCell>
-              <TableCell className="text-muted-foreground">{a.triggeredBy}</TableCell>
-              <TableCell className="num text-right font-medium">
-                {a.points > 0 ? `+${a.points}` : "—"}
+              <TableCell>
+                <span className="inline-flex items-center rounded-full bg-[var(--info-bg)] px-2.5 py-0.5 text-[11px] font-medium text-info">
+                  {a.triggeredBy}
+                </span>
               </TableCell>
-              <TableCell className="pr-5 text-right text-muted-foreground">{a.date}</TableCell>
+              <TableCell className="num text-right text-sm font-semibold text-brand">
+                {a.points > 0 ? `+${a.points}` : <span className="text-faint">—</span>}
+              </TableCell>
+              <TableCell className="pr-5 text-right text-sm text-muted-foreground">{a.date}</TableCell>
             </TableRow>
           ))}
         </TableBody>

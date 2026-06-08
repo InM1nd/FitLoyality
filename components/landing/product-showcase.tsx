@@ -31,7 +31,7 @@ export function ProductShowcase() {
         <Reveal className="flex flex-col gap-4 border-b border-[var(--line)] pb-5 sm:flex-row sm:items-end sm:justify-between">
           <div>
             <span className="mono-label t-faint">03 — Product</span>
-            <h2 className="font-display mt-2 text-4xl font-semibold uppercase tracking-tight t-ink md:text-5xl">
+            <h2 className="font-display mt-2 text-4xl font-semibold tracking-tight t-ink md:text-5xl">
               See it in action.
             </h2>
           </div>
@@ -50,7 +50,7 @@ export function ProductShowcase() {
               className={cn(
                 "mono rounded-full border px-4 py-2 text-[12px] uppercase tracking-[0.06em] transition-colors",
                 active === t.key
-                  ? "border-[var(--acid)] bg-[var(--acid)]/10 t-lime"
+                  ? "border-[#1a1a1a] bg-[#1a1a1a] text-[#ff7403]"
                   : "border-[var(--line)] t-mut hover:t-ink",
               )}
             >
@@ -61,7 +61,7 @@ export function ProductShowcase() {
 
         {/* frame */}
         <Reveal delay={0.05} className="relative mt-6">
-          <div className="pointer-events-none absolute -inset-8 -z-10 bg-[radial-gradient(closest-side,rgba(34,197,94,0.12),transparent)]" />
+          <div className="pointer-events-none absolute -inset-8 -z-10 bg-[radial-gradient(closest-side,rgba(255,116,3,0.05),transparent)]" />
           <BrowserFrame url={current.url}>
             <AnimatePresence mode="wait">
               <motion.div

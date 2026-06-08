@@ -47,16 +47,16 @@ function HomeScreen() {
   return (
     <div className="flex h-full flex-col gap-3">
       <div className="flex items-center gap-2">
-        <span className="grid size-6 place-items-center rounded-md bg-[#22c55e] text-[8px] font-bold text-[#052e16]">CV</span>
+        <span className="grid size-6 place-items-center rounded-md bg-[#ff7403] text-[8px] font-bold text-white">CV</span>
         <span className="text-[10px] font-semibold">CrossFit Vienna Nord</span>
       </div>
       <div>
         <p className="text-base font-bold">Hey, Markus 👋</p>
         <p className="mt-0.5 flex items-center gap-1 text-[9px] text-zinc-400">
-          <Flame className="size-3 text-[#a3e635]" /> 14-day streak · top 8%
+          <Flame className="size-3 text-[#ff7403]" /> 14-day streak · top 8%
         </p>
       </div>
-      <div className="rounded-2xl p-3 text-white" style={{ background: "linear-gradient(135deg,#22c55e,#15803d)" }}>
+      <div className="rounded-2xl p-3 text-white" style={{ background: "linear-gradient(135deg,#ff7403,#e86800)" }}>
         <p className="text-[7px] font-semibold uppercase tracking-wide opacity-90">Points this month</p>
         <p className="text-2xl font-bold leading-none">2,840</p>
         <div className="mt-2 flex justify-between text-[7px] opacity-90">
@@ -65,15 +65,15 @@ function HomeScreen() {
         <div className="mt-1 h-1.5 overflow-hidden rounded-full bg-white/25"><div className="h-full w-[94%] rounded-full bg-white" /></div>
       </div>
       <div className="inline-flex w-fit items-center gap-1.5 rounded-full border border-white/10 bg-white/5 px-2 py-1 text-[8px] text-zinc-300">
-        <span className="size-1 rounded-full bg-[#22c55e]" /><Watch className="size-2.5" /> Apple Watch · 2 min
+        <span className="size-1 rounded-full bg-[#93dafe]" /><Watch className="size-2.5" /> Apple Watch · 2 min
       </div>
       <div className="rounded-xl bg-white/[0.04] p-2.5">
         <div className="flex items-center gap-2">
           <span className="text-sm">{c.emoji}</span>
           <span className="flex-1 text-[9px] font-medium">{c.title}</span>
-          <span className="text-[9px] font-semibold text-[#a3e635]">62%</span>
+          <span className="text-[9px] font-semibold text-[#ff7403]">62%</span>
         </div>
-        <div className="mt-1.5 h-1 overflow-hidden rounded-full bg-white/10"><div className="h-full w-[62%] rounded-full bg-[#22c55e]" /></div>
+        <div className="mt-1.5 h-1 overflow-hidden rounded-full bg-white/10"><div className="h-full w-[62%] rounded-full bg-[#ff7403]" /></div>
       </div>
     </div>
   );
@@ -84,7 +84,7 @@ function RewardsScreen() {
     <div className="flex h-full flex-col gap-3">
       <div className="rounded-xl border border-white/8 bg-white/[0.03] p-3">
         <p className="text-[8px] font-semibold uppercase tracking-wide text-zinc-500">Your balance</p>
-        <p className="text-2xl font-bold leading-none text-[#a3e635]">2,840 <span className="text-xs text-zinc-400">pts</span></p>
+        <p className="text-2xl font-bold leading-none text-[#ff7403]">2,840 <span className="text-xs text-zinc-400">pts</span></p>
       </div>
       <p className="text-[10px] font-semibold">Available rewards</p>
       <div className="flex flex-col gap-2">
@@ -95,10 +95,10 @@ function RewardsScreen() {
               <span className="grid size-8 place-items-center rounded-md bg-white/8 text-base">{r.emoji}</span>
               <div className="min-w-0 flex-1">
                 <p className="truncate text-[10px] font-semibold">{r.name}</p>
-                <p className="text-[8px] font-semibold text-[#22c55e]">{r.cost} pts</p>
+                <p className="text-[8px] font-semibold text-[#93dafe]">{r.cost} pts</p>
               </div>
               {ok ? (
-                <span className="rounded-md bg-[#22c55e] px-2 py-1 text-[8px] font-bold text-[#052e16]">Redeem</span>
+                <span className="rounded-md bg-[#ff7403] px-2 py-1 text-[8px] font-bold text-white">Redeem</span>
               ) : (
                 <Lock className="size-3 text-zinc-600" />
               )}
@@ -141,12 +141,12 @@ function ActivityScreen() {
 export function PhoneGallery() {
   return (
     <section id="member" className="relative scroll-mt-20 overflow-hidden px-5 py-20 md:py-28">
-      <div className="pointer-events-none absolute left-1/2 top-1/2 -z-10 size-[640px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[radial-gradient(closest-side,rgba(34,197,94,0.10),transparent)]" />
+      <div className="pointer-events-none absolute left-1/2 top-1/2 -z-10 size-[640px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[radial-gradient(closest-side,rgba(147,218,254,0.12),transparent)]" />
       <div className="mx-auto max-w-6xl">
         <Reveal className="flex flex-col gap-4 border-b border-[var(--line)] pb-5 sm:flex-row sm:items-end sm:justify-between">
           <div>
             <span className="mono-label t-faint">04 — Member app</span>
-            <h2 className="font-display mt-2 text-4xl font-semibold uppercase tracking-tight t-ink md:text-5xl">
+            <h2 className="font-display mt-2 text-4xl font-semibold tracking-tight t-ink md:text-5xl">
               In their pocket.
             </h2>
           </div>
@@ -171,7 +171,7 @@ export function PhoneGallery() {
         <div className="mt-12 text-center">
           <Link
             href="/member"
-            className="group inline-flex items-center gap-2 rounded-full border border-[var(--line)] px-6 py-3 text-[13px] font-semibold uppercase tracking-[0.06em] t-ink transition-colors hover:border-[var(--acid)] hover:t-lime"
+            className="group inline-flex items-center gap-2 rounded-full border border-[var(--line)] px-6 py-3 text-[13px] font-semibold uppercase tracking-[0.06em] t-ink transition-colors hover:border-[var(--lime)] hover:t-lime"
           >
             Open the member app
             <ArrowRight className="size-4 transition-transform group-hover:translate-x-1" />

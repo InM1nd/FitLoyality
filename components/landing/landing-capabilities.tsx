@@ -32,7 +32,7 @@ export function LandingCapabilities() {
         <div className="flex flex-col gap-4 border-b border-[var(--line)] pb-5 sm:flex-row sm:items-end sm:justify-between">
           <div>
             <span className="mono-label t-faint">02 — Capabilities</span>
-            <h2 className="font-display mt-2 text-4xl font-semibold uppercase tracking-tight t-ink md:text-5xl">
+            <h2 className="font-display mt-2 text-4xl font-semibold tracking-tight t-ink md:text-5xl">
               Keep the grid warm.
             </h2>
           </div>
@@ -55,7 +55,7 @@ export function LandingCapabilities() {
                   <span className="mono text-[13px] t-faint transition-colors group-hover:t-lime">
                     {it.no}
                   </span>
-                  <span className="grid size-9 place-items-center border border-[var(--line)] t-ink transition-colors group-hover:border-[var(--acid)] group-hover:t-acid">
+                  <span className="grid size-9 place-items-center border border-[var(--line)] t-ink transition-colors group-hover:border-[var(--lime)] group-hover:text-[#ff7403]">
                     <Icon className="size-4" />
                   </span>
                 </div>

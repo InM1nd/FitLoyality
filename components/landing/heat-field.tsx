@@ -6,7 +6,7 @@ import { motion, useReducedMotion, type Variants } from "motion/react";
 import { cn } from "@/lib/utils";
 
 const RAMP = ["var(--h0)", "var(--h1)", "var(--h2)", "var(--h3)", "var(--h4)"];
-const GLOW = [undefined, undefined, undefined, "0 0 10px rgba(43,212,95,0.3)", "0 0 14px rgba(163,230,53,0.45)"];
+const GLOW = [undefined, undefined, undefined, "0 0 10px rgba(147,218,254,0.35)", "0 0 16px rgba(147,218,254,0.55)"];
 
 function mulberry32(seed: number) {
   return function () {

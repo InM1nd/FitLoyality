@@ -20,21 +20,26 @@ function Kpi({
   tone: "brand" | "warn" | "info";
   trendUp?: boolean;
 }) {
-  const t =
+  const iconCls =
     tone === "warn"
       ? "bg-[#f59e0b]/10 text-[#f59e0b]"
       : tone === "info"
-        ? "bg-[#3b82f6]/10 text-[#3b82f6]"
-        : "bg-[#22c55e]/10 text-[#22c55e]";
+        ? "bg-[#93dafe]/10 text-[#93dafe]"
+        : "bg-[#ff7403]/10 text-[#ff7403]";
+
+  const valueCls =
+    tone === "info" ? "text-[#93dafe]" : tone === "brand" ? "text-[#ff7403]" : "text-white";
+
   return (
-    <div className="rounded-lg border border-white/8 bg-[#111] p-3">
+    <div className="relative overflow-hidden rounded-lg border border-white/8 bg-[#111] p-3">
+      <span className={cn("absolute inset-x-0 top-0 h-[2px]", tone === "warn" ? "bg-[#f59e0b]" : tone === "info" ? "bg-[#93dafe]" : "bg-[#ff7403]")} />
       <div className="flex items-center justify-between">
         <span className="text-[9px] font-medium text-zinc-400">{label}</span>
-        <span className={cn("grid size-6 place-items-center rounded-md", t)}>
+        <span className={cn("grid size-6 place-items-center rounded-md", iconCls)}>
           <Icon className="size-3" />
         </span>
       </div>
-      <div className="mt-2 text-xl font-bold tracking-tight">{value}</div>
+      <div className={cn("mt-2 text-xl font-bold tracking-tight", valueCls)}>{value}</div>
       <div className={cn("mt-1 flex items-center gap-0.5 text-[9px] font-semibold", trendUp ? "text-[#22c55e]" : "text-zinc-500")}>
         {trendUp && <TrendingUp className="size-2.5" />} {trend}
       </div>
@@ -56,12 +61,12 @@ function RetentionChart() {
     <svg viewBox={`0 0 ${W} ${H}`} className="h-24 w-full" preserveAspectRatio="none">
       <defs>
         <linearGradient id="ovArea" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0%" stopColor="#22c55e" stopOpacity="0.35" />
-          <stop offset="100%" stopColor="#22c55e" stopOpacity="0" />
+          <stop offset="0%" stopColor="#93dafe" stopOpacity="0.25" />
+          <stop offset="100%" stopColor="#93dafe" stopOpacity="0" />
         </linearGradient>
       </defs>
       <path d={area} fill="url(#ovArea)" />
-      <path d={line} fill="none" stroke="#22c55e" strokeWidth="2.5" vectorEffect="non-scaling-stroke" />
+      <path d={line} fill="none" stroke="#ff7403" strokeWidth="2.5" vectorEffect="non-scaling-stroke" />
     </svg>
   );
 }
@@ -81,7 +86,7 @@ export function OverviewScreen() {
           <div className="rounded-lg border border-white/8 bg-[#111] p-3 lg:col-span-2">
             <div className="flex items-center justify-between">
               <span className="text-[10px] font-semibold">Member Retention — 6 Months</span>
-              <span className="text-[9px] text-zinc-500">Jan–Jun 2026</span>
+              <span className="rounded-full bg-[#ff7403]/10 px-2 py-0.5 text-[8px] font-semibold text-[#ff7403]">Jan–Jun 2026</span>
             </div>
             <RetentionChart />
             <div className="mt-1 flex justify-between px-0.5 text-[8px] text-zinc-600">
@@ -92,7 +97,7 @@ export function OverviewScreen() {
           <div className="rounded-lg border border-white/8 bg-[#111] p-3">
             <div className="mb-2 flex items-center justify-between">
               <span className="text-[10px] font-semibold">At-Risk</span>
-              <span className="text-[8px] text-zinc-500">14+ days</span>
+              <span className="rounded-full bg-[#93dafe]/10 px-2 py-0.5 text-[8px] font-semibold text-[#93dafe]">14+ days</span>
             </div>
             <div className="flex flex-col gap-2">
               {AT_RISK_MEMBERS.slice(0, 3).map((m) => (
@@ -102,7 +107,7 @@ export function OverviewScreen() {
                     <p className="truncate text-[10px] font-medium leading-tight text-white">{m.name}</p>
                     <p className="text-[8px] text-zinc-500">{m.lastVisit}</p>
                   </div>
-                  <span className="inline-flex items-center gap-1 rounded-md bg-[#22c55e]/10 px-1.5 py-1 text-[8px] font-semibold text-[#22c55e]">
+                  <span className="inline-flex items-center gap-1 rounded-md bg-[#93dafe]/10 px-1.5 py-1 text-[8px] font-semibold text-[#93dafe]">
                     <Send className="size-2.5" /> Nudge
                   </span>
                 </div>
@@ -126,8 +131,10 @@ export function OverviewScreen() {
                   <td className="px-3 py-2 text-[10px] text-zinc-300">
                     <span className="mr-1">{a.emoji}</span>{a.reward}
                   </td>
-                  <td className="hidden px-3 py-2 text-[9px] text-zinc-500 md:table-cell">{a.triggeredBy}</td>
-                  <td className="px-3 py-2 text-right text-[10px] font-semibold text-[#22c55e]">{a.points > 0 ? `+${a.points}` : "—"}</td>
+                  <td className="hidden px-3 py-2 md:table-cell">
+                    <span className="rounded-full bg-[#93dafe]/10 px-2 py-0.5 text-[8px] text-[#93dafe]">{a.triggeredBy}</span>
+                  </td>
+                  <td className="px-3 py-2 text-right text-[10px] font-semibold text-[#ff7403]">{a.points > 0 ? `+${a.points}` : "—"}</td>
                   <td className="px-3 py-2 text-right text-[9px] text-zinc-500">{a.date}</td>
                 </tr>
               ))}

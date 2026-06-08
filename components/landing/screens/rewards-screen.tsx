@@ -6,7 +6,7 @@ import { REWARDS } from "@/lib/mock-data";
 
 function Toggle({ on }: { on: boolean }) {
   return (
-    <span className={cn("relative inline-block h-4 w-7 rounded-full transition-colors", on ? "bg-[#22c55e]" : "bg-white/12")}>
+    <span className={cn("relative inline-block h-4 w-7 rounded-full transition-colors", on ? "bg-[#ff7403]" : "bg-white/12")}>
       <span className={cn("absolute top-0.5 size-3 rounded-full bg-white transition-all", on ? "left-3.5" : "left-0.5")} />
     </span>
   );
@@ -21,7 +21,7 @@ export function RewardsScreen() {
             <span className="text-sm font-semibold">Rewards</span>
             <span className="ml-2 text-[10px] text-zinc-500">3 active</span>
           </div>
-          <span className="inline-flex items-center gap-1.5 rounded-md bg-[#22c55e] px-2.5 py-1.5 text-[10px] font-semibold text-[#052e16]">
+          <span className="inline-flex items-center gap-1.5 rounded-md bg-[#ff7403] px-2.5 py-1.5 text-[10px] font-semibold text-white">
             <Plus className="size-3" /> Create Reward
           </span>
         </div>
@@ -43,7 +43,7 @@ export function RewardsScreen() {
               <p className="mt-1 line-clamp-2 flex-1 text-[9px] leading-relaxed text-zinc-500">{r.description}</p>
               <div className="mt-2 flex items-center justify-between border-t border-white/8 pt-2 text-[8px]">
                 <span className="text-zinc-500">⚡ {r.trigger}</span>
-                <span className="font-semibold text-[#22c55e]">{r.redemptions} this mo</span>
+                <span className="font-semibold text-[#ff7403]">{r.redemptions} this mo</span>
               </div>
             </div>
           ))}

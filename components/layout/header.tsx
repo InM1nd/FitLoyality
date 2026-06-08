@@ -128,7 +128,7 @@ export function Header() {
       <div className="flex items-center gap-2 text-[13px] text-faint">
         <span>Workspace</span>
         <ChevronRight className="size-3.5" />
-        <span className="font-semibold text-foreground">{title}</span>
+        <span className="font-semibold text-brand">{title}</span>
       </div>
 
       <button
@@ -158,7 +158,7 @@ export function Header() {
         <PopoverContent align="end" className="w-80 p-0">
           <div className="flex items-center justify-between border-b border-border px-3 py-2.5">
             <p className="text-[13px] font-semibold">Notifications</p>
-            <span className="text-[11px] text-faint">3 new</span>
+            <span className="rounded-full bg-[var(--info-bg)] px-2 py-0.5 text-[11px] font-semibold text-info">3 new</span>
           </div>
           <div className="p-1">
             {NOTIFICATIONS.map((n) => {

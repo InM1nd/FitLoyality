@@ -22,9 +22,21 @@ interface KpiDef {
 }
 
 const TONE_ICON: Record<Tone, string> = {
-  brand: "bg-[var(--accent-subtle)] text-brand",
+  brand:   "bg-[var(--accent-subtle)] text-brand",
   warning: "bg-[var(--warning-bg)] text-warning",
-  info: "bg-[var(--info-bg)] text-info",
+  info:    "bg-[var(--info-bg)] text-info",
+};
+
+const TONE_ACCENT: Record<Tone, string> = {
+  brand:   "bg-brand",
+  warning: "bg-warning",
+  info:    "bg-info",
+};
+
+const TONE_VALUE: Record<Tone, string> = {
+  brand:   "text-brand",
+  warning: "text-foreground",
+  info:    "text-info",
 };
 
 function KpiCard({ kpi }: { kpi: KpiDef }) {
@@ -37,24 +49,27 @@ function KpiCard({ kpi }: { kpi: KpiDef }) {
   const inner = (
     <Card
       className={cn(
-        "flex flex-col gap-3.5 p-5",
+        "relative flex flex-col gap-3 overflow-hidden p-5",
         kpi.href && "transition-colors hover:border-border-strong",
       )}
     >
+      {/* top accent stripe */}
+      <span className={cn("absolute inset-x-0 top-0 h-[2px]", TONE_ACCENT[kpi.tone])} />
+
       <div className="flex items-center justify-between">
         <span className="text-xs font-medium text-muted-foreground">{kpi.label}</span>
-        <span className={cn("grid size-9 place-items-center rounded-md", TONE_ICON[kpi.tone])}>
-          <Icon className="size-[17px]" />
+        <span className={cn("grid size-8 place-items-center rounded-lg", TONE_ICON[kpi.tone])}>
+          <Icon className="size-[16px]" />
         </span>
       </div>
-      <div className="num text-3xl font-bold leading-none tracking-tight">{display}</div>
+      <div className={cn("num text-[2rem] font-bold leading-none tracking-tight", TONE_VALUE[kpi.tone])}>{display}</div>
       <span
         className={cn(
-          "inline-flex items-center gap-1 text-xs font-semibold",
+          "inline-flex items-center gap-1 text-[11px] font-semibold",
           kpi.trend.tone === "up" ? "text-success" : "text-faint",
         )}
       >
-        {kpi.trend.tone === "up" && <TrendingUp className="size-3.5" />}
+        {kpi.trend.tone === "up" && <TrendingUp className="size-3" />}
         {kpi.trend.text}
       </span>
     </Card>
@@ -62,7 +77,7 @@ function KpiCard({ kpi }: { kpi: KpiDef }) {
 
   if (kpi.href) {
     return (
-      <Link href={kpi.href} className="outline-none focus-visible:ring-2 focus-visible:ring-ring/50 rounded-lg">
+      <Link href={kpi.href} className="rounded-lg outline-none focus-visible:ring-2 focus-visible:ring-ring/50">
         {inner}
       </Link>
     );

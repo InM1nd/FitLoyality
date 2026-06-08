@@ -14,7 +14,7 @@ export function LandingSteps() {
         <div className="flex flex-col gap-4 border-b border-[var(--line)] pb-5 sm:flex-row sm:items-end sm:justify-between">
           <div>
             <span className="mono-label t-faint">05 — Process</span>
-            <h2 className="font-display mt-2 text-4xl font-semibold uppercase tracking-tight t-ink md:text-5xl">
+            <h2 className="font-display mt-2 text-4xl font-semibold tracking-tight t-ink md:text-5xl">
               Live in an afternoon.
             </h2>
           </div>
@@ -34,7 +34,7 @@ export function LandingSteps() {
               )}
             >
               <span className="font-display block text-6xl num-ghost md:text-7xl">{step.no}</span>
-              <h3 className="font-display mt-5 text-2xl font-semibold uppercase tracking-tight t-ink">
+              <h3 className="font-display mt-5 text-2xl font-semibold tracking-tight t-ink">
                 {step.title}
               </h3>
               <p className="mt-3 max-w-xs text-sm leading-relaxed t-mut">{step.body}</p>

@@ -14,7 +14,7 @@ const TABS: [string, number, boolean][] = [
 ];
 
 const BADGE: Record<MemberStatus, string> = {
-  active: "bg-[#22c55e]/10 text-[#22c55e]",
+  active: "bg-[#ff7403]/10 text-[#ff7403]",
   "at-risk": "bg-[#f59e0b]/10 text-[#f59e0b]",
   churned: "bg-white/8 text-zinc-400",
 };
