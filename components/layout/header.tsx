@@ -14,6 +14,7 @@ import {
   Gift,
   LayoutDashboard,
   Users,
+  Route,
   BarChart3,
   Settings,
   User,
@@ -46,6 +47,7 @@ const TITLES: Record<string, string> = {
   "/overview": "Overview",
   "/members": "Members",
   "/rewards": "Rewards",
+  "/journeys": "Journeys",
   "/analytics": "Analytics",
   "/settings": "Settings",
 };
@@ -60,6 +62,7 @@ const QUICK_NAV: { href: string; label: string; icon: LucideIcon }[] = [
   { href: "/overview", label: "Overview", icon: LayoutDashboard },
   { href: "/members", label: "Members", icon: Users },
   { href: "/rewards", label: "Rewards", icon: Gift },
+  { href: "/journeys", label: "Journeys", icon: Route },
   { href: "/analytics", label: "Analytics", icon: BarChart3 },
   { href: "/settings", label: "Settings", icon: Settings },
 ];

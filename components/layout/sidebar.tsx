@@ -6,6 +6,7 @@ import {
   LayoutDashboard,
   Users,
   Gift,
+  Route,
   BarChart3,
   Settings,
   type LucideIcon,
@@ -20,12 +21,15 @@ interface NavItem {
   label: string;
   icon: LucideIcon;
   count?: number;
+  /** renders a "Soon" pill — feature preview pages */
+  soon?: boolean;
 }
 
 const NAV: NavItem[] = [
   { href: "/overview", label: "Overview", icon: LayoutDashboard },
   { href: "/members", label: "Members", icon: Users, count: MEMBER_COUNTS.all },
   { href: "/rewards", label: "Rewards", icon: Gift },
+  { href: "/journeys", label: "Journeys", icon: Route, soon: true },
   { href: "/analytics", label: "Analytics", icon: BarChart3 },
   { href: "/settings", label: "Settings", icon: Settings },
 ];
@@ -70,6 +74,11 @@ export function Sidebar() {
                 )}
               />
               <span>{item.label}</span>
+              {item.soon && (
+                <span className="ml-auto rounded-full bg-[var(--accent-subtle)] px-1.5 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-brand">
+                  Soon
+                </span>
+              )}
               {item.count !== undefined && (
                 <span
                   className={cn(
