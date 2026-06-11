@@ -1,7 +1,7 @@
 import { Calculator } from "lucide-react";
 
 import { AppChrome } from "@/components/landing/screens/app-chrome";
-import { COHORTS, CHURN_SERIES } from "@/lib/mock-data";
+import { COHORTS, CHURN_SERIES } from "@/lib/data";
 
 function cohortColor(v: number): string {
   const stops: { p: number; c: [number, number, number] }[] = [

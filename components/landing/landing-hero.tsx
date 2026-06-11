@@ -79,8 +79,9 @@ export function LandingHero() {
           </h1>
 
           <motion.p variants={fade} className="mt-6 max-w-md text-base leading-relaxed text-[#3d3d3d]">
-            FitLoyalty turns every workout into a streak worth keeping — then shows you exactly
-            who&apos;s about to break theirs, so you can win them back before they&apos;re gone.
+            Eversports runs your bookings — FitLoyalty brings your revenue back. Weekly streaks
+            keep members coming, churn-window alerts catch them before the notice deadline, and
+            every save shows up in euros.
           </motion.p>
 
           <motion.div variants={fade} className="mt-8 flex flex-wrap items-center gap-x-6 gap-y-3">
@@ -101,7 +102,7 @@ export function LandingHero() {
 
           <motion.div variants={fade} className="mono mt-8 inline-flex items-center gap-2 text-[12px] text-[#6b6b6b]">
             <Flame className="size-4 text-[#ff7403]" />
-            14-DAY STREAK · TOP 8% AT YOUR GYM
+            9-WEEK STREAK · TOP 8% AT YOUR GYM
           </motion.div>
         </motion.div>
 
@@ -130,8 +131,8 @@ export function LandingHero() {
               </div>
               <div className="mt-3 flex items-end justify-between border-t border-white/8 pt-2.5">
                 <div>
-                  <div className="font-display text-2xl font-bold leading-none text-[#ff7403]">14</div>
-                  <div className="mono-label mt-1 text-white/50">Day streak</div>
+                  <div className="font-display text-2xl font-bold leading-none text-[#ff7403]">9</div>
+                  <div className="mono-label mt-1 text-white/50">Week streak</div>
                 </div>
                 {/* sky blue — rank/data badge */}
                 <div className="rounded-full bg-[#93dafe] px-2 py-0.5 text-[10px] font-semibold text-[#1a1a1a]">TOP 8%</div>

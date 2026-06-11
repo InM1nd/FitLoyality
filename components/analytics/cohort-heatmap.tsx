@@ -2,7 +2,7 @@
 
 import { Card, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
-import { COHORTS, COHORT_SIZES } from "@/lib/mock-data";
+import { COHORTS, COHORT_SIZES } from "@/lib/data";
 
 /** Interpolate red → amber → green by a 0–100 retention value. */
 function cellColor(value: number): string {

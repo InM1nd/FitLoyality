@@ -98,7 +98,7 @@ export function MemberSidePanel({ member, open, onOpenChange, onNudge }: MemberS
               <StatChip icon={Dumbbell} label="Total Workouts" value={formatNumber(member.totalWorkouts)} />
               <StatChip icon={Star} label="Loyalty Points" value={formatNumber(member.points)} />
               <StatChip icon={Gift} label="Rewards" value={String(member.rewardsRedeemed)} />
-              <StatChip icon={Flame} label="Streak Record" value={`${member.streakRecord} days`} />
+              <StatChip icon={Flame} label="Streak Record" value={`${member.streakRecord} weeks`} />
             </div>
 
             {/* Connected device */}

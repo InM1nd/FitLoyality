@@ -4,7 +4,7 @@ import { Bar, BarChart, Cell, ResponsiveContainer, Tooltip, XAxis, YAxis } from 
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import type { ChartTooltipProps } from "@/lib/chart-types";
-import { CHURN_SERIES } from "@/lib/mock-data";
+import { CHURN_SERIES } from "@/lib/data";
 
 function ChurnTooltip({ active, payload, label }: ChartTooltipProps) {
   if (!active || !payload?.length) return null;

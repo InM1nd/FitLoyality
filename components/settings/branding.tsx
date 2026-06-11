@@ -8,7 +8,7 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/com
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
-import { GYM } from "@/lib/mock-data";
+import { GYM } from "@/lib/data";
 
 export function Branding() {
   const [color, setColor] = React.useState<string>(GYM.brandColor);
@@ -98,7 +98,7 @@ export function Branding() {
             </div>
 
             <div className="rounded-lg bg-white/5 p-2">
-              <p className="text-[8px] font-medium text-white">🔥 14-day streak</p>
+              <p className="text-[8px] font-medium text-white">🔥 9-week streak</p>
               <p className="mt-0.5 text-[7px] text-white/50">Top 8% at your gym</p>
             </div>
 

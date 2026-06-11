@@ -1,11 +1,9 @@
-"use client";
-
 import * as React from "react";
 import Link from "next/link";
 import { Signal, Wifi, BatteryFull, Settings, LayoutDashboard } from "lucide-react";
 
 import { BottomNav } from "@/components/member/bottom-nav";
-import { MEMBER_ME } from "@/lib/mock-data";
+import { MEMBER_ME } from "@/lib/data";
 
 function StatusBar() {
   return (

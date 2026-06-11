@@ -10,9 +10,9 @@ export function formatNumber(n: number): string {
   return new Intl.NumberFormat("en-US").format(n);
 }
 
-/** Format an EUR amount with no decimals. */
+/** Format an EUR amount with no decimals, prefix style: €2,340 (matches the English UI). */
 export function formatEUR(n: number): string {
-  return new Intl.NumberFormat("de-DE", {
+  return new Intl.NumberFormat("en-IE", {
     style: "currency",
     currency: "EUR",
     maximumFractionDigits: 0,

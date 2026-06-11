@@ -14,9 +14,9 @@ import { RewardsScreen } from "@/components/landing/screens/rewards-screen";
 import { AnalyticsScreen } from "@/components/landing/screens/analytics-screen";
 
 const TABS = [
-  { key: "overview", label: "Overview", url: "app.fitloyalty.io/overview", route: "/overview", blurb: "Live KPIs, retention trend, at-risk members and recent reward activity — your studio at a glance.", Screen: OverviewScreen },
-  { key: "members", label: "Members", url: "app.fitloyalty.io/members", route: "/members", blurb: "Every member, searchable and sortable, with status, streak health and loyalty points.", Screen: MembersScreen },
-  { key: "rewards", label: "Rewards", url: "app.fitloyalty.io/rewards", route: "/rewards", blurb: "Automated perks that trigger on streaks, workouts and referrals — toggle them on in a tap.", Screen: RewardsScreen },
+  { key: "overview", label: "Overview", url: "app.fitloyalty.io/overview", route: "/overview", blurb: "Saved revenue, retention trend, churn-window alerts and your aggregator revenue mix — your studio at a glance.", Screen: OverviewScreen },
+  { key: "members", label: "Members", url: "app.fitloyalty.io/members", route: "/members", blurb: "Every member, searchable and sortable, with status, streak health and how they pay — direct, USC or Wellpass.", Screen: MembersScreen },
+  { key: "rewards", label: "Rewards", url: "app.fitloyalty.io/rewards", route: "/rewards", blurb: "Automated perks that trigger on weekly streaks, visits, reviews and referrals — toggle them on in a tap.", Screen: RewardsScreen },
   { key: "analytics", label: "Analytics", url: "app.fitloyalty.io/analytics", route: "/analytics", blurb: "Cohort retention heatmaps, seasonal churn and a built-in ROI calculator.", Screen: AnalyticsScreen },
 ] as const;
 
@@ -41,26 +41,48 @@ export function ProductShowcase() {
         </Reveal>
 
         {/* tabs */}
-        <Reveal className="mt-8 flex flex-wrap gap-2">
-          {TABS.map((t) => (
-            <button
-              key={t.key}
-              type="button"
-              onClick={() => setActive(t.key)}
-              className={cn(
-                "mono rounded-full border px-4 py-2 text-[12px] uppercase tracking-[0.06em] transition-colors",
-                active === t.key
-                  ? "border-[#1a1a1a] bg-[#1a1a1a] text-[#ff7403]"
-                  : "border-[var(--line)] t-mut hover:t-ink",
-              )}
-            >
-              {t.label}
-            </button>
-          ))}
+        <Reveal className="mt-8">
+          <div
+            role="tablist"
+            aria-label="Dashboard views"
+            className="flex flex-wrap gap-2"
+            onKeyDown={(e) => {
+              if (e.key !== "ArrowRight" && e.key !== "ArrowLeft") return;
+              e.preventDefault();
+              const idx = TABS.findIndex((t) => t.key === active);
+              const next =
+                e.key === "ArrowRight"
+                  ? TABS[(idx + 1) % TABS.length]
+                  : TABS[(idx - 1 + TABS.length) % TABS.length];
+              setActive(next.key);
+              document.getElementById(`showcase-tab-${next.key}`)?.focus();
+            }}
+          >
+            {TABS.map((t) => (
+              <button
+                key={t.key}
+                id={`showcase-tab-${t.key}`}
+                type="button"
+                role="tab"
+                aria-selected={active === t.key}
+                aria-controls="showcase-panel"
+                tabIndex={active === t.key ? 0 : -1}
+                onClick={() => setActive(t.key)}
+                className={cn(
+                  "mono rounded-full border px-4 py-2 text-[12px] uppercase tracking-[0.06em] transition-colors",
+                  active === t.key
+                    ? "border-[#1a1a1a] bg-[#1a1a1a] text-[#ff7403]"
+                    : "border-[var(--line)] t-mut hover:t-ink",
+                )}
+              >
+                {t.label}
+              </button>
+            ))}
+          </div>
         </Reveal>
 
         {/* frame */}
-        <Reveal delay={0.05} className="relative mt-6">
+        <Reveal delay={0.05} className="relative mt-6" id="showcase-panel" role="tabpanel">
           <div className="pointer-events-none absolute -inset-8 -z-10 bg-[radial-gradient(closest-side,rgba(255,116,3,0.05),transparent)]" />
           <BrowserFrame url={current.url}>
             <AnimatePresence mode="wait">

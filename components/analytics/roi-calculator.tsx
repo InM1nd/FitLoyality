@@ -8,7 +8,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Progress } from "@/components/ui/progress";
 import { formatEUR } from "@/lib/utils";
-import { KPIS, ROI_DEFAULTS } from "@/lib/mock-data";
+import { KPIS, ROI_DEFAULTS } from "@/lib/data";
 
 export function RoiCalculator() {
   const [subscription, setSubscription] = React.useState<number>(ROI_DEFAULTS.subscription);
@@ -17,7 +17,8 @@ export function RoiCalculator() {
 
   const result = React.useMemo(() => {
     // 3.2pp retention gain against a baseline churn of (100 - retentionRate)%.
-    const churnReductionRate = KPIS.retentionDelta / (100 - KPIS.retentionRate);
+    const baselineChurn = 100 - KPIS.retentionRate;
+    const churnReductionRate = baselineChurn > 0 ? KPIS.retentionDelta / baselineChurn : 0;
     const membersSaved = Math.max(1, Math.round(monthlyChurn * churnReductionRate));
     const grossMonthly = membersSaved * memberFee;
     const netMonthly = grossMonthly - subscription;

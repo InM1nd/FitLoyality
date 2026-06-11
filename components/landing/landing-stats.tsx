@@ -11,9 +11,9 @@ const STATS: {
   label: string;
 }[] = [
   { value: 81.4, decimals: 1, suffix: "%", label: "Average retention" },
-  { value: 12, prefix: "+", suffix: "/mo", label: "Net new members" },
-  { value: 89, label: "Rewards redeemed" },
-  { value: 1847, prefix: "€", label: "Saved in churn /mo" },
+  { value: 9, label: "Members won back /mo" },
+  { value: 3912, prefix: "€", label: "Aggregator payouts /mo" },
+  { value: 2340, prefix: "€", label: "Saved revenue /mo" },
 ];
 
 export function LandingStats() {
@@ -27,7 +27,7 @@ export function LandingStats() {
             <span className="text-heat">staying.</span>
           </h2>
           <p className="mt-5 max-w-xl text-base leading-relaxed t-mut">
-            Consistency compounds. Every workout logged, every reward earned, every day kept warms
+            Consistency compounds. Every visit logged, every reward earned, every week kept warms
             the grid — and the warmer it runs, the longer they stay. FitLoyalty makes that visible,
             and acts the moment it cools.
           </p>

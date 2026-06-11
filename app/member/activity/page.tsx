@@ -6,7 +6,7 @@ import { Flame, Dumbbell, Star } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { cn, formatNumber } from "@/lib/utils";
 import type { ChartTooltipProps } from "@/lib/chart-types";
-import { MEMBER_ME, MEMBER_BADGES } from "@/lib/mock-data";
+import { MEMBER_ME, MEMBER_BADGES } from "@/lib/data";
 
 const MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun"];
 
@@ -39,7 +39,7 @@ export default function MemberActivity() {
   const chartData = MEMBER_ME.pointsHistory.map((value, i) => ({ month: MONTHS[i], value }));
 
   const stats = [
-    { icon: Flame, label: "Streak", value: `${MEMBER_ME.streak} days` },
+    { icon: Flame, label: "Streak", value: `${MEMBER_ME.weekStreak} weeks` },
     { icon: Star, label: "This month", value: formatNumber(MEMBER_ME.pointsThisMonth) },
     { icon: Dumbbell, label: "Workouts", value: formatNumber(MEMBER_ME.lifetimeWorkouts) },
   ];

@@ -14,7 +14,7 @@ import {
 } from "@/components/ui/dialog";
 import { QrCode } from "@/components/member/qr-code";
 import { formatNumber } from "@/lib/utils";
-import { MEMBER_ME, MEMBER_REWARDS } from "@/lib/mock-data";
+import { MEMBER_ME, MEMBER_REWARDS } from "@/lib/data";
 import type { MemberReward } from "@/lib/types";
 
 export default function MemberRewards() {

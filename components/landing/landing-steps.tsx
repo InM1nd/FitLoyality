@@ -2,9 +2,9 @@ import { Reveal } from "@/components/landing/reveal";
 import { cn } from "@/lib/utils";
 
 const STEPS: { no: string; title: string; body: string }[] = [
-  { no: "01", title: "Connect", body: "Import your members and sync wearables in minutes. No migration headaches, no IT team." },
-  { no: "02", title: "Reward", body: "Set up automated perks for the habits you want — streaks, workouts, referrals. FitLoyalty runs them." },
-  { no: "03", title: "Retain", body: "Catch cooling streaks early, nudge members back, and watch retention climb — with the ROI to prove it." },
+  { no: "01", title: "Connect", body: "Import your Eversports attendance export, print one QR code for open-gym check-ins. No migration, no IT team." },
+  { no: "02", title: "Reward", body: "Set up automated perks for the habits you want — weekly streaks, visits, referrals, reviews. FitLoyalty runs them." },
+  { no: "03", title: "Retain", body: "Catch members in the churn window before the notice deadline, nudge them back — and see every save in euros." },
 ];
 
 export function LandingSteps() {

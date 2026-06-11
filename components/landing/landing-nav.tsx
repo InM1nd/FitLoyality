@@ -12,6 +12,7 @@ const LINKS = [
   { href: "#streak", label: "Why streaks" },
   { href: "#capabilities", label: "Capabilities" },
   { href: "#product", label: "Product" },
+  { href: "#pricing", label: "Pricing" },
 ];
 
 export function LandingNav() {

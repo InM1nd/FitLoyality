@@ -16,7 +16,7 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { cn } from "@/lib/utils";
-import { INTEGRATIONS } from "@/lib/mock-data";
+import { INTEGRATIONS } from "@/lib/data";
 import type { Integration } from "@/lib/types";
 
 export function Integrations() {

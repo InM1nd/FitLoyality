@@ -1,15 +1,17 @@
 "use client";
 
-import { Flame, Watch, ChevronRight, TrendingUp } from "lucide-react";
+import { Flame, Snowflake, Users, ChevronRight, TrendingUp } from "lucide-react";
 
 import { Card } from "@/components/ui/card";
 import { useCountUp } from "@/hooks/use-count-up";
-import { formatNumber } from "@/lib/utils";
+import { cn, formatNumber } from "@/lib/utils";
 import {
+  GYM,
   MEMBER_ME,
   MEMBER_CHALLENGES,
   MEMBER_POINTS_FEED,
-} from "@/lib/mock-data";
+  OCCUPANCY,
+} from "@/lib/data";
 
 function PointsCard() {
   const points = useCountUp(MEMBER_ME.pointsThisMonth, { duration: 1400 });
@@ -19,7 +21,8 @@ function PointsCard() {
   return (
     <div
       className="rounded-2xl p-5 text-white shadow-[var(--shadow-glow)]"
-      style={{ background: "linear-gradient(135deg, #22c55e, #15803d)" }}
+      // white-label: gradient flows from the gym's brand color
+      style={{ background: `linear-gradient(135deg, ${GYM.brandColor}, ${GYM.brandColorDark})` }}
     >
       <p className="text-[11px] font-semibold uppercase tracking-wider text-white/80">
         Points this month
@@ -42,6 +45,83 @@ function PointsCard() {
   );
 }
 
+function WeekStreakCard() {
+  const done = MEMBER_ME.visitsThisWeek;
+  const goal = MEMBER_ME.weeklyGoal;
+
+  return (
+    <Card className="p-4">
+      <div className="flex items-center justify-between">
+        <div className="flex items-center gap-2">
+          <Flame className="size-4 text-brand" />
+          <p className="text-sm font-semibold">
+            Week {MEMBER_ME.weekStreak + 1} — keep the chain alive
+          </p>
+        </div>
+        <span className="inline-flex items-center gap-1 rounded-full bg-surface-3 px-2 py-0.5 text-[10px] font-semibold text-muted-foreground">
+          <Snowflake className="size-3 text-[var(--info)]" />
+          {MEMBER_ME.streakFreezes} freeze left
+        </span>
+      </div>
+      <div className="mt-3 flex items-center gap-1.5">
+        {Array.from({ length: goal }, (_, i) => (
+          <span
+            key={i}
+            className={cn(
+              "h-2 flex-1 rounded-full",
+              i < done ? "bg-primary" : "bg-surface-3",
+            )}
+          />
+        ))}
+      </div>
+      <p className="mt-2 text-[11px] text-faint">
+        {done}/{goal} workouts this week · {goal - done > 0 ? `${goal - done} to go` : "goal hit! 🎉"}
+      </p>
+    </Card>
+  );
+}
+
+function OccupancyCard() {
+  const pctNow = Math.round((OCCUPANCY.now / OCCUPANCY.capacity) * 100);
+  const label = pctNow < 35 ? "Quiet right now" : pctNow < 70 ? "Getting busy" : "Packed";
+
+  return (
+    <Card className="p-4">
+      <div className="flex items-center justify-between">
+        <div className="flex items-center gap-2">
+          <Users className="size-4 text-[var(--info)]" />
+          <p className="text-sm font-semibold">{label}</p>
+        </div>
+        <span className="num text-[11px] font-semibold text-muted-foreground">
+          {OCCUPANCY.now} in · ~{pctNow}% full
+        </span>
+      </div>
+      <div className="mt-3 flex h-14 items-end gap-1">
+        {OCCUPANCY.typicalByHour.map((h, i) => {
+          const isNow = i === OCCUPANCY.currentHourIndex;
+          return (
+            <div key={h.hour} className="flex flex-1 flex-col items-center gap-1">
+              <span
+                className={cn(
+                  "w-full rounded-sm",
+                  isNow ? "bg-primary" : "bg-surface-3",
+                )}
+                style={{ height: `${Math.max(8, h.pct * 0.56)}px` }}
+              />
+            </div>
+          );
+        })}
+      </div>
+      <div className="mt-1.5 flex justify-between text-[10px] text-faint">
+        <span>06</span>
+        <span>12</span>
+        <span>18</span>
+        <span>21</span>
+      </div>
+    </Card>
+  );
+}
+
 export default function MemberHome() {
   const firstName = MEMBER_ME.name.split(" ")[0];
 
@@ -51,18 +131,15 @@ export default function MemberHome() {
         <h1 className="text-2xl font-bold tracking-tight">Hey, {firstName} 👋</h1>
         <p className="mt-1 flex items-center gap-1.5 text-[13px] text-muted-foreground">
           <Flame className="size-4 text-warning" />
-          {MEMBER_ME.streak}-day streak · top {MEMBER_ME.topPercent}% at your gym
+          {MEMBER_ME.weekStreak}-week streak · top {MEMBER_ME.topPercent}% at your gym
         </p>
       </div>
 
       <PointsCard />
 
-      {/* Synced device */}
-      <div className="inline-flex w-fit items-center gap-2 rounded-full border border-border bg-surface-2 px-3 py-1.5 text-xs font-medium">
-        <span className="size-1.5 rounded-full bg-success" />
-        <Watch className="size-4 text-muted-foreground" />
-        Synced · {MEMBER_ME.device} · {MEMBER_ME.syncedAgo}
-      </div>
+      <WeekStreakCard />
+
+      <OccupancyCard />
 
       {/* Active challenges */}
       <section>

@@ -13,7 +13,7 @@ import {
 
 import { cn } from "@/lib/utils";
 import { Logo } from "@/components/layout/logo";
-import { GYM, MEMBER_COUNTS } from "@/lib/mock-data";
+import { GYM, MEMBER_COUNTS } from "@/lib/data";
 
 interface NavItem {
   href: string;
@@ -76,7 +76,7 @@ export function Sidebar() {
                     "ml-auto rounded-full px-1.5 py-0.5 text-[11px] font-semibold tabular-nums",
                     active
                       ? "bg-brand text-white"
-                      : "bg-[var(--info-bg)] text-info",
+                      : "bg-[var(--info-bg)] text-[var(--info)]",
                   )}
                 >
                   {item.count}

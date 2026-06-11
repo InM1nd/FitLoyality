@@ -2,6 +2,9 @@ export type MemberStatus = "active" | "at-risk" | "churned";
 
 export type DeviceType = "Apple Watch" | "Garmin" | "Amazfit";
 
+/** How the member's visits are paid: direct membership or via an aggregator. */
+export type MemberSource = "direct" | "usc" | "wellpass" | "hansefit";
+
 /** Gradient avatar palette index (1-5), mirrors the design-system av-grad classes. */
 export type AvatarGrad = 1 | 2 | 3 | 4 | 5;
 
@@ -19,8 +22,12 @@ export interface Member {
   status: MemberStatus;
   city: string;
   device: DeviceType;
+  source: MemberSource;
+  /** days until the contract's cancellation-notice deadline (Kündigungsfrist); only meaningful for direct members */
+  noticeDeadlineDays: number | null;
   totalWorkouts: number;
   rewardsRedeemed: number;
+  /** longest run of consecutive weeks hitting the weekly goal */
   streakRecord: number;
   /** 30-day activity heatmap, levels 0-4 */
   activity: number[];
@@ -44,7 +51,7 @@ export interface RewardActivity {
 export type TriggerType =
   | "Workout Count"
   | "Streak"
-  | "Calorie Goal"
+  | "Google Review"
   | "Check-ins"
   | "Referral"
   | "Birthday";
@@ -78,6 +85,44 @@ export interface Integration {
   description: string;
   connected: boolean;
   detail: string;
+}
+
+/* ---------- Aggregator Hub ---------- */
+
+export interface AggregatorChannel {
+  id: MemberSource;
+  name: string;
+  visitsThisMonth: number;
+  /** € the gym earns per visit from this channel (avg) */
+  payoutPerVisit: number;
+  /** € earned from this channel this month */
+  revenueThisMonth: number;
+  /** % change vs last month */
+  trendPct: number;
+}
+
+/** Self-paying USC regular who is a candidate for a direct-membership offer. */
+export interface ConversionCandidate {
+  id: string;
+  name: string;
+  initials: string;
+  grad: AvatarGrad;
+  visitsPerWeek: number;
+  monthsLoyal: number;
+  /** estimated MRR gain if converted to direct membership */
+  estMrr: number;
+}
+
+/* ---------- Occupancy ---------- */
+
+export interface GymOccupancy {
+  /** people checked in right now */
+  now: number;
+  capacity: number;
+  /** typical busyness per opening hour, 0-100 */
+  typicalByHour: { hour: number; pct: number }[];
+  /** index into typicalByHour representing the current hour */
+  currentHourIndex: number;
 }
 
 export interface NotificationItem {
@@ -123,7 +168,13 @@ export interface MemberProfile {
   balance: number;
   pointsThisMonth: number;
   monthlyGoal: number;
-  streak: number;
+  /** consecutive weeks hitting the weekly visit goal (loss-aversion core mechanic) */
+  weekStreak: number;
+  /** visits needed per week to keep the streak alive */
+  weeklyGoal: number;
+  visitsThisWeek: number;
+  /** streak freezes available this month (Duolingo-style insurance) */
+  streakFreezes: number;
   topPercent: number;
   device: DeviceType;
   syncedAgo: string;

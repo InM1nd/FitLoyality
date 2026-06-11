@@ -16,8 +16,8 @@ export function LandingCta() {
           <div className="pointer-events-none absolute inset-0 -z-10 bg-[radial-gradient(closest-side,transparent,#1a1a1a)]" />
 
           <div className="flex items-center justify-between border-b border-white/10 pb-4">
-            <span className="mono-label text-[#f5f2ec]/60">06 — Ready?</span>
-            <span className="mono-label text-[#f5f2ec]/40">Break even at 2 members/mo</span>
+            <span className="mono-label text-[#f5f2ec]/60">09 — Ready?</span>
+            <span className="mono-label text-[#f5f2ec]/40">Free Churn-Check · €€ at risk in 5 min</span>
           </div>
 
           <h2 className="font-display mt-10 max-w-4xl text-5xl font-bold leading-[0.92] tracking-tight text-[#f5f2ec] md:text-7xl lg:text-8xl">
@@ -25,8 +25,8 @@ export function LandingCta() {
           </h2>
 
           <p className="mt-7 max-w-md text-base leading-relaxed text-[#f5f2ec]/70">
-            Explore the full FitLoyalty experience — admin dashboard and member app — right now. No
-            signup, all data simulated.
+            One saved member pays the subscription. Explore the full FitLoyalty experience — admin
+            dashboard and member app — right now. No signup, all data simulated.
           </p>
 
           <div className="mt-9 flex flex-wrap items-center gap-x-7 gap-y-3">

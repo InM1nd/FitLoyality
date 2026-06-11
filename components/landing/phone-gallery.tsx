@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Flame, Watch, ArrowRight, Lock } from "lucide-react";
+import { Flame, ArrowRight, Lock } from "lucide-react";
 
 import { cn } from "@/lib/utils";
 import { Reveal } from "@/components/landing/reveal";
@@ -8,7 +8,7 @@ import {
   MEMBER_REWARDS,
   MEMBER_CHALLENGES,
   MEMBER_BADGES,
-} from "@/lib/mock-data";
+} from "@/lib/data";
 
 function Phone({
   children,
@@ -53,7 +53,7 @@ function HomeScreen() {
       <div>
         <p className="text-base font-bold">Hey, Markus 👋</p>
         <p className="mt-0.5 flex items-center gap-1 text-[9px] text-zinc-400">
-          <Flame className="size-3 text-[#ff7403]" /> 14-day streak · top 8%
+          <Flame className="size-3 text-[#ff7403]" /> 9-week streak · top 8%
         </p>
       </div>
       <div className="rounded-2xl p-3 text-white" style={{ background: "linear-gradient(135deg,#ff7403,#e86800)" }}>
@@ -65,7 +65,7 @@ function HomeScreen() {
         <div className="mt-1 h-1.5 overflow-hidden rounded-full bg-white/25"><div className="h-full w-[94%] rounded-full bg-white" /></div>
       </div>
       <div className="inline-flex w-fit items-center gap-1.5 rounded-full border border-white/10 bg-white/5 px-2 py-1 text-[8px] text-zinc-300">
-        <span className="size-1 rounded-full bg-[#93dafe]" /><Watch className="size-2.5" /> Apple Watch · 2 min
+        <span className="size-1 rounded-full bg-[#93dafe]" /> Quiet right now · 21 in · ~26% full
       </div>
       <div className="rounded-xl bg-white/[0.04] p-2.5">
         <div className="flex items-center gap-2">

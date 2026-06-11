@@ -23,12 +23,27 @@ import { cn, formatNumber } from "@/lib/utils";
 import { STATUS_BADGE } from "@/lib/member-status";
 import { MemberSidePanel } from "@/components/members/member-side-panel";
 import { NudgeModal } from "@/components/shared/nudge-modal";
-import { MEMBERS, MEMBER_COUNTS } from "@/lib/mock-data";
-import type { Member, MemberStatus } from "@/lib/types";
+import { MEMBERS, MEMBER_COUNTS } from "@/lib/data";
+import type { Member, MemberSource, MemberStatus } from "@/lib/types";
+
+const SOURCE_BADGE: Record<MemberSource, { label: string; variant: "secondary" | "info" | "success" | "warning" }> = {
+  direct: { label: "Direct", variant: "secondary" },
+  usc: { label: "USC", variant: "info" },
+  wellpass: { label: "Wellpass", variant: "success" },
+  hansefit: { label: "Hansefit", variant: "warning" },
+};
 
 type FilterKey = "all" | MemberStatus;
 type SortKey = "name" | "since" | "lastVisit" | "workouts" | "points";
 type SortDir = "asc" | "desc";
+
+const MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+
+/** "Mar 2021" → sortable month index (Date.parse on this format is implementation-defined). */
+function parseMemberSince(s: string): number {
+  const [mon, year] = s.split(" ");
+  return Number(year) * 12 + MONTHS.indexOf(mon);
+}
 
 const TABS: { key: FilterKey; label: string; count: number }[] = [
   { key: "all", label: "All", count: MEMBER_COUNTS.all },
@@ -127,7 +142,7 @@ export function MembersTable() {
         case "name":
           return a.name.localeCompare(b.name) * dir;
         case "since":
-          return (Date.parse(`1 ${a.since}`) - Date.parse(`1 ${b.since}`)) * dir;
+          return (parseMemberSince(a.since) - parseMemberSince(b.since)) * dir;
         case "lastVisit":
           return (a.lastVisitDays - b.lastVisitDays) * dir;
         case "workouts":
@@ -201,6 +216,7 @@ export function MembersTable() {
                   className="pl-5"
                 />
                 <SortHeader label="Since" active={sortKey === "since"} dir={sortDir} onClick={() => toggleSort("since")} />
+                <TableHead>Source</TableHead>
                 <SortHeader label="Last Visit" active={sortKey === "lastVisit"} dir={sortDir} onClick={() => toggleSort("lastVisit")} />
                 <SortHeader label="Workouts / Mo" active={sortKey === "workouts"} dir={sortDir} onClick={() => toggleSort("workouts")} className="text-right [&>button]:flex-row-reverse" />
                 <SortHeader label="Points" active={sortKey === "points"} dir={sortDir} onClick={() => toggleSort("points")} className="text-right [&>button]:flex-row-reverse" />
@@ -225,6 +241,11 @@ export function MembersTable() {
                     </div>
                   </TableCell>
                   <TableCell className="text-muted-foreground">{m.since}</TableCell>
+                  <TableCell>
+                    <Badge variant={SOURCE_BADGE[m.source].variant}>
+                      {SOURCE_BADGE[m.source].label}
+                    </Badge>
+                  </TableCell>
                   <TableCell className="text-muted-foreground">{m.lastVisit}</TableCell>
                   <TableCell className="num text-right">{m.workoutsThisMonth}</TableCell>
                   <TableCell className="num text-right font-medium">{formatNumber(m.points)}</TableCell>
@@ -237,7 +258,7 @@ export function MembersTable() {
               ))}
               {rows.length === 0 && (
                 <TableRow className="hover:bg-transparent">
-                  <TableCell colSpan={6} className="py-10 text-center text-muted-foreground">
+                  <TableCell colSpan={7} className="py-10 text-center text-muted-foreground">
                     No members match your search.
                   </TableCell>
                 </TableRow>

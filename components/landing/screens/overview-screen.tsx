@@ -3,7 +3,7 @@ import { TrendingUp, Users, AlertTriangle, Gift, Send, type LucideIcon } from "l
 import { cn } from "@/lib/utils";
 import { Avatar } from "@/components/ui/avatar";
 import { AppChrome } from "@/components/landing/screens/app-chrome";
-import { KPIS, RETENTION_SERIES, AT_RISK_MEMBERS, REWARD_ACTIVITY } from "@/lib/mock-data";
+import { KPIS, RETENTION_SERIES, AT_RISK_MEMBERS, REWARD_ACTIVITY } from "@/lib/data";
 
 function Kpi({
   label,
@@ -76,10 +76,10 @@ export function OverviewScreen() {
     <AppChrome active="Overview" title="Overview">
       <div className="flex h-full flex-col gap-3">
         <div className="grid grid-cols-2 gap-2.5 lg:grid-cols-4">
-          <Kpi label="Active Members" value={String(KPIS.activeMembers)} trend={`+${KPIS.activeMembersDelta} this month`} icon={Users} tone="brand" />
+          <Kpi label="Saved Revenue" value={`€${KPIS.savedRevenue.toLocaleString("en-US")}`} trend={`${KPIS.savedMembers} won back`} icon={Gift} tone="brand" />
           <Kpi label="Retention Rate" value={`${KPIS.retentionRate}%`} trend={`↑ ${KPIS.retentionDelta}%`} icon={TrendingUp} tone="brand" />
-          <Kpi label="At-Risk" value={String(KPIS.atRiskMembers)} trend="14+ days" icon={AlertTriangle} tone="warn" trendUp={false} />
-          <Kpi label="Rewards" value={String(KPIS.rewardsRedeemed)} trend="this month" icon={Gift} tone="info" trendUp={false} />
+          <Kpi label="Churn Window" value={String(KPIS.atRiskMembers)} trend="deadline soon" icon={AlertTriangle} tone="warn" trendUp={false} />
+          <Kpi label="Active Members" value={String(KPIS.activeMembers)} trend={`+${KPIS.activeMembersDelta} this month`} icon={Users} tone="info" />
         </div>
 
         <div className="grid min-h-0 flex-1 grid-cols-1 gap-2.5 lg:grid-cols-3">

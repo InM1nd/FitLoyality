@@ -7,7 +7,7 @@ import { PageHeading } from "@/components/layout/page-heading";
 import { Button } from "@/components/ui/button";
 import { RewardCard } from "@/components/rewards/reward-card";
 import { CreateRewardModal } from "@/components/rewards/create-reward-modal";
-import { REWARDS } from "@/lib/mock-data";
+import { REWARDS } from "@/lib/data";
 import type { Reward } from "@/lib/types";
 
 export function RewardsView() {

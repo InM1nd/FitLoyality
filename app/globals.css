@@ -1,7 +1,7 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 
-/* Satoshi (the design-system typeface) is loaded via <link> in app/layout.tsx */
+/* Satoshi & Clash Grotesk are self-hosted via next/font/local in app/layout.tsx */
 
 /* ============================================================
    FitLoyalty — Design tokens (adapted from the design-system
@@ -29,7 +29,7 @@
   --accent-subtle:  rgba(255, 116, 3, 0.08);
   --accent-glow:    rgba(255, 116, 3, 0.14);
   --accent-ink:     #ffffff;
-  --sky:            #93dafe;
+  --sky:            #93dafe;   /* decorative / bg tints */
 
   /* Text */
   --text-1: #0a0a0a;
@@ -40,11 +40,11 @@
   --success: #16a34a;
   --warning: #d97706;
   --error:   #dc2626;
-  --info:    #93dafe;
+  --info:    #0d5c82;          /* dark sky-blue — readable on cream/white */
   --success-bg: rgba(22, 163, 74, 0.10);
   --warning-bg: rgba(217, 119, 6, 0.10);
   --error-bg:   rgba(220, 38, 38, 0.10);
-  --info-bg:    rgba(147, 218, 254, 0.10);
+  --info-bg:    rgba(147, 218, 254, 0.12);
 
   /* Shadows */
   --shadow-subtle:   0 1px 2px rgba(10, 10, 10, 0.06);
@@ -110,7 +110,7 @@
    adapted UI-kit components consume them directly.
    ------------------------------------------------------------ */
 @theme inline {
-  --font-sans: "Satoshi", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --font-sans: var(--font-satoshi), -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
 
   --color-background: var(--bg);
   --color-foreground: var(--text-1);
@@ -154,7 +154,7 @@
   --color-input: var(--border-default);
   --color-ring: var(--accent-brand);
 
-  --font-display: "Clash Grotesk", "Satoshi", sans-serif;
+  --font-display: var(--font-clash), var(--font-sans), sans-serif;
   --font-mono: var(--font-plex-mono), ui-monospace, "SFMono-Regular", monospace;
 
   --radius-sm: calc(var(--radius) - 2px);
@@ -177,7 +177,8 @@
     font-family: var(--font-sans);
     font-size: 14px;
     line-height: 1.5;
-    transition: background 0.35s ease, color 0.35s ease;
+    /* no transition here: next-themes sets the theme after hydration, and a
+       permanent body transition causes a visible color flash on first paint */
   }
   ::selection {
     background: var(--accent-glow);
@@ -315,4 +316,72 @@
 @media (prefers-reduced-motion: reduce) {
   .animate-marquee,
   .animate-breathe { animation: none !important; }
+}
+
+/* ------------------------------------------------------------------ */
+/* Guided demo tour (driver.js) — themed to the dashboard tokens       */
+/* ------------------------------------------------------------------ */
+
+.driver-popover.fitloyalty-tour {
+  background: var(--surface-2);
+  color: var(--text-1);
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-elevated);
+  font-family: var(--font-sans);
+  max-width: 320px;
+  padding: 18px;
+}
+.driver-popover.fitloyalty-tour .driver-popover-title {
+  font-family: var(--font-display);
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+.driver-popover.fitloyalty-tour .driver-popover-description {
+  color: var(--text-2);
+  font-size: 13px;
+  line-height: 1.55;
+  margin-top: 6px;
+}
+.driver-popover.fitloyalty-tour .driver-popover-progress-text {
+  color: var(--text-3);
+  font-family: var(--font-plex-mono);
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+.driver-popover.fitloyalty-tour .driver-popover-navigation-btns button {
+  background: var(--surface-3);
+  color: var(--text-1);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  font-family: var(--font-sans);
+  font-size: 12px;
+  font-weight: 600;
+  padding: 6px 12px;
+  text-shadow: none;
+}
+.driver-popover.fitloyalty-tour .driver-popover-navigation-btns button.driver-popover-next-btn {
+  background: var(--accent-brand);
+  border-color: var(--accent-brand);
+  color: var(--accent-ink);
+}
+.driver-popover.fitloyalty-tour .driver-popover-navigation-btns button.driver-popover-next-btn:hover {
+  background: var(--accent-hover);
+}
+.driver-popover.fitloyalty-tour .driver-popover-close-btn {
+  color: var(--text-3);
+}
+.driver-popover.fitloyalty-tour .driver-popover-arrow-side-left.driver-popover-arrow {
+  border-left-color: var(--surface-2);
+}
+.driver-popover.fitloyalty-tour .driver-popover-arrow-side-right.driver-popover-arrow {
+  border-right-color: var(--surface-2);
+}
+.driver-popover.fitloyalty-tour .driver-popover-arrow-side-top.driver-popover-arrow {
+  border-top-color: var(--surface-2);
+}
+.driver-popover.fitloyalty-tour .driver-popover-arrow-side-bottom.driver-popover-arrow {
+  border-bottom-color: var(--surface-2);
 }

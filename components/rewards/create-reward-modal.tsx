@@ -30,14 +30,14 @@ const REWARD_TYPES: RewardType[] = ["Free Item", "Discount", "Service", "Points 
 const TRIGGER_TYPES: TriggerType[] = [
   "Workout Count",
   "Streak",
-  "Calorie Goal",
+  "Google Review",
   "Check-ins",
   "Referral",
   "Birthday",
 ];
 
 /** Trigger types that need a numeric value. */
-const NEEDS_VALUE: TriggerType[] = ["Workout Count", "Streak", "Calorie Goal", "Check-ins"];
+const NEEDS_VALUE: TriggerType[] = ["Workout Count", "Streak", "Check-ins"];
 
 const EMOJI: Record<RewardType, string> = {
   "Free Item": "🥤",
@@ -52,7 +52,7 @@ const schema = z.object({
   triggerType: z.enum([
     "Workout Count",
     "Streak",
-    "Calorie Goal",
+    "Google Review",
     "Check-ins",
     "Referral",
     "Birthday",
@@ -70,9 +70,9 @@ function triggerLabel(type: TriggerType, value: string): string {
     case "Workout Count":
       return `Complete ${v} workouts in a month`;
     case "Streak":
-      return `${v}-day streak, no missed weeks`;
-    case "Calorie Goal":
-      return `Burn ${v} kcal in a week`;
+      return `${v}-week streak, no missed weeks`;
+    case "Google Review":
+      return "Leave a Google review";
     case "Check-ins":
       return `${v} check-ins this month`;
     case "Referral":

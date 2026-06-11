@@ -11,7 +11,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { REWARD_ACTIVITY } from "@/lib/mock-data";
+import { REWARD_ACTIVITY } from "@/lib/data";
 
 export function ActivityTable() {
   return (
@@ -52,7 +52,7 @@ export function ActivityTable() {
                 </span>
               </TableCell>
               <TableCell>
-                <span className="inline-flex items-center rounded-full bg-[var(--info-bg)] px-2.5 py-0.5 text-[11px] font-medium text-info">
+                <span className="inline-flex items-center rounded-full bg-[var(--info-bg)] px-2.5 py-0.5 text-[11px] font-medium text-[var(--info)]">
                   {a.triggeredBy}
                 </span>
               </TableCell>

@@ -17,7 +17,7 @@ import { Card } from "@/components/ui/card";
 import { Avatar } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { formatNumber } from "@/lib/utils";
-import { MEMBER_ME } from "@/lib/mock-data";
+import { MEMBER_ME } from "@/lib/data";
 
 const SETTINGS: { icon: LucideIcon; label: string }[] = [
   { icon: Bell, label: "Notifications" },
@@ -28,7 +28,7 @@ const SETTINGS: { icon: LucideIcon; label: string }[] = [
 export default function MemberProfile() {
   const stats = [
     { label: "Balance", value: `${formatNumber(MEMBER_ME.balance)} pts` },
-    { label: "Streak", value: `${MEMBER_ME.streak} days` },
+    { label: "Streak", value: `${MEMBER_ME.weekStreak} weeks` },
     { label: "Workouts", value: formatNumber(MEMBER_ME.lifetimeWorkouts) },
     { label: "Gym rank", value: `Top ${MEMBER_ME.topPercent}%` },
   ];

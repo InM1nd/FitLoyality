@@ -1,8 +1,8 @@
 import {
-  LineChart,
   BellRing,
-  Gift,
-  Watch,
+  Flame,
+  Layers,
+  Activity,
   Palette,
   Coins,
   type LucideIcon,
@@ -17,12 +17,12 @@ const ITEMS: {
   body: string;
   tag: string;
 }[] = [
-  { no: "01", icon: LineChart, title: "Retention analytics", body: "Cohort heatmaps, churn curves and live retention — see exactly which months you lose people.", tag: "Heatmaps" },
-  { no: "02", icon: BellRing, title: "At-risk detection", body: "When a streak cools, the member surfaces automatically. Send a personalized nudge in one tap.", tag: "Nudges" },
-  { no: "03", icon: Gift, title: "Rewards engine", body: "Perks that trigger on streaks, workouts and referrals — fully automated, zero admin.", tag: "Automation" },
-  { no: "04", icon: Watch, title: "Wearable sync", body: "Apple Health, Garmin and more. Workouts count themselves — no manual check-ins.", tag: "Integrations" },
-  { no: "05", icon: Palette, title: "White-label app", body: "Your name, your colors, your logo — the member experience, branded as your studio.", tag: "Branding" },
-  { no: "06", icon: Coins, title: "Proof of ROI", body: "A built-in calculator turns retention gains into the euros you actually kept.", tag: "Calculator" },
+  { no: "01", icon: BellRing, title: "Churn-window alerts", body: "Inactive 14+ days and the cancellation deadline is near — the member surfaces before it's too late, with one-tap nudge.", tag: "Kündigungsfrist" },
+  { no: "02", icon: Coins, title: "Saved Revenue", body: "Every save is attributed: nudged, returned, euros kept. The one number that proves FitLoyalty pays for itself.", tag: "Attribution" },
+  { no: "03", icon: Layers, title: "Aggregator Hub", body: "USC, Wellpass and Hansefit in one view — visit payouts, your true revenue mix, and the regulars worth converting.", tag: "USC · Wellpass" },
+  { no: "04", icon: Flame, title: "Weekly streaks", body: "Built for how people actually train — 3 workouts a week, freeze included. Loss aversion that motivates, never punishes.", tag: "Gamification" },
+  { no: "05", icon: Activity, title: "Live occupancy", body: "\"How full is it right now?\" — the reason members open your app daily, powered by their own check-ins.", tag: "Member app" },
+  { no: "06", icon: Palette, title: "White-label app", body: "Your name, your colors, your logo — the member experience, branded as your studio. No App Store needed.", tag: "Branding" },
 ];
 
 export function LandingCapabilities() {

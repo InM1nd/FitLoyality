@@ -3,7 +3,7 @@ import { Suspense } from "react";
 import { PageHeading } from "@/components/layout/page-heading";
 import { MembersTable } from "@/components/members/members-table";
 import { Skeleton } from "@/components/ui/skeleton";
-import { MEMBER_COUNTS } from "@/lib/mock-data";
+import { MEMBER_COUNTS } from "@/lib/data";
 
 export default function MembersPage() {
   return (

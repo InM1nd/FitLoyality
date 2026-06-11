@@ -40,7 +40,7 @@ import {
   CommandItem,
   CommandList,
 } from "@/components/ui/command";
-import { GYM, NOTIFICATIONS, RECENT_SEARCHES } from "@/lib/mock-data";
+import { GYM, NOTIFICATIONS, RECENT_SEARCHES } from "@/lib/data";
 
 const TITLES: Record<string, string> = {
   "/overview": "Overview",
@@ -64,12 +64,17 @@ const QUICK_NAV: { href: string; label: string; icon: LucideIcon }[] = [
   { href: "/settings", label: "Settings", icon: Settings },
 ];
 
+const emptySubscribe = () => () => {};
+
 function ThemeToggle() {
   const { theme, setTheme } = useTheme();
-  const [mounted, setMounted] = React.useState(false);
-  // One-time mount guard to avoid a theme hydration mismatch on the active-button highlight.
-  // eslint-disable-next-line react-hooks/set-state-in-effect
-  React.useEffect(() => setMounted(true), []);
+  // Mount guard to avoid a theme hydration mismatch on the active-button highlight:
+  // false during SSR/first client render, true after hydration — no setState needed.
+  const mounted = React.useSyncExternalStore(
+    emptySubscribe,
+    () => true,
+    () => false,
+  );
 
   const isDark = theme !== "light";
 
@@ -158,7 +163,7 @@ export function Header() {
         <PopoverContent align="end" className="w-80 p-0">
           <div className="flex items-center justify-between border-b border-border px-3 py-2.5">
             <p className="text-[13px] font-semibold">Notifications</p>
-            <span className="rounded-full bg-[var(--info-bg)] px-2 py-0.5 text-[11px] font-semibold text-info">3 new</span>
+            <span className="rounded-full bg-[var(--info-bg)] px-2 py-0.5 text-[11px] font-semibold text-[var(--info)]">3 new</span>
           </div>
           <div className="p-1">
             {NOTIFICATIONS.map((n) => {

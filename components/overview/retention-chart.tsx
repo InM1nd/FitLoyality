@@ -12,13 +12,13 @@ import {
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import type { ChartTooltipProps } from "@/lib/chart-types";
-import { RETENTION_SERIES } from "@/lib/mock-data";
+import { DEMO_YEAR, RETENTION_SERIES } from "@/lib/data";
 
 function ChartTooltip({ active, payload, label }: ChartTooltipProps) {
   if (!active || !payload?.length) return null;
   return (
     <div className="rounded-lg border border-border bg-surface-2 px-3.5 py-2.5 shadow-[var(--shadow-elevated)]">
-      <p className="text-[11px] font-medium text-faint">{String(label)} 2026</p>
+      <p className="text-[11px] font-medium text-faint">{String(label)} {DEMO_YEAR}</p>
       <p className="num mt-0.5 text-sm font-bold text-foreground">
         {payload[0].value}%{" "}
         <span className="text-[11px] font-normal text-muted-foreground">retained</span>

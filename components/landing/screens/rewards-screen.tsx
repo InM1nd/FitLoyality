@@ -2,7 +2,7 @@ import { Plus } from "lucide-react";
 
 import { cn } from "@/lib/utils";
 import { AppChrome } from "@/components/landing/screens/app-chrome";
-import { REWARDS } from "@/lib/mock-data";
+import { REWARDS } from "@/lib/data";
 
 function Toggle({ on }: { on: boolean }) {
   return (

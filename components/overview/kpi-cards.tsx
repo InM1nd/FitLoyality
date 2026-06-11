@@ -1,12 +1,12 @@
 "use client";
 
 import Link from "next/link";
-import { TrendingUp, AlertTriangle, Gift, Users, type LucideIcon } from "lucide-react";
+import { TrendingUp, AlertTriangle, PiggyBank, Users, type LucideIcon } from "lucide-react";
 
 import { Card } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
 import { useCountUp } from "@/hooks/use-count-up";
-import { KPIS } from "@/lib/mock-data";
+import { KPIS } from "@/lib/data";
 
 type Tone = "brand" | "warning" | "info";
 
@@ -14,40 +14,45 @@ interface KpiDef {
   label: string;
   value: number;
   decimals?: number;
+  prefix?: string;
   suffix?: string;
   icon: LucideIcon;
   tone: Tone;
   trend: { text: string; tone: "up" | "muted" };
   href?: string;
+  /** anchor for the guided demo tour */
+  tourId?: string;
 }
 
 const TONE_ICON: Record<Tone, string> = {
   brand:   "bg-[var(--accent-subtle)] text-brand",
   warning: "bg-[var(--warning-bg)] text-warning",
-  info:    "bg-[var(--info-bg)] text-info",
+  info:    "bg-[var(--info-bg)] text-[var(--info)]",
 };
 
 const TONE_ACCENT: Record<Tone, string> = {
   brand:   "bg-brand",
   warning: "bg-warning",
-  info:    "bg-info",
+  info:    "bg-[var(--info)]",
 };
 
 const TONE_VALUE: Record<Tone, string> = {
   brand:   "text-brand",
   warning: "text-foreground",
-  info:    "text-info",
+  info:    "text-[var(--info)]",
 };
 
 function KpiCard({ kpi }: { kpi: KpiDef }) {
   const animated = useCountUp(kpi.value, { decimals: kpi.decimals ?? 0 });
   const display =
+    (kpi.prefix ?? "") +
     (kpi.decimals ? animated.toFixed(kpi.decimals) : Math.round(animated).toLocaleString("en-US")) +
     (kpi.suffix ?? "");
   const Icon = kpi.icon;
 
   const inner = (
     <Card
+      data-tour={kpi.tourId}
       className={cn(
         "relative flex flex-col gap-3 overflow-hidden p-5",
         kpi.href && "transition-colors hover:border-border-strong",
@@ -88,11 +93,13 @@ function KpiCard({ kpi }: { kpi: KpiDef }) {
 export function KpiCards() {
   const kpis: KpiDef[] = [
     {
-      label: "Active Members",
-      value: KPIS.activeMembers,
-      icon: Users,
+      label: "Saved Revenue",
+      value: KPIS.savedRevenue,
+      prefix: "€",
+      icon: PiggyBank,
       tone: "brand",
-      trend: { text: `+${KPIS.activeMembersDelta} this month`, tone: "up" },
+      trend: { text: `${KPIS.savedMembers} members won back this month`, tone: "up" },
+      tourId: "saved-revenue",
     },
     {
       label: "Retention Rate",
@@ -104,19 +111,19 @@ export function KpiCards() {
       trend: { text: `↑ ${KPIS.retentionDelta}% vs last month`, tone: "up" },
     },
     {
-      label: "At-Risk Members",
+      label: "Churn Window",
       value: KPIS.atRiskMembers,
       icon: AlertTriangle,
       tone: "warning",
-      trend: { text: "inactive 14+ days", tone: "muted" },
+      trend: { text: "inactive 14+ d · notice deadline soon", tone: "muted" },
       href: "/members?filter=at-risk",
     },
     {
-      label: "Rewards Redeemed",
-      value: KPIS.rewardsRedeemed,
-      icon: Gift,
+      label: "Active Members",
+      value: KPIS.activeMembers,
+      icon: Users,
       tone: "info",
-      trend: { text: "this month", tone: "muted" },
+      trend: { text: `+${KPIS.activeMembersDelta} this month`, tone: "up" },
     },
   ];
 

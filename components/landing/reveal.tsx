@@ -14,11 +14,15 @@ export function Reveal({
   delay = 0,
   className,
   as = "div",
+  id,
+  role,
 }: {
   children: React.ReactNode;
   delay?: number;
   className?: string;
   as?: "div" | "li" | "section";
+  id?: string;
+  role?: string;
 }) {
   const MotionTag = motion[as];
   return (
@@ -29,6 +33,8 @@ export function Reveal({
       viewport={{ once: true, margin: "-80px" }}
       transition={{ duration: 0.6, ease: [0.21, 0.5, 0.2, 1], delay }}
       className={className}
+      id={id}
+      role={role}
     >
       {children}
     </MotionTag>

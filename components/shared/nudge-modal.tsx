@@ -35,13 +35,24 @@ function defaultMessage(name: string): string {
 
 export function NudgeModal({ memberName, open, onOpenChange }: NudgeModalProps) {
   const name = memberName ?? "";
-  const [message, setMessage] = React.useState("");
-  // Re-seed the message whenever a new member is targeted (set-state-during-render reset pattern).
-  const [seededFor, setSeededFor] = React.useState<string | null>(null);
-  if (open && memberName && seededFor !== memberName) {
-    setSeededFor(memberName);
-    setMessage(defaultMessage(memberName));
-  }
+  return (
+    <Dialog open={open} onOpenChange={onOpenChange}>
+      <DialogContent className="max-w-md">
+        {/* key remounts the form per member, so the message re-seeds without render-phase setState */}
+        <NudgeForm key={name} name={name} onOpenChange={onOpenChange} />
+      </DialogContent>
+    </Dialog>
+  );
+}
+
+function NudgeForm({
+  name,
+  onOpenChange,
+}: {
+  name: string;
+  onOpenChange: (open: boolean) => void;
+}) {
+  const [message, setMessage] = React.useState(() => (name ? defaultMessage(name) : ""));
 
   const handleSend = () => {
     onOpenChange(false);
@@ -51,33 +62,31 @@ export function NudgeModal({ memberName, open, onOpenChange }: NudgeModalProps) 
   };
 
   return (
-    <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-md">
-        <DialogHeader>
-          <DialogTitle>Send a nudge to {name}</DialogTitle>
-          <DialogDescription>
-            A friendly push notification lands directly in their member app.
-          </DialogDescription>
-        </DialogHeader>
-        <div className="flex flex-col gap-2 p-6">
-          <Label htmlFor="nudge-message">Message</Label>
-          <Textarea
-            id="nudge-message"
-            value={message}
-            onChange={(e) => setMessage(e.target.value)}
-            className="min-h-28"
-          />
-          <p className="text-[11px] text-faint">{message.length} characters</p>
-        </div>
-        <DialogFooter>
-          <Button variant="secondary" onClick={() => onOpenChange(false)}>
-            Cancel
-          </Button>
-          <Button onClick={handleSend}>
-            <Send /> Send Push Notification
-          </Button>
-        </DialogFooter>
-      </DialogContent>
-    </Dialog>
+    <>
+      <DialogHeader>
+        <DialogTitle>Send a nudge to {name}</DialogTitle>
+        <DialogDescription>
+          A friendly push notification lands directly in their member app.
+        </DialogDescription>
+      </DialogHeader>
+      <div className="flex flex-col gap-2 p-6">
+        <Label htmlFor="nudge-message">Message</Label>
+        <Textarea
+          id="nudge-message"
+          value={message}
+          onChange={(e) => setMessage(e.target.value)}
+          className="min-h-28"
+        />
+        <p className="text-[11px] text-faint">{message.length} characters</p>
+      </div>
+      <DialogFooter>
+        <Button variant="secondary" onClick={() => onOpenChange(false)}>
+          Cancel
+        </Button>
+        <Button onClick={handleSend}>
+          <Send /> Send Push Notification
+        </Button>
+      </DialogFooter>
+    </>
   );
 }

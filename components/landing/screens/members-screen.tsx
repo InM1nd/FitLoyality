@@ -3,7 +3,7 @@ import { Search, Download } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Avatar } from "@/components/ui/avatar";
 import { AppChrome } from "@/components/landing/screens/app-chrome";
-import { MEMBERS, MEMBER_COUNTS } from "@/lib/mock-data";
+import { MEMBERS, MEMBER_COUNTS } from "@/lib/data";
 import type { MemberStatus } from "@/lib/types";
 
 const TABS: [string, number, boolean][] = [
@@ -26,7 +26,7 @@ export function MembersScreen() {
       <div className="flex h-full flex-col gap-3">
         {/* toolbar */}
         <div className="flex items-center gap-2">
-          <span className="text-sm font-semibold">347 Members</span>
+          <span className="text-sm font-semibold">{MEMBER_COUNTS.all} Members</span>
           <div className="ml-2 flex items-center gap-1.5 rounded-md border border-white/8 bg-white/5 px-2.5 py-1.5 text-[10px] text-zinc-500">
             <Search className="size-3" /> Search by name…
           </div>
