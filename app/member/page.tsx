@@ -1,6 +1,6 @@
 "use client";
 
-import { Flame, Snowflake, Users, ChevronRight, TrendingUp } from "lucide-react";
+import { Flame, Snowflake, Users, ChevronRight, TrendingUp, PartyPopper } from "lucide-react";
 
 import { Card } from "@/components/ui/card";
 import { useCountUp } from "@/hooks/use-count-up";
@@ -42,6 +42,30 @@ function PointsCard() {
         </div>
       </div>
     </div>
+  );
+}
+
+function ComebackBanner() {
+  if (MEMBER_ME.comebackBonusPts <= 0) return null;
+  const firstName = MEMBER_ME.name.split(" ")[0];
+
+  return (
+    <Card className="border-primary/40 bg-primary/5 p-4">
+      <div className="flex items-center gap-3">
+        <div className="grid size-10 shrink-0 place-items-center rounded-full bg-primary/15">
+          <PartyPopper className="size-5 text-brand" />
+        </div>
+        <div className="min-w-0 flex-1">
+          <p className="text-sm font-semibold leading-tight">Welcome back, {firstName}!</p>
+          <p className="mt-0.5 text-[11.5px] leading-snug text-muted-foreground">
+            Your streak freeze covered last week — and your first visit back earned a bonus.
+          </p>
+        </div>
+        <span className="num shrink-0 text-sm font-bold text-success">
+          +{MEMBER_ME.comebackBonusPts} pts
+        </span>
+      </div>
+    </Card>
   );
 }
 
@@ -118,6 +142,35 @@ function OccupancyCard() {
         <span>18</span>
         <span>21</span>
       </div>
+
+      {/* booking fullness straight from the class schedule — no QR needed */}
+      <div className="mt-4 border-t border-border pt-3">
+        <p className="text-[11px] font-semibold uppercase tracking-wider text-faint">
+          Tonight&apos;s classes
+        </p>
+        <div className="mt-2 flex flex-col gap-2">
+          {OCCUPANCY.tonightClasses.map((c) => {
+            const pct = Math.round((c.booked / c.capacity) * 100);
+            return (
+              <div key={c.time} className="flex items-center gap-2.5">
+                <span className="num w-10 shrink-0 text-[11px] font-semibold text-muted-foreground">
+                  {c.time}
+                </span>
+                <p className="min-w-0 flex-1 truncate text-[12.5px] font-medium">{c.name}</p>
+                <div className="h-1.5 w-14 shrink-0 overflow-hidden rounded-full bg-surface-3">
+                  <div
+                    className={cn("h-full rounded-full", pct >= 90 ? "bg-error" : "bg-primary")}
+                    style={{ width: `${pct}%` }}
+                  />
+                </div>
+                <span className="num w-10 shrink-0 text-right text-[11px] text-faint">
+                  {c.booked}/{c.capacity}
+                </span>
+              </div>
+            );
+          })}
+        </div>
+      </div>
     </Card>
   );
 }
@@ -134,6 +187,8 @@ export default function MemberHome() {
           {MEMBER_ME.weekStreak}-week streak · top {MEMBER_ME.topPercent}% at your gym
         </p>
       </div>
+
+      <ComebackBanner />
 
       <PointsCard />
 

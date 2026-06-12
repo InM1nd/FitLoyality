@@ -17,12 +17,12 @@ const TIERS: {
     price: 49,
     blurb: "The retention basics for studios that run on Excel and instinct.",
     features: [
+      "Up to 150 members",
       "White-label member app (PWA)",
       "Weekly streaks, badges & rewards",
       "Live occupancy for members",
       "QR check-in + CSV import",
-      "Churn-window alerts",
-      "Saved Revenue counter",
+      "Churn-window alerts + Saved Revenue",
     ],
   },
   {
@@ -32,10 +32,10 @@ const TIERS: {
     tag: "Most popular",
     highlighted: true,
     features: [
-      "Everything in Starter",
-      "Aggregator Hub — full revenue mix",
+      "Everything in Starter · up to 500 members",
+      "Aggregator Hub + payout audit export",
       "Convertible USC regulars + offers",
-      "WhatsApp nudges (opt-in built in)",
+      "WhatsApp nudges (200 conversations/mo incl.)",
       "Review & referral engine",
       "Eversports attendance import",
     ],
@@ -45,8 +45,8 @@ const TIERS: {
     price: 249,
     blurb: "For multi-location operators who want the full white-label experience.",
     features: [
-      "Everything in Growth",
-      "Multiple locations, one dashboard",
+      "Everything in Growth · unlimited members",
+      "Multi-location (+€99/additional location)",
       "Custom app domain & branding",
       "Onboarding autopilot (first 90 days)",
       "Win-back campaigns",
@@ -137,7 +137,8 @@ export function LandingPricing() {
 
         <Reveal className="mt-8">
           <p className="mono text-center text-[12px] t-faint">
-            All plans: unlimited members · EU hosting · AVV/DSGVO included · cancel monthly
+            All plans: EU hosting · AVV/DSGVO included · cancel monthly · 2 months free on
+            annual billing
           </p>
         </Reveal>
       </div>

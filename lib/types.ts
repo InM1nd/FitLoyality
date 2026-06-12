@@ -3,7 +3,7 @@ export type MemberStatus = "active" | "at-risk" | "churned";
 export type DeviceType = "Apple Watch" | "Garmin" | "Amazfit";
 
 /** How the member's visits are paid: direct membership or via an aggregator. */
-export type MemberSource = "direct" | "usc" | "wellpass" | "hansefit";
+export type MemberSource = "direct" | "usc" | "wellpass" | "hansefit" | "myclubs";
 
 /** Gradient avatar palette index (1-5), mirrors the design-system av-grad classes. */
 export type AvatarGrad = 1 | 2 | 3 | 4 | 5;
@@ -25,6 +25,10 @@ export interface Member {
   source: MemberSource;
   /** days until the contract's cancellation-notice deadline (Kündigungsfrist); only meaningful for direct members */
   noticeDeadlineDays: number | null;
+  /** explainable-alert chips: why this member was flagged (at-risk/churned only) */
+  churnReasons?: string[];
+  /** booked classes but stopped attending — the earliest churn signal */
+  bookingGhost?: boolean;
   totalWorkouts: number;
   rewardsRedeemed: number;
   /** longest run of consecutive weeks hitting the weekly goal */
@@ -54,6 +58,7 @@ export type TriggerType =
   | "Google Review"
   | "Check-ins"
   | "Referral"
+  | "Comeback"
   | "Birthday";
 
 export type RewardType = "Free Item" | "Discount" | "Service" | "Points Bonus";
@@ -101,6 +106,16 @@ export interface AggregatorChannel {
   trendPct: number;
 }
 
+/** Per-channel payout reconciliation: visits we logged vs visits the aggregator paid for. */
+export interface PayoutAuditRow {
+  channelId: MemberSource;
+  channelName: string;
+  loggedVisits: number;
+  paidVisits: number;
+  /** € the gym earns per visit from this channel (avg) */
+  payoutPerVisit: number;
+}
+
 /** Self-paying USC regular who is a candidate for a direct-membership offer. */
 export interface ConversionCandidate {
   id: string;
@@ -123,6 +138,8 @@ export interface GymOccupancy {
   typicalByHour: { hour: number; pct: number }[];
   /** index into typicalByHour representing the current hour */
   currentHourIndex: number;
+  /** today's upcoming classes with booking fullness — sourced from the schedule, no QR needed */
+  tonightClasses: { time: string; name: string; booked: number; capacity: number }[];
 }
 
 export interface NotificationItem {
@@ -175,6 +192,8 @@ export interface MemberProfile {
   visitsThisWeek: number;
   /** streak freezes available this month (Duolingo-style insurance) */
   streakFreezes: number;
+  /** points granted for the first visit back after a missed week (megastudy mechanic); 0 = no banner */
+  comebackBonusPts: number;
   topPercent: number;
   device: DeviceType;
   syncedAgo: string;

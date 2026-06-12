@@ -35,38 +35,54 @@ export function AtRiskPanel() {
         <ScrollArea className="flex-1">
           <div className="px-5">
             {AT_RISK_MEMBERS.map((m) => (
-              <div
-                key={m.id}
-                className="flex items-center gap-3 border-b border-border py-3.5 last:border-0"
-              >
-                <Avatar initials={m.initials} grad={m.grad} />
-                <div className="min-w-0 flex-1">
-                  <p className="truncate text-[13.5px] font-medium">{m.name}</p>
-                  <p className="truncate text-[11px] text-faint">
-                    Last visit · {m.lastVisit}
-                    {m.noticeDeadlineDays !== null &&
-                      ` · cancellable in ${m.noticeDeadlineDays}d`}
-                  </p>
-                </div>
-                <Badge
-                  variant={
-                    m.status === "churned"
-                      ? "error"
-                      : m.noticeDeadlineDays !== null && m.noticeDeadlineDays <= 7
+              <div key={m.id} className="border-b border-border py-3.5 last:border-0">
+                <div className="flex items-center gap-3">
+                  <Avatar initials={m.initials} grad={m.grad} />
+                  <div className="min-w-0 flex-1">
+                    <p className="truncate text-[13.5px] font-medium">{m.name}</p>
+                    <p className="truncate text-[11px] text-faint">
+                      Last visit · {m.lastVisit}
+                      {m.noticeDeadlineDays !== null &&
+                        ` · cancellable in ${m.noticeDeadlineDays}d`}
+                    </p>
+                  </div>
+                  <Badge
+                    variant={
+                      m.status === "churned"
                         ? "error"
-                        : "warning"
-                  }
-                  className="hidden shrink-0 sm:inline-flex"
-                >
-                  {m.status === "churned"
-                    ? "Churned"
-                    : m.noticeDeadlineDays !== null && m.noticeDeadlineDays <= 7
-                      ? "Last chance"
-                      : "At-Risk"}
-                </Badge>
-                <Button size="sm" variant="secondary" onClick={() => openNudge(m.name)}>
-                  <Send className="size-3.5" /> Nudge
-                </Button>
+                        : m.noticeDeadlineDays !== null && m.noticeDeadlineDays <= 7
+                          ? "error"
+                          : m.bookingGhost
+                            ? "info"
+                            : "warning"
+                    }
+                    className="hidden shrink-0 sm:inline-flex"
+                  >
+                    {m.status === "churned"
+                      ? "Churned"
+                      : m.noticeDeadlineDays !== null && m.noticeDeadlineDays <= 7
+                        ? "Last chance"
+                        : m.bookingGhost
+                          ? "Booking ghost"
+                          : "At-Risk"}
+                  </Badge>
+                  <Button size="sm" variant="secondary" onClick={() => openNudge(m.name)}>
+                    <Send className="size-3.5" /> Nudge
+                  </Button>
+                </div>
+                {/* explainable alert: why this member was flagged */}
+                {m.churnReasons && m.churnReasons.length > 0 && (
+                  <div className="mt-2 flex flex-wrap gap-1.5 pl-12">
+                    {m.churnReasons.map((reason) => (
+                      <span
+                        key={reason}
+                        className="rounded-full bg-surface-3 px-2 py-0.5 text-[10.5px] font-medium text-muted-foreground"
+                      >
+                        {reason}
+                      </span>
+                    ))}
+                  </div>
+                )}
               </div>
             ))}
           </div>

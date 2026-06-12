@@ -30,6 +30,7 @@ const SOURCE_BADGE: Record<MemberSource, { label: string; variant: "secondary" |
   direct: { label: "Direct", variant: "secondary" },
   usc: { label: "USC", variant: "info" },
   wellpass: { label: "Wellpass", variant: "success" },
+  myclubs: { label: "myClubs", variant: "secondary" },
   hansefit: { label: "Hansefit", variant: "warning" },
 };
 

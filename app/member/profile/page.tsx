@@ -9,6 +9,8 @@ import {
   ChevronRight,
   LayoutDashboard,
   LogOut,
+  HeartPulse,
+  FileDown,
   type LucideIcon,
 } from "lucide-react";
 import { toast } from "sonner";
@@ -17,7 +19,7 @@ import { Card } from "@/components/ui/card";
 import { Avatar } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { formatNumber } from "@/lib/utils";
-import { MEMBER_ME } from "@/lib/data";
+import { INSURANCE_CERT, MEMBER_ME } from "@/lib/data";
 
 const SETTINGS: { icon: LucideIcon; label: string }[] = [
   { icon: Bell, label: "Notifications" },
@@ -70,6 +72,42 @@ export default function MemberProfile() {
             <p className="text-[11px] text-faint">Synced {MEMBER_ME.syncedAgo}</p>
           </div>
           <span className="size-2 rounded-full bg-success" />
+        </Card>
+      </section>
+
+      {/* Krankenkassen-Bonus attendance certificate */}
+      <section>
+        <h2 className="mb-2.5 text-[11px] font-semibold uppercase tracking-wider text-faint">
+          Krankenkassen-Bonus
+        </h2>
+        <Card className="p-4">
+          <div className="flex items-center gap-3">
+            <div className="grid size-10 shrink-0 place-items-center rounded-lg bg-surface-3">
+              <HeartPulse className="size-5 text-brand" />
+            </div>
+            <div className="min-w-0 flex-1">
+              <p className="text-[13px] font-medium">
+                Attendance certificate {INSURANCE_CERT.year}
+              </p>
+              <p className="num text-[11px] text-faint">
+                {INSURANCE_CERT.visitsConfirmed} visits confirmed · ≥
+                {INSURANCE_CERT.visitsRequired} required
+              </p>
+            </div>
+            <span className="size-2 rounded-full bg-success" />
+          </div>
+          <Button
+            size="sm"
+            variant="secondary"
+            className="mt-3 w-full"
+            onClick={() => toast.success("Teilnahmebescheinigung downloaded (demo)")}
+          >
+            <FileDown className="size-3.5" /> Download PDF
+          </Button>
+          <p className="mt-2 text-center text-[10.5px] leading-snug text-faint">
+            Most insurers pay up to €{INSURANCE_CERT.maxBonusEur}/year for proven regular
+            training.
+          </p>
         </Card>
       </section>
 

@@ -1,7 +1,8 @@
 "use client";
 
 import * as React from "react";
-import { Lock, Sparkles } from "lucide-react";
+import { Lock, Sparkles, UserPlus, Copy } from "lucide-react";
+import { toast } from "sonner";
 
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -14,8 +15,41 @@ import {
 } from "@/components/ui/dialog";
 import { QrCode } from "@/components/member/qr-code";
 import { formatNumber } from "@/lib/utils";
-import { MEMBER_ME, MEMBER_REWARDS } from "@/lib/data";
+import { MEMBER_ME, MEMBER_REFERRAL, MEMBER_REWARDS } from "@/lib/data";
 import type { MemberReward } from "@/lib/types";
+
+function ReferralCard() {
+  const copyLink = () => {
+    navigator.clipboard
+      ?.writeText(`https://${MEMBER_REFERRAL.link}`)
+      .catch(() => undefined);
+    toast.success("Invite link copied — share it with a friend!");
+  };
+
+  return (
+    <Card className="border-primary/40 bg-primary/5 p-4">
+      <div className="flex items-center gap-3">
+        <div className="grid size-10 shrink-0 place-items-center rounded-full bg-primary/15">
+          <UserPlus className="size-5 text-brand" />
+        </div>
+        <div className="min-w-0 flex-1">
+          <p className="text-sm font-semibold leading-tight">Invite a friend</p>
+          <p className="mt-0.5 text-[11.5px] leading-snug text-muted-foreground">
+            They get {MEMBER_REFERRAL.friendPerk} — you get{" "}
+            <span className="font-semibold text-brand">+{MEMBER_REFERRAL.points} pts</span> when
+            they join.
+          </p>
+        </div>
+      </div>
+      <Button size="sm" variant="secondary" className="mt-3 w-full" onClick={copyLink}>
+        <Copy className="size-3.5" /> Copy invite link
+      </Button>
+      <p className="num mt-2 text-center text-[10.5px] text-faint">
+        {MEMBER_REFERRAL.friendsJoined} friend joined · +{MEMBER_REFERRAL.pointsEarned} pts earned
+      </p>
+    </Card>
+  );
+}
 
 export default function MemberRewards() {
   const balance = MEMBER_ME.balance;
@@ -33,6 +67,8 @@ export default function MemberRewards() {
           <span className="mb-0.5 text-sm font-medium text-muted-foreground">pts</span>
         </div>
       </div>
+
+      <ReferralCard />
 
       <h1 className="text-base font-semibold">Available Rewards</h1>
 

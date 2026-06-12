@@ -1,18 +1,19 @@
 "use client";
 
 import * as React from "react";
-import { Layers, ArrowUpRight, ArrowDownRight, UserPlus } from "lucide-react";
+import { Layers, ArrowUpRight, ArrowDownRight, UserPlus, FileDown, Scale } from "lucide-react";
 
 import { Card, CardHeader, CardTitle } from "@/components/ui/card";
 import { Avatar } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { cn, formatEUR } from "@/lib/utils";
-import { AGGREGATORS, DIRECT_REVENUE, CONVERSION_CANDIDATES } from "@/lib/data";
+import { AGGREGATORS, DIRECT_REVENUE, CONVERSION_CANDIDATES, PAYOUT_AUDIT } from "@/lib/data";
 
 const CHANNEL_DOT: Record<string, string> = {
   direct: "bg-brand",
   usc: "bg-[var(--info)]",
   wellpass: "bg-success",
+  myclubs: "bg-[#a78bfa]", // chart-category purple, matches avatar grad 4
   hansefit: "bg-warning",
 };
 
@@ -99,6 +100,54 @@ export function AggregatorHub() {
               </div>
             );
           })}
+        </div>
+
+        {/* payout audit — logged vs paid visits per aggregator */}
+        <div className="rounded-lg border border-border bg-surface-2 p-4" data-tour="payout-audit">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-1.5">
+              <Scale className="size-3.5 text-brand" />
+              <p className="text-[12px] font-semibold">Payout audit · June</p>
+              {/* export is gated to Growth+; Starter sees discrepancies only */}
+              <span className="rounded-full bg-surface-3 px-1.5 py-px text-[9px] font-bold uppercase tracking-wider text-faint">
+                Growth+
+              </span>
+            </div>
+            <span className="num rounded-full bg-[var(--error-bg)] px-2 py-0.5 text-[11px] font-bold text-error">
+              {formatEUR(
+                PAYOUT_AUDIT.reduce(
+                  (sum, r) => sum + (r.loggedVisits - r.paidVisits) * r.payoutPerVisit,
+                  0,
+                ),
+              )}{" "}
+              unpaid
+            </span>
+          </div>
+          <div className="mt-3 flex flex-col gap-2">
+            {PAYOUT_AUDIT.map((r) => {
+              const missing = (r.loggedVisits - r.paidVisits) * r.payoutPerVisit;
+              return (
+                <div key={r.channelId} className="flex items-center gap-2.5">
+                  <span className={cn("size-2 shrink-0 rounded-[3px]", CHANNEL_DOT[r.channelId])} />
+                  <p className="min-w-0 flex-1 truncate text-[12px] font-medium">{r.channelName}</p>
+                  <span className="num text-[11px] text-faint">
+                    {r.loggedVisits} logged → {r.paidVisits} paid
+                  </span>
+                  <span
+                    className={cn(
+                      "num w-14 text-right text-[12px] font-semibold",
+                      missing > 0 ? "text-error" : "text-success",
+                    )}
+                  >
+                    {missing > 0 ? `−${formatEUR(missing)}` : "✓"}
+                  </span>
+                </div>
+              );
+            })}
+          </div>
+          <Button size="sm" variant="secondary" className="mt-3 w-full">
+            <FileDown className="size-3.5" /> Export claim list
+          </Button>
         </div>
 
         {/* convertible USC regulars */}

@@ -33,6 +33,7 @@ const TRIGGER_TYPES: TriggerType[] = [
   "Google Review",
   "Check-ins",
   "Referral",
+  "Comeback",
   "Birthday",
 ];
 
@@ -55,6 +56,7 @@ const schema = z.object({
     "Google Review",
     "Check-ins",
     "Referral",
+    "Comeback",
     "Birthday",
   ]),
   triggerValue: z.string().optional(),
@@ -77,6 +79,8 @@ function triggerLabel(type: TriggerType, value: string): string {
       return `${v} check-ins this month`;
     case "Referral":
       return "Refer a friend who joins";
+    case "Comeback":
+      return "First visit after a missed week";
     case "Birthday":
       return "On the member's birthday";
   }

@@ -1,5 +1,6 @@
 import type {
   AggregatorChannel,
+  PayoutAuditRow,
   ChartPoint,
   Cohort,
   ConversionCandidate,
@@ -70,6 +71,10 @@ interface MemberSeed {
   source: MemberSource;
   /** days until cancellation-notice deadline (direct members only) */
   noticeDeadlineDays: number | null;
+  /** explainable-alert chips (at-risk/churned only) */
+  churnReasons?: string[];
+  /** still booking classes but not showing up — earliest churn signal */
+  bookingGhost?: boolean;
 }
 
 const MEMBER_SEEDS: MemberSeed[] = [
@@ -77,14 +82,19 @@ const MEMBER_SEEDS: MemberSeed[] = [
   { name: "Lukas Fischer",  grad: 2, since: "Jan 2022", lastVisitDays: 1,  workoutsThisMonth: 14, points: 1920, status: "active",  city: "Wien",      source: "usc",      noticeDeadlineDays: null },
   { name: "Sarah Klein",    grad: 5, since: "Sep 2020", lastVisitDays: 2,  workoutsThisMonth: 11, points: 3410, status: "active",  city: "Graz",      source: "direct",   noticeDeadlineDays: 47 },
   { name: "Michael Bauer",  grad: 3, since: "Apr 2024", lastVisitDays: 3,  workoutsThisMonth: 9,  points: 720,  status: "active",  city: "Wien",      source: "wellpass", noticeDeadlineDays: null },
-  { name: "Julia Hofmann",  grad: 4, since: "Nov 2023", lastVisitDays: 16, workoutsThisMonth: 3,  points: 640,  status: "at-risk", city: "Wien",      source: "direct",   noticeDeadlineDays: 5 },
+  { name: "Julia Hofmann",  grad: 4, since: "Nov 2023", lastVisitDays: 16, workoutsThisMonth: 3,  points: 640,  status: "at-risk", city: "Wien",      source: "direct",   noticeDeadlineDays: 5,
+    churnReasons: ["Frequency −58% vs her 6-mo baseline", "16d inactive"] },
   { name: "David Lang",     grad: 2, since: "May 2023", lastVisitDays: 1,  workoutsThisMonth: 12, points: 1340, status: "active",  city: "Linz",      source: "direct",   noticeDeadlineDays: 120 },
-  { name: "Nina Wagner",    grad: 4, since: "Feb 2022", lastVisitDays: 21, workoutsThisMonth: 2,  points: 910,  status: "at-risk", city: "Linz",      source: "direct",   noticeDeadlineDays: 11 },
+  { name: "Nina Wagner",    grad: 4, since: "Feb 2022", lastVisitDays: 21, workoutsThisMonth: 2,  points: 910,  status: "at-risk", city: "Linz",      source: "direct",   noticeDeadlineDays: 11,
+    churnReasons: ["3 booked · 0 attended", "Motivation fading, intent intact"], bookingGhost: true },
   { name: "Thomas Gruber",  grad: 1, since: "Dec 2022", lastVisitDays: 0,  workoutsThisMonth: 20, points: 3980, status: "active",  city: "Wien",      source: "direct",   noticeDeadlineDays: 154 },
   { name: "Lisa Berger",    grad: 5, since: "Jun 2023", lastVisitDays: 0,  workoutsThisMonth: 16, points: 2110, status: "active",  city: "Wien",      source: "usc",      noticeDeadlineDays: null },
-  { name: "Felix Schmid",   grad: 3, since: "Oct 2021", lastVisitDays: 19, workoutsThisMonth: 4,  points: 1560, status: "at-risk", city: "Innsbruck", source: "direct",   noticeDeadlineDays: 3 },
-  { name: "Maria Steiner",  grad: 5, since: "Jul 2022", lastVisitDays: 44, workoutsThisMonth: 0,  points: 880,  status: "churned", city: "Wien",      source: "direct",   noticeDeadlineDays: null },
-  { name: "Robert Huber",   grad: 2, since: "Aug 2019", lastVisitDays: 38, workoutsThisMonth: 0,  points: 1180, status: "churned", city: "Salzburg",  source: "hansefit", noticeDeadlineDays: null },
+  { name: "Felix Schmid",   grad: 3, since: "Oct 2021", lastVisitDays: 19, workoutsThisMonth: 4,  points: 1560, status: "at-risk", city: "Innsbruck", source: "direct",   noticeDeadlineDays: 3,
+    churnReasons: ["Frequency −45% vs baseline", "Dropped evening classes"] },
+  { name: "Maria Steiner",  grad: 5, since: "Jul 2022", lastVisitDays: 44, workoutsThisMonth: 0,  points: 880,  status: "churned", city: "Wien",      source: "direct",   noticeDeadlineDays: null,
+    churnReasons: ["No visits in 44d", "Ignored 2 nudges"] },
+  { name: "Robert Huber",   grad: 2, since: "Aug 2019", lastVisitDays: 38, workoutsThisMonth: 0,  points: 1180, status: "churned", city: "Salzburg",  source: "hansefit", noticeDeadlineDays: null,
+    churnReasons: ["Aggregator visits stopped"] },
 ];
 
 function initials(name: string): string {
@@ -128,6 +138,8 @@ export const MEMBERS: Member[] = MEMBER_SEEDS.map((m, i) => {
     device: DEVICES[i % DEVICES.length],
     source: m.source,
     noticeDeadlineDays: m.noticeDeadlineDays,
+    churnReasons: m.churnReasons,
+    bookingGhost: m.bookingGhost,
     totalWorkouts,
     rewardsRedeemed: 2 + (i % 7),
     streakRecord: m.status === "churned" ? 6 + (i % 5) : 9 + (i % 12),
@@ -187,6 +199,7 @@ export const RETENTION_SERIES: ChartPoint[] = [
 /* ------------------------------------------------------------------ */
 
 export const REWARD_ACTIVITY: RewardActivity[] = [
+  { id: "a0", name: "Julia Hofmann", initials: "JH", grad: 4, reward: "Comeback Bonus",      emoji: "👋", triggeredBy: "First visit after missed week", points: 50, date: "Jun 5, 2026" },
   { id: "a1", name: "Anna Müller",   initials: "AM", grad: 1, reward: "Free Protein Shake",  emoji: "🥤", triggeredBy: "10 visits this month",  points: 200, date: "Jun 4, 2026" },
   { id: "a2", name: "Thomas Gruber", initials: "TG", grad: 1, reward: "10% Merch Discount",  emoji: "🎽", triggeredBy: "12-week streak",        points: 500, date: "Jun 4, 2026" },
   { id: "a3", name: "Lisa Berger",   initials: "LB", grad: 5, reward: "Guest Pass",          emoji: "🎁", triggeredBy: "Referred a friend",     points: 350, date: "Jun 3, 2026" },
@@ -202,6 +215,7 @@ export const REWARD_ACTIVITY: RewardActivity[] = [
 /* ------------------------------------------------------------------ */
 
 export const REWARDS: Reward[] = [
+  { id: "r0", emoji: "👋", name: "Comeback Bonus",     description: "Auto points for the first visit back after a missed week — the #1 mechanic from the largest gym field study (61k members).", trigger: "First visit after a missed week", redemptions: 41, enabled: true },
   { id: "r1", emoji: "🥤", name: "Free Protein Shake", description: "Redeem at the bar after hitting your monthly target.", trigger: "10 visits in a month",            redemptions: 34, enabled: true },
   { id: "r2", emoji: "🎽", name: "10% Merch Discount", description: "Discount voucher for the studio pro shop.",            trigger: "Leave a Google review",           redemptions: 12, enabled: true },
   { id: "r3", emoji: "💪", name: "Free PT Session",    description: "One complimentary personal-training session.",         trigger: "12-week streak, no missed weeks", redemptions: 3,  enabled: true },
@@ -253,7 +267,20 @@ export const ROI_DEFAULTS = {
 export const AGGREGATORS: AggregatorChannel[] = [
   { id: "usc",      name: "Urban Sports Club", visitsThisMonth: 312, payoutPerVisit: 7.6, revenueThisMonth: 2371, trendPct: 8 },
   { id: "wellpass", name: "EGYM Wellpass",     visitsThisMonth: 198, payoutPerVisit: 6.1, revenueThisMonth: 1208, trendPct: 14 },
+  { id: "myclubs",  name: "myClubs",           visitsThisMonth: 57,  payoutPerVisit: 9.8, revenueThisMonth: 559,  trendPct: 6 },
   { id: "hansefit", name: "Hansefit",          visitsThisMonth: 64,  payoutPerVisit: 5.2, revenueThisMonth: 333,  trendPct: -3 },
+];
+
+/**
+ * Payout audit — visits in our attendance data vs visits the aggregator's
+ * statement actually paid for. Payout logic (e.g. USC "Expected Attendance")
+ * is non-trivial and changes; owners can't reconcile this by hand.
+ */
+export const PAYOUT_AUDIT: PayoutAuditRow[] = [
+  { channelId: "usc",      channelName: "Urban Sports Club", loggedVisits: 326, paidVisits: 312, payoutPerVisit: 7.6 },
+  { channelId: "wellpass", channelName: "EGYM Wellpass",     loggedVisits: 203, paidVisits: 198, payoutPerVisit: 6.1 },
+  { channelId: "myclubs",  channelName: "myClubs",           loggedVisits: 61,  paidVisits: 57,  payoutPerVisit: 9.8 },
+  { channelId: "hansefit", channelName: "Hansefit",          loggedVisits: 64,  paidVisits: 64,  payoutPerVisit: 5.2 },
 ];
 
 /** Direct-membership MRR for the revenue-mix view. */
@@ -323,6 +350,12 @@ export const OCCUPANCY: GymOccupancy = {
     { hour: 21, pct: 26 },
   ],
   currentHourIndex: 4, // 10:00 — quiet
+  // booking fullness straight from the class schedule — no QR needed
+  tonightClasses: [
+    { time: "17:30", name: "HIIT 45",         booked: 9,  capacity: 14 },
+    { time: "18:30", name: "CrossFit WOD",    booked: 13, capacity: 14 },
+    { time: "19:30", name: "Mobility & Core", booked: 6,  capacity: 12 },
+  ],
 };
 
 /* ------------------------------------------------------------------ */
@@ -334,6 +367,7 @@ export const INTEGRATIONS: Integration[] = [
   { id: "qr",       name: "Studio QR Check-in",   description: "Open-gym visits logged via the member app.",            connected: true,  detail: "Active · 1,214 check-ins this month" },
   { id: "usc",      name: "Urban Sports Club",    description: "Track aggregator visits & per-visit payouts.",          connected: true,  detail: "Connected · 312 visits this month" },
   { id: "wellpass", name: "EGYM Wellpass",        description: "Track aggregator visits & per-visit payouts.",          connected: true,  detail: "Connected · 198 visits this month" },
+  { id: "myclubs",  name: "myClubs",               description: "Austria's leading aggregator — visits & payouts.",      connected: true,  detail: "Connected · 57 visits this month" },
   { id: "magic",    name: "Magicline",            description: "Two-way sync with your membership CRM.",                connected: false, detail: "Not connected" },
   { id: "apple",    name: "Apple HealthKit",      description: "Life outside the box — workouts beyond the gym (Phase 3).", connected: false, detail: "Coming soon" },
 ];
@@ -381,6 +415,7 @@ export const MEMBER_ME: MemberProfile = {
   weeklyGoal: 3,
   visitsThisWeek: 2,
   streakFreezes: 1,
+  comebackBonusPts: 50,
   topPercent: 8,
   device: "Apple Watch",
   syncedAgo: "2 min ago",
@@ -393,6 +428,27 @@ export const MEMBER_ME: MemberProfile = {
     3, 1, 0, 2, 4, 1, 0, 0, 3, 2, 0, 1, 4, 2, 1, 0, 3, 2, 4, 0, 1, 2, 4, 1, 3, 0, 2, 4,
   ],
 };
+
+/** Member-facing referral program — the other half of the Review & Referral Engine. */
+export const MEMBER_REFERRAL = {
+  points: 500,
+  friendPerk: "a free trial week",
+  link: "crossfitnord.fitloyalty.io/join?ref=MK-2841",
+  friendsJoined: 1,
+  pointsEarned: 500,
+} as const;
+
+/**
+ * Krankenkassen-Bonus: insurers pay members up to ~€400/yr for proven regular
+ * training; non-certified studios need an attendance proof (typically 24-36
+ * visits/yr) — which is exactly the data FitLoyalty already has.
+ */
+export const INSURANCE_CERT = {
+  year: DEMO_YEAR,
+  visitsConfirmed: 47,
+  visitsRequired: 24,
+  maxBonusEur: 400,
+} as const;
 
 export const MEMBER_CHALLENGES: Challenge[] = [
   { id: "c1", emoji: "🔥", title: "Summer Consistency", current: 9, goal: 12, unit: "weeks", endsIn: "3 weeks left" },
@@ -425,5 +481,6 @@ export const MEMBER_POINTS_FEED: { id: string; label: string; when: string; poin
   { id: "f2", label: "Week 9 streak bonus", when: "Today · 7:12", points: 200 },
   { id: "f3", label: "Class attended · Eversports", when: "Yesterday", points: 80 },
   { id: "f4", label: "Brought a guest", when: "2 days ago", points: 150 },
-  { id: "f5", label: "Personal record · Deadlift", when: "3 days ago", points: 250 },
+  { id: "f5", label: "Comeback bonus · first visit after a quiet week", when: "Monday", points: 50 },
+  { id: "f6", label: "Personal record · Deadlift", when: "3 days ago", points: 250 },
 ];

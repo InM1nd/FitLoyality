@@ -18,15 +18,18 @@ import {
   GYM,
   INTEGRATIONS,
   KPIS,
+  INSURANCE_CERT,
   MEMBER_BADGES,
   MEMBER_CHALLENGES,
   MEMBER_COUNTS,
   MEMBER_ME,
   MEMBER_POINTS_FEED,
+  MEMBER_REFERRAL,
   MEMBER_REWARDS,
   MEMBERS,
   NOTIFICATIONS,
   OCCUPANCY,
+  PAYOUT_AUDIT,
   RECENT_SEARCHES,
   RETENTION_SERIES,
   REWARD_ACTIVITY,
@@ -50,6 +53,7 @@ export const getCohortSizes = () => COHORT_SIZES;
 export const getChurnSeries = () => CHURN_SERIES;
 export const getRoiDefaults = () => ROI_DEFAULTS;
 export const getAggregators = () => AGGREGATORS;
+export const getPayoutAudit = () => PAYOUT_AUDIT;
 export const getDirectRevenue = () => DIRECT_REVENUE;
 export const getConversionCandidates = () => CONVERSION_CANDIDATES;
 export const getSavedLog = () => SAVED_LOG;
@@ -64,6 +68,8 @@ export const getMemberChallenges = () => MEMBER_CHALLENGES;
 export const getMemberRewards = () => MEMBER_REWARDS;
 export const getMemberBadges = () => MEMBER_BADGES;
 export const getMemberPointsFeed = () => MEMBER_POINTS_FEED;
+export const getMemberReferral = () => MEMBER_REFERRAL;
+export const getInsuranceCert = () => INSURANCE_CERT;
 export const getOccupancy = () => OCCUPANCY;
 
 /* ---------- Compatibility re-exports ----------
@@ -79,6 +85,7 @@ export {
   CONVERSION_CANDIDATES,
   DIRECT_REVENUE,
   GYM,
+  INSURANCE_CERT,
   INTEGRATIONS,
   KPIS,
   MEMBER_BADGES,
@@ -86,10 +93,12 @@ export {
   MEMBER_COUNTS,
   MEMBER_ME,
   MEMBER_POINTS_FEED,
+  MEMBER_REFERRAL,
   MEMBER_REWARDS,
   MEMBERS,
   NOTIFICATIONS,
   OCCUPANCY,
+  PAYOUT_AUDIT,
   RECENT_SEARCHES,
   RETENTION_SERIES,
   REWARD_ACTIVITY,
