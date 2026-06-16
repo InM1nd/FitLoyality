@@ -9,9 +9,11 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { NudgeModal } from "@/components/shared/nudge-modal";
+import { useT } from "@/lib/i18n/context";
 import { AT_RISK_MEMBERS } from "@/lib/data";
 
 export function AtRiskPanel() {
+  const t = useT("overview");
   const [target, setTarget] = React.useState<string | null>(null);
   const [open, setOpen] = React.useState(false);
 
@@ -26,10 +28,10 @@ export function AtRiskPanel() {
         <CardHeader className="flex-row items-center justify-between border-b border-border">
           <div className="flex items-center gap-2">
             <AlertTriangle className="size-4 text-warning" />
-            <CardTitle>Churn Window</CardTitle>
+            <CardTitle>{t("atRiskTitle")}</CardTitle>
           </div>
           <span className="rounded-full bg-[var(--info-bg)] px-2.5 py-0.5 text-[11px] font-semibold text-[var(--info)]">
-            inactive + notice deadline
+            {t("atRiskBadge")}
           </span>
         </CardHeader>
         <ScrollArea className="flex-1">
@@ -41,9 +43,9 @@ export function AtRiskPanel() {
                   <div className="min-w-0 flex-1">
                     <p className="truncate text-[13.5px] font-medium">{m.name}</p>
                     <p className="truncate text-[11px] text-faint">
-                      Last visit · {m.lastVisit}
+                      {t("lastVisit")} · {m.lastVisit}
                       {m.noticeDeadlineDays !== null &&
-                        ` · cancellable in ${m.noticeDeadlineDays}d`}
+                        ` · ${t("cancellableIn", { n: m.noticeDeadlineDays })}`}
                     </p>
                   </div>
                   <Badge
@@ -59,15 +61,15 @@ export function AtRiskPanel() {
                     className="hidden shrink-0 sm:inline-flex"
                   >
                     {m.status === "churned"
-                      ? "Churned"
+                      ? t("statusChurned")
                       : m.noticeDeadlineDays !== null && m.noticeDeadlineDays <= 7
-                        ? "Last chance"
+                        ? t("statusLastChance")
                         : m.bookingGhost
-                          ? "Booking ghost"
-                          : "At-Risk"}
+                          ? t("statusGhost")
+                          : t("statusAtRisk")}
                   </Badge>
                   <Button size="sm" variant="secondary" onClick={() => openNudge(m.name)}>
-                    <Send className="size-3.5" /> Nudge
+                    <Send className="size-3.5" /> {t("nudge")}
                   </Button>
                 </div>
                 {/* explainable alert: why this member was flagged */}

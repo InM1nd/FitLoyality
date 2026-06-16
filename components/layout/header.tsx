@@ -8,6 +8,7 @@ import {
   Bell,
   Sun,
   Moon,
+  Menu,
   ChevronRight,
   TrendingUp,
   AlertTriangle,
@@ -23,6 +24,10 @@ import {
 } from "lucide-react";
 
 import { cn } from "@/lib/utils";
+import { useT } from "@/lib/i18n/context";
+import { LocaleToggle } from "@/components/shared/locale-toggle";
+import { SidebarBody } from "@/components/layout/sidebar";
+import { Sheet, SheetContent, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
 import { Avatar } from "@/components/ui/avatar";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import {
@@ -43,13 +48,16 @@ import {
 } from "@/components/ui/command";
 import { GYM, NOTIFICATIONS, RECENT_SEARCHES } from "@/lib/data";
 
-const TITLES: Record<string, string> = {
-  "/overview": "Overview",
-  "/members": "Members",
-  "/rewards": "Rewards",
-  "/journeys": "Journeys",
-  "/analytics": "Analytics",
-  "/settings": "Settings",
+/** path → key in the `nav` namespace */
+const TITLE_KEYS: Record<string, string> = {
+  "/overview": "overview",
+  "/briefing": "briefing",
+  "/members": "members",
+  "/rewards": "rewards",
+  "/engage": "engage",
+  "/journeys": "journeys",
+  "/analytics": "analytics",
+  "/settings": "settings",
 };
 
 const NOTI_ICON: Record<string, LucideIcon> = {
@@ -58,13 +66,13 @@ const NOTI_ICON: Record<string, LucideIcon> = {
   gift: Gift,
 };
 
-const QUICK_NAV: { href: string; label: string; icon: LucideIcon }[] = [
-  { href: "/overview", label: "Overview", icon: LayoutDashboard },
-  { href: "/members", label: "Members", icon: Users },
-  { href: "/rewards", label: "Rewards", icon: Gift },
-  { href: "/journeys", label: "Journeys", icon: Route },
-  { href: "/analytics", label: "Analytics", icon: BarChart3 },
-  { href: "/settings", label: "Settings", icon: Settings },
+const QUICK_NAV: { href: string; labelKey: string; icon: LucideIcon }[] = [
+  { href: "/overview", labelKey: "overview", icon: LayoutDashboard },
+  { href: "/members", labelKey: "members", icon: Users },
+  { href: "/rewards", labelKey: "rewards", icon: Gift },
+  { href: "/journeys", labelKey: "journeys", icon: Route },
+  { href: "/analytics", labelKey: "analytics", icon: BarChart3 },
+  { href: "/settings", labelKey: "settings", icon: Settings },
 ];
 
 const emptySubscribe = () => () => {};
@@ -112,8 +120,10 @@ function ThemeToggle() {
 export function Header() {
   const pathname = usePathname();
   const router = useRouter();
+  const t = useT("nav");
   const [searchOpen, setSearchOpen] = React.useState(false);
-  const title = TITLES[pathname] ?? "Overview";
+  const [navOpen, setNavOpen] = React.useState(false);
+  const title = t(TITLE_KEYS[pathname] ?? "overview");
 
   React.useEffect(() => {
     const down = (e: KeyboardEvent) => {
@@ -132,23 +142,55 @@ export function Header() {
   };
 
   return (
-    <header className="sticky top-0 z-20 flex h-[60px] items-center gap-4 border-b border-border bg-[color-mix(in_srgb,var(--bg)_78%,transparent)] px-5 backdrop-blur-xl backdrop-saturate-150">
+    <header className="sticky top-0 z-20 flex h-[60px] items-center gap-3 border-b border-border bg-[color-mix(in_srgb,var(--bg)_78%,transparent)] px-4 backdrop-blur-xl backdrop-saturate-150 md:gap-4 md:px-5">
+      {/* Mobile nav drawer */}
+      <Sheet open={navOpen} onOpenChange={setNavOpen}>
+        <SheetTrigger asChild>
+          <button
+            type="button"
+            aria-label="Open menu"
+            className="grid size-9 shrink-0 place-items-center rounded-md border border-border text-muted-foreground transition-colors hover:bg-surface-2 hover:text-foreground md:hidden"
+          >
+            <Menu className="size-[18px]" />
+          </button>
+        </SheetTrigger>
+        <SheetContent side="left" className="w-72 px-3 pb-4 pt-4">
+          <SheetTitle className="sr-only">Navigation</SheetTitle>
+          <div className="flex h-full flex-col">
+            <SidebarBody onNavigate={() => setNavOpen(false)} />
+            <div className="mt-4 flex items-center justify-between gap-2 border-t border-border pt-4">
+              <LocaleToggle />
+              <ThemeToggle />
+            </div>
+          </div>
+        </SheetContent>
+      </Sheet>
+
       <div className="flex items-center gap-2 text-[13px] text-faint">
-        <span>Workspace</span>
-        <ChevronRight className="size-3.5" />
+        <span className="hidden sm:inline">{t("workspace")}</span>
+        <ChevronRight className="hidden size-3.5 sm:inline" />
         <span className="font-semibold text-brand">{title}</span>
       </div>
 
+      {/* Search — full button on desktop, icon on mobile */}
       <button
         type="button"
         onClick={() => setSearchOpen(true)}
-        className="ml-auto flex h-9 w-full max-w-80 items-center gap-2 rounded-md border border-border bg-surface-1 px-3 text-sm text-faint transition-colors hover:border-border-strong"
+        className="ml-auto hidden h-9 w-full max-w-80 items-center gap-2 rounded-md border border-border bg-surface-1 px-3 text-sm text-faint transition-colors hover:border-border-strong md:flex"
       >
         <Search className="size-4" />
-        <span>Search members, rewards…</span>
+        <span>{t("searchPlaceholder")}</span>
         <kbd className="ml-auto hidden rounded border border-border px-1.5 py-0.5 text-[10px] font-medium text-faint sm:inline-block">
           ⌘K
         </kbd>
+      </button>
+      <button
+        type="button"
+        onClick={() => setSearchOpen(true)}
+        aria-label={t("searchPlaceholder")}
+        className="ml-auto grid size-9 shrink-0 place-items-center rounded-md border border-border text-muted-foreground transition-colors hover:bg-surface-2 hover:text-foreground md:hidden"
+      >
+        <Search className="size-[17px]" />
       </button>
 
       {/* Notifications */}
@@ -165,8 +207,8 @@ export function Header() {
         </PopoverTrigger>
         <PopoverContent align="end" className="w-80 p-0">
           <div className="flex items-center justify-between border-b border-border px-3 py-2.5">
-            <p className="text-[13px] font-semibold">Notifications</p>
-            <span className="rounded-full bg-[var(--info-bg)] px-2 py-0.5 text-[11px] font-semibold text-[var(--info)]">3 new</span>
+            <p className="text-[13px] font-semibold">{t("notifications")}</p>
+            <span className="rounded-full bg-[var(--info-bg)] px-2 py-0.5 text-[11px] font-semibold text-[var(--info)]">3 {t("new")}</span>
           </div>
           <div className="p-1">
             {NOTIFICATIONS.map((n) => {
@@ -191,7 +233,10 @@ export function Header() {
         </PopoverContent>
       </Popover>
 
-      <ThemeToggle />
+      <div className="hidden items-center gap-3 sm:flex">
+        <LocaleToggle />
+        <ThemeToggle />
+      </div>
 
       {/* Avatar menu */}
       <DropdownMenu>
@@ -211,24 +256,24 @@ export function Header() {
           </DropdownMenuLabel>
           <DropdownMenuSeparator />
           <DropdownMenuItem>
-            <User /> Profile
+            <User /> {t("profile")}
           </DropdownMenuItem>
           <DropdownMenuItem onSelect={() => go("/settings")}>
-            <Settings /> Settings
+            <Settings /> {t("settings")}
           </DropdownMenuItem>
           <DropdownMenuSeparator />
           <DropdownMenuItem variant="destructive">
-            <LogOut /> Logout
+            <LogOut /> {t("logout")}
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
 
       {/* Command palette */}
       <CommandDialog open={searchOpen} onOpenChange={setSearchOpen}>
-        <CommandInput placeholder="Search members, rewards, pages…" />
+        <CommandInput placeholder={t("searchFull")} />
         <CommandList>
-          <CommandEmpty>No results found.</CommandEmpty>
-          <CommandGroup heading="Recent searches">
+          <CommandEmpty>{t("noResults")}</CommandEmpty>
+          <CommandGroup heading={t("recentSearches")}>
             {RECENT_SEARCHES.map((s) => (
               <CommandItem key={s} value={s} onSelect={() => go("/members")}>
                 <Search />
@@ -236,13 +281,14 @@ export function Header() {
               </CommandItem>
             ))}
           </CommandGroup>
-          <CommandGroup heading="Quick navigation">
+          <CommandGroup heading={t("quickNav")}>
             {QUICK_NAV.map((q) => {
               const Icon = q.icon;
+              const label = t(q.labelKey);
               return (
-                <CommandItem key={q.href} value={q.label} onSelect={() => go(q.href)}>
+                <CommandItem key={q.href} value={label} onSelect={() => go(q.href)}>
                   <Icon />
-                  {q.label}
+                  {label}
                 </CommandItem>
               );
             })}

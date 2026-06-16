@@ -12,39 +12,40 @@ import { OverviewScreen } from "@/components/landing/screens/overview-screen";
 import { MembersScreen } from "@/components/landing/screens/members-screen";
 import { RewardsScreen } from "@/components/landing/screens/rewards-screen";
 import { AnalyticsScreen } from "@/components/landing/screens/analytics-screen";
+import { useT } from "@/lib/i18n/context";
 
 const TABS = [
-  { key: "overview", label: "Overview", url: "app.fitloyalty.io/overview", route: "/overview", blurb: "Saved revenue, retention trend, churn-window alerts and your aggregator revenue mix — your studio at a glance.", Screen: OverviewScreen },
-  { key: "members", label: "Members", url: "app.fitloyalty.io/members", route: "/members", blurb: "Every member, searchable and sortable, with status, streak health and how they pay — direct, USC or Wellpass.", Screen: MembersScreen },
-  { key: "rewards", label: "Rewards", url: "app.fitloyalty.io/rewards", route: "/rewards", blurb: "Automated perks that trigger on weekly streaks, visits, reviews and referrals — toggle them on in a tap.", Screen: RewardsScreen },
-  { key: "analytics", label: "Analytics", url: "app.fitloyalty.io/analytics", route: "/analytics", blurb: "Cohort retention heatmaps, seasonal churn and a built-in ROI calculator.", Screen: AnalyticsScreen },
+  { key: "overview", labelKey: "overview", url: "app.fitloyalty.io/overview", route: "/overview", blurbKey: "blurbOverview", Screen: OverviewScreen },
+  { key: "members", labelKey: "members", url: "app.fitloyalty.io/members", route: "/members", blurbKey: "blurbMembers", Screen: MembersScreen },
+  { key: "rewards", labelKey: "rewards", url: "app.fitloyalty.io/rewards", route: "/rewards", blurbKey: "blurbRewards", Screen: RewardsScreen },
+  { key: "analytics", labelKey: "analytics", url: "app.fitloyalty.io/analytics", route: "/analytics", blurbKey: "blurbAnalytics", Screen: AnalyticsScreen },
 ] as const;
 
 export function ProductShowcase() {
+  const t = useT("showcase");
+  const tn = useT("nav");
   const [active, setActive] = React.useState<(typeof TABS)[number]["key"]>("overview");
   const current = TABS.find((t) => t.key === active)!;
   const Screen = current.Screen;
 
   return (
-    <section id="product" className="scroll-mt-20 px-5 py-20 md:py-28">
+    <section id="product" className="scroll-mt-20 px-5 py-16 md:py-28">
       <div className="mx-auto max-w-6xl">
         <Reveal className="flex flex-col gap-4 border-b border-[var(--line)] pb-5 sm:flex-row sm:items-end sm:justify-between">
           <div>
-            <span className="mono-label t-faint">03 — Product</span>
+            <span className="mono-label t-faint">{t("eyebrow")}</span>
             <h2 className="font-display mt-2 text-4xl font-semibold tracking-tight t-ink md:text-5xl">
-              See it in action.
+              {t("title")}
             </h2>
           </div>
-          <p className="max-w-xs text-sm leading-relaxed t-mut sm:text-right">
-            Click through the real admin views — this is exactly what your team works in every day.
-          </p>
+          <p className="max-w-xs text-sm leading-relaxed t-mut sm:text-right">{t("sub")}</p>
         </Reveal>
 
         {/* tabs */}
         <Reveal className="mt-8">
           <div
             role="tablist"
-            aria-label="Dashboard views"
+            aria-label={t("tablistLabel")}
             className="flex flex-wrap gap-2"
             onKeyDown={(e) => {
               if (e.key !== "ArrowRight" && e.key !== "ArrowLeft") return;
@@ -75,7 +76,7 @@ export function ProductShowcase() {
                     : "border-[var(--line)] t-mut hover:t-ink",
                 )}
               >
-                {t.label}
+                {tn(t.labelKey)}
               </button>
             ))}
           </div>
@@ -101,12 +102,12 @@ export function ProductShowcase() {
 
         {/* caption */}
         <Reveal className="mt-5 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-          <p className="max-w-xl text-sm leading-relaxed t-mut">{current.blurb}</p>
+          <p className="max-w-xl text-sm leading-relaxed t-mut">{t(current.blurbKey)}</p>
           <Link
             href={current.route}
             className="mono-label group inline-flex items-center gap-2 t-lime"
           >
-            Open {current.label} live
+            {t("openLive", { label: tn(current.labelKey) })}
             <ArrowRight className="size-4 transition-transform group-hover:translate-x-1" />
           </Link>
         </Reveal>

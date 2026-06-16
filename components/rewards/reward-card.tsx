@@ -5,6 +5,7 @@ import { toast } from "sonner";
 import { Card } from "@/components/ui/card";
 import { Switch } from "@/components/ui/switch";
 import { cn } from "@/lib/utils";
+import { useT } from "@/lib/i18n/context";
 import type { Reward } from "@/lib/types";
 
 interface RewardCardProps {
@@ -13,12 +14,12 @@ interface RewardCardProps {
 }
 
 export function RewardCard({ reward, onToggle }: RewardCardProps) {
+  const t = useT("rewards");
+
   const handleToggle = (enabled: boolean) => {
     onToggle(reward.id, enabled);
-    toast.success(`${reward.name} ${enabled ? "enabled" : "paused"}`, {
-      description: enabled
-        ? "Members can now earn this reward."
-        : "Members can no longer earn this reward.",
+    toast.success(enabled ? t("enabledToast", { name: reward.name }) : t("pausedToast", { name: reward.name }), {
+      description: enabled ? t("enabledToastDesc") : t("pausedToastDesc"),
     });
   };
 
@@ -39,8 +40,8 @@ export function RewardCard({ reward, onToggle }: RewardCardProps) {
         <p className="text-sm text-muted-foreground">{reward.description}</p>
       </div>
       <div className="mt-auto flex items-center justify-between border-t border-border pt-3 text-xs">
-        <span className="text-faint">Trigger · {reward.trigger}</span>
-        <span className="num font-medium text-foreground">{reward.redemptions} this month</span>
+        <span className="text-faint">{t("triggerPrefix", { trigger: reward.trigger })}</span>
+        <span className="num font-medium text-foreground">{t("redemptionsCount", { n: String(reward.redemptions) })}</span>
       </div>
     </Card>
   );

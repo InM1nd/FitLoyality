@@ -1,3 +1,5 @@
+"use client";
+
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 
@@ -11,29 +13,31 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { useT } from "@/lib/i18n/context";
 import { REWARD_ACTIVITY } from "@/lib/data";
 
 export function ActivityTable() {
+  const t = useT("overview");
   return (
     <Card>
       <CardHeader className="flex-row items-center justify-between border-b border-border">
-        <CardTitle>Recent Reward Activity</CardTitle>
+        <CardTitle>{t("activityTitle")}</CardTitle>
         <Link
           href="/members"
           className="group inline-flex items-center gap-1 text-[12px] font-semibold text-brand transition-opacity hover:opacity-80"
         >
-          View all
+          {t("viewAll")}
           <ArrowRight className="size-3.5 transition-transform group-hover:translate-x-0.5" />
         </Link>
       </CardHeader>
       <Table>
         <TableHeader>
           <TableRow className="hover:bg-transparent">
-            <TableHead className="pl-5 text-[11px]">Member</TableHead>
-            <TableHead className="text-[11px]">Reward</TableHead>
-            <TableHead className="text-[11px]">Triggered By</TableHead>
-            <TableHead className="text-right text-[11px]">Points</TableHead>
-            <TableHead className="pr-5 text-right text-[11px]">Date</TableHead>
+            <TableHead className="pl-5 text-[11px]">{t("colMember")}</TableHead>
+            <TableHead className="text-[11px]">{t("colReward")}</TableHead>
+            <TableHead className="text-[11px]">{t("colTrigger")}</TableHead>
+            <TableHead className="text-right text-[11px]">{t("colPoints")}</TableHead>
+            <TableHead className="pr-5 text-right text-[11px]">{t("colDate")}</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>

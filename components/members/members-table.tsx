@@ -24,6 +24,7 @@ import { STATUS_BADGE } from "@/lib/member-status";
 import { MemberSidePanel } from "@/components/members/member-side-panel";
 import { NudgeModal } from "@/components/shared/nudge-modal";
 import { MEMBERS, MEMBER_COUNTS } from "@/lib/data";
+import { useT } from "@/lib/i18n/context";
 import type { Member, MemberSource, MemberStatus } from "@/lib/types";
 
 const SOURCE_BADGE: Record<MemberSource, { label: string; variant: "secondary" | "info" | "success" | "warning" }> = {
@@ -40,18 +41,10 @@ type SortDir = "asc" | "desc";
 
 const MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 
-/** "Mar 2021" → sortable month index (Date.parse on this format is implementation-defined). */
 function parseMemberSince(s: string): number {
   const [mon, year] = s.split(" ");
   return Number(year) * 12 + MONTHS.indexOf(mon);
 }
-
-const TABS: { key: FilterKey; label: string; count: number }[] = [
-  { key: "all", label: "All", count: MEMBER_COUNTS.all },
-  { key: "active", label: "Active", count: MEMBER_COUNTS.active },
-  { key: "at-risk", label: "At-Risk", count: MEMBER_COUNTS.atRisk },
-  { key: "churned", label: "Churned", count: MEMBER_COUNTS.churned },
-];
 
 function SortHeader({
   label,
@@ -92,6 +85,7 @@ function SortHeader({
 }
 
 export function MembersTable() {
+  const t = useT("members");
   const router = useRouter();
   const searchParams = useSearchParams();
   const filterParam = searchParams.get("filter");
@@ -99,17 +93,28 @@ export function MembersTable() {
   const [query, setQuery] = React.useState("");
   const [sortKey, setSortKey] = React.useState<SortKey>("name");
   const [sortDir, setSortDir] = React.useState<SortDir>("asc");
-
   const [selected, setSelected] = React.useState<Member | null>(null);
   const [panelOpen, setPanelOpen] = React.useState(false);
   const [nudgeTarget, setNudgeTarget] = React.useState<string | null>(null);
   const [nudgeOpen, setNudgeOpen] = React.useState(false);
 
-  // Filter is derived from the URL (?filter=at-risk) — set by tabs and the overview KPI card.
   const filter: FilterKey =
     filterParam === "active" || filterParam === "at-risk" || filterParam === "churned"
       ? filterParam
       : "all";
+
+  const STATUS_LABEL: Record<MemberStatus, string> = {
+    active: t("statusActive"),
+    "at-risk": t("statusAtRisk"),
+    churned: t("statusChurned"),
+  };
+
+  const TABS: { key: FilterKey; label: string; count: number }[] = [
+    { key: "all", label: t("tabAll"), count: MEMBER_COUNTS.all },
+    { key: "active", label: t("tabActive"), count: MEMBER_COUNTS.active },
+    { key: "at-risk", label: t("tabAtRisk"), count: MEMBER_COUNTS.atRisk },
+    { key: "churned", label: t("tabChurned"), count: MEMBER_COUNTS.churned },
+  ];
 
   const toggleSort = (key: SortKey) => {
     if (sortKey === key) {
@@ -170,23 +175,22 @@ export function MembersTable() {
   return (
     <>
       <div className="flex flex-col gap-4">
-        {/* Toolbar */}
         <div className="flex flex-wrap items-center gap-3">
           <div className="relative w-full max-w-xs">
             <Search className="absolute left-3 top-1/2 size-4 -translate-y-1/2 text-faint" />
             <Input
               value={query}
               onChange={(e) => setQuery(e.target.value)}
-              placeholder="Search by name or city…"
+              placeholder={t("searchPlaceholder")}
               className="pl-9"
             />
           </div>
           <Tabs value={filter} onValueChange={onTabChange} className="w-full sm:w-auto">
             <TabsList>
-              {TABS.map((t) => (
-                <TabsTrigger key={t.key} value={t.key}>
-                  {t.label}
-                  <span className="ml-1 text-faint">({t.count})</span>
+              {TABS.map((tab) => (
+                <TabsTrigger key={tab.key} value={tab.key}>
+                  {tab.label}
+                  <span className="ml-1 text-faint">({tab.count})</span>
                 </TabsTrigger>
               ))}
             </TabsList>
@@ -195,33 +199,32 @@ export function MembersTable() {
             variant="outline"
             className="ml-auto"
             onClick={() =>
-              toast("📥 Preparing export…", {
-                description: `${rows.length} members will be exported as CSV.`,
+              toast(t("exportToast"), {
+                description: t("exportToastDesc", { n: String(rows.length) }),
               })
             }
           >
-            <Download /> Export CSV
+            <Download /> {t("exportCsv")}
           </Button>
         </div>
 
-        {/* Table */}
         <Card className="overflow-hidden">
           <Table>
             <TableHeader>
               <TableRow className="hover:bg-transparent">
                 <SortHeader
-                  label="Name"
+                  label={t("colName")}
                   active={sortKey === "name"}
                   dir={sortDir}
                   onClick={() => toggleSort("name")}
                   className="pl-5"
                 />
-                <SortHeader label="Since" active={sortKey === "since"} dir={sortDir} onClick={() => toggleSort("since")} />
-                <TableHead>Source</TableHead>
-                <SortHeader label="Last Visit" active={sortKey === "lastVisit"} dir={sortDir} onClick={() => toggleSort("lastVisit")} />
-                <SortHeader label="Workouts / Mo" active={sortKey === "workouts"} dir={sortDir} onClick={() => toggleSort("workouts")} className="text-right [&>button]:flex-row-reverse" />
-                <SortHeader label="Points" active={sortKey === "points"} dir={sortDir} onClick={() => toggleSort("points")} className="text-right [&>button]:flex-row-reverse" />
-                <TableHead className="pr-5">Status</TableHead>
+                <SortHeader label={t("colSince")} active={sortKey === "since"} dir={sortDir} onClick={() => toggleSort("since")} />
+                <TableHead>{t("colSource")}</TableHead>
+                <SortHeader label={t("colLastVisit")} active={sortKey === "lastVisit"} dir={sortDir} onClick={() => toggleSort("lastVisit")} />
+                <SortHeader label={t("colWorkouts")} active={sortKey === "workouts"} dir={sortDir} onClick={() => toggleSort("workouts")} className="text-right [&>button]:flex-row-reverse" />
+                <SortHeader label={t("colPoints")} active={sortKey === "points"} dir={sortDir} onClick={() => toggleSort("points")} className="text-right [&>button]:flex-row-reverse" />
+                <TableHead className="pr-5">{t("colStatus")}</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -252,7 +255,7 @@ export function MembersTable() {
                   <TableCell className="num text-right font-medium">{formatNumber(m.points)}</TableCell>
                   <TableCell className="pr-5">
                     <Badge variant={STATUS_BADGE[m.status].variant}>
-                      {STATUS_BADGE[m.status].label}
+                      {STATUS_LABEL[m.status]}
                     </Badge>
                   </TableCell>
                 </TableRow>
@@ -260,7 +263,7 @@ export function MembersTable() {
               {rows.length === 0 && (
                 <TableRow className="hover:bg-transparent">
                   <TableCell colSpan={7} className="py-10 text-center text-muted-foreground">
-                    No members match your search.
+                    {t("noResults")}
                   </TableCell>
                 </TableRow>
               )}

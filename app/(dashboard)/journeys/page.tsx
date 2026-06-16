@@ -1,3 +1,5 @@
+"use client";
+
 import { Route, Sparkles, MessageCircle, Mail, Smartphone, RotateCcw } from "lucide-react";
 
 import { PageHeading } from "@/components/layout/page-heading";
@@ -5,6 +7,7 @@ import { Card, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Switch } from "@/components/ui/switch";
 import { cn } from "@/lib/utils";
+import { useT } from "@/lib/i18n/context";
 
 const CHANNEL_ICON = {
   WhatsApp: MessageCircle,
@@ -40,36 +43,32 @@ const WINBACK_SEGMENTS: {
 ];
 
 export default function JourneysPage() {
+  const t = useT("journeys");
   return (
     <div className="flex flex-col gap-6">
       <PageHeading
-        eyebrow="Automations"
-        title="Journeys"
-        description="Set the member journey up once — FitLoyalty runs it every day, for every member."
+        eyebrow={t("eyebrow")}
+        title={t("title")}
+        description={t("desc")}
       />
 
-      {/* preview banner */}
       <div className="flex flex-wrap items-center gap-3 rounded-lg border border-[var(--accent-brand)]/30 bg-[var(--accent-subtle)] px-4 py-3">
         <Sparkles className="size-4 shrink-0 text-brand" />
         <p className="text-[13px]">
-          <span className="font-semibold text-brand">Pro feature · coming soon.</span>{" "}
-          <span className="text-muted-foreground">
-            This is a preview of the journey builder — the flows below show the default
-            templates your studio starts with.
-          </span>
+          <span className="font-semibold text-brand">{t("proLabel")}</span>{" "}
+          <span className="text-muted-foreground">{t("proDesc")}</span>
         </p>
       </div>
 
       <div className="grid grid-cols-1 gap-4 lg:grid-cols-12">
-        {/* Onboarding Autopilot */}
         <Card className="lg:col-span-7">
           <CardHeader className="flex-row items-center justify-between border-b border-border">
             <div className="flex items-center gap-2">
               <Route className="size-4 text-brand" />
-              <CardTitle>Onboarding Autopilot — first 90 days</CardTitle>
+              <CardTitle>{t("onboardingTitle")}</CardTitle>
             </div>
             <span className="rounded-full bg-[var(--info-bg)] px-2.5 py-0.5 text-[11px] font-semibold text-[var(--info)]">
-              most churn happens here
+              {t("onboardingBadge")}
             </span>
           </CardHeader>
 
@@ -79,12 +78,7 @@ export default function JourneysPage() {
                 const ChannelIcon = CHANNEL_ICON[s.channel];
                 return (
                   <li key={s.day} className="relative pb-6 last:pb-0">
-                    <span
-                      className={cn(
-                        "absolute -left-[31px] top-0.5 grid size-2.5 place-items-center rounded-full ring-4 ring-surface-1",
-                        s.enabled ? "bg-brand" : "bg-surface-3",
-                      )}
-                    />
+                    <span className={cn("absolute -left-[31px] top-0.5 grid size-2.5 place-items-center rounded-full ring-4 ring-surface-1", s.enabled ? "bg-brand" : "bg-surface-3")} />
                     <div className="flex items-start gap-3">
                       <div className="min-w-0 flex-1">
                         <div className="flex flex-wrap items-center gap-2">
@@ -97,9 +91,7 @@ export default function JourneysPage() {
                             {s.channel}
                           </span>
                         </div>
-                        <p className="mt-1 text-[12.5px] leading-relaxed text-muted-foreground">
-                          {s.body}
-                        </p>
+                        <p className="mt-1 text-[12.5px] leading-relaxed text-muted-foreground">{s.body}</p>
                       </div>
                       <Switch checked={s.enabled} disabled aria-label={`${s.title} (preview)`} />
                     </div>
@@ -110,41 +102,30 @@ export default function JourneysPage() {
           </div>
         </Card>
 
-        {/* Win-back */}
         <Card className="h-fit lg:col-span-5">
           <CardHeader className="flex-row items-center justify-between border-b border-border">
             <div className="flex items-center gap-2">
               <RotateCcw className="size-4 text-brand" />
-              <CardTitle>Win-back Campaigns</CardTitle>
+              <CardTitle>{t("winbackTitle")}</CardTitle>
             </div>
             <span className="rounded-full bg-[var(--info-bg)] px-2.5 py-0.5 text-[11px] font-semibold text-[var(--info)]">
-              63 reachable ex-members
+              {t("winbackBadge")}
             </span>
           </CardHeader>
 
           <div className="flex flex-col p-5 pt-2">
             {WINBACK_SEGMENTS.map((seg) => (
-              <div
-                key={seg.name}
-                className="flex items-center gap-3 border-b border-border py-3.5 last:border-0"
-              >
+              <div key={seg.name} className="flex items-center gap-3 border-b border-border py-3.5 last:border-0">
                 <div className="min-w-0 flex-1">
                   <p className="text-[13px] font-medium">{seg.name}</p>
-                  <p className="mt-0.5 text-[11.5px] text-faint">
-                    {seg.size} contacts · {seg.offer}
-                  </p>
+                  <p className="mt-0.5 text-[11.5px] text-faint">{seg.size} contacts · {seg.offer}</p>
                 </div>
                 <Badge variant={seg.status === "active" ? "success" : "secondary"}>
-                  {seg.status === "active" ? "Active" : "Draft"}
+                  {seg.status === "active" ? t("statusActive") : t("statusDraft")}
                 </Badge>
               </div>
             ))}
-
-            <p className="pt-4 text-[11px] leading-relaxed text-faint">
-              Ex-members are a warm, GDPR-reachable audience — an existing customer
-              relationship permits the contact. Offers go out on your branding, replies
-              land in your inbox.
-            </p>
+            <p className="pt-4 text-[11px] leading-relaxed text-faint">{t("winbackNote")}</p>
           </div>
         </Card>
       </div>

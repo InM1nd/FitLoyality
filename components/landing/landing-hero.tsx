@@ -8,6 +8,7 @@ import { ArrowRight, Flame, Check } from "lucide-react";
 import { HeatField } from "@/components/landing/heat-field";
 import { BrowserFrame } from "@/components/landing/browser-frame";
 import { OverviewScreen } from "@/components/landing/screens/overview-screen";
+import { useT } from "@/lib/i18n/context";
 
 const container: Variants = {
   hidden: {},
@@ -33,8 +34,10 @@ function Line({ children }: { children: React.ReactNode }) {
 }
 
 export function LandingHero() {
+  const t = useT("hero");
+  const tc = useT("common");
   return (
-    <section className="relative overflow-hidden bg-[#f5f2ec] px-5 pb-24 pt-28 md:pb-32 md:pt-32">
+    <section className="relative overflow-hidden bg-[#f5f2ec] px-5 pb-16 pt-24 md:pb-32 md:pt-32">
       {/* ambient */}
       <div className="pointer-events-none absolute inset-0 -z-10">
         <div
@@ -54,7 +57,7 @@ export function LandingHero() {
         />
       </div>
 
-      <div className="mx-auto grid max-w-6xl items-center gap-12 lg:grid-cols-12">
+      <div className="mx-auto grid max-w-6xl items-center gap-10 lg:grid-cols-12 lg:gap-12">
         {/* left */}
         <motion.div variants={container} initial="hidden" animate="show" className="lg:col-span-5">
           <motion.div
@@ -64,24 +67,22 @@ export function LandingHero() {
             <span className="mono-label">FitLoyalty ⌁ Retention OS</span>
             <span className="mono-label inline-flex items-center gap-1.5 text-[#f5f2ec]/70">
               {/* sky blue — system/live indicator */}
-              <span className="size-1.5 animate-breathe rounded-full bg-[#93dafe]" /> Live
+              <span className="size-1.5 animate-breathe rounded-full bg-[#93dafe]" /> {t("live")}
             </span>
           </motion.div>
 
           <h1 className="font-display mt-7 text-[clamp(2.4rem,10.5vw,5.2rem)] font-light leading-[0.9] tracking-[-0.03em] text-[#1a1a1a]">
-            <Line>Members</Line>
-            <Line>don&apos;t quit</Line>
+            <Line>{t("line1")}</Line>
+            <Line>{t("line2")}</Line>
             <Line>
-              on a{" "}
+              {t("line3pre")}{" "}
               {/* papaya-orange — energy/streak highlight */}
-              <span className="inline rounded-lg bg-[#ff7403] px-3 py-1 font-black uppercase text-white">streak.</span>
+              <span className="inline rounded-lg bg-[#ff7403] px-3 py-1 font-black uppercase text-white">{t("streak")}</span>
             </Line>
           </h1>
 
           <motion.p variants={fade} className="mt-6 max-w-md text-base leading-relaxed text-[#3d3d3d]">
-            Eversports runs your bookings — FitLoyalty brings your revenue back. Weekly streaks
-            keep members coming, churn-window alerts catch them before the notice deadline, and
-            every save shows up in euros.
+            {t("sub")}
           </motion.p>
 
           <motion.div variants={fade} className="mt-8 flex flex-wrap items-center gap-x-6 gap-y-3">
@@ -89,12 +90,12 @@ export function LandingHero() {
               href="/overview"
               className="group inline-flex items-center gap-2 rounded-xl bg-[#1a1a1a] px-6 py-3.5 text-[13px] font-semibold uppercase tracking-[0.08em] text-[#f5f2ec] transition-all hover:-translate-y-0.5 hover:bg-[#2d2d2d]"
             >
-              Explore the dashboard
+              {tc("exploreDashboard")}
               <ArrowRight className="size-4 transition-transform group-hover:translate-x-0.5" />
             </Link>
             <Link href="/member" className="mono-label group inline-flex items-center gap-1.5 text-[#3d3d3d]">
               <span className="underline decoration-[#3d3d3d]/30 underline-offset-4 transition-colors group-hover:text-[#1a1a1a]">
-                or open the member app
+                {tc("openMemberApp")}
               </span>
               ↗
             </Link>
@@ -102,7 +103,22 @@ export function LandingHero() {
 
           <motion.div variants={fade} className="mono mt-8 inline-flex items-center gap-2 text-[12px] text-[#6b6b6b]">
             <Flame className="size-4 text-[#ff7403]" />
-            9-WEEK STREAK · TOP 8% AT YOUR GYM
+            {t("streakBadge")}
+          </motion.div>
+
+          <motion.div variants={fade} className="mt-5 space-y-2.5">
+            <p className="mono text-[11.5px] font-medium text-[#3d3d3d]">{t("wearableEffort")}</p>
+            <div className="flex flex-wrap items-center gap-2">
+              <span className="mono-label text-[11px] text-[#6b6b6b]">{t("wearableBy")}</span>
+              {(["Apple Watch", "Fitbit", "Garmin"] as const).map((d) => (
+                <span
+                  key={d}
+                  className="inline-flex items-center rounded-full border border-[#1a1a1a]/12 bg-[#1a1a1a]/[0.05] px-2.5 py-1 text-[10px] font-medium text-[#3d3d3d]"
+                >
+                  {d}
+                </span>
+              ))}
+            </div>
           </motion.div>
         </motion.div>
 
@@ -123,7 +139,7 @@ export function LandingHero() {
             {/* floating streak card */}
             <div className="absolute -bottom-8 -left-4 z-20 hidden w-52 rounded-2xl border border-white/10 bg-[#1a1a1a] p-3.5 shadow-[0_8px_32px_rgba(0,0,0,0.12)] sm:block">
               <div className="flex items-center justify-between">
-                <span className="mono-label text-white/50">Consistency</span>
+                <span className="mono-label text-white/50">{t("consistency")}</span>
                 <Flame className="size-3.5 text-[#ff7403]" />
               </div>
               <div className="mt-2.5">
@@ -132,7 +148,7 @@ export function LandingHero() {
               <div className="mt-3 flex items-end justify-between border-t border-white/8 pt-2.5">
                 <div>
                   <div className="font-display text-2xl font-bold leading-none text-[#ff7403]">9</div>
-                  <div className="mono-label mt-1 text-white/50">Week streak</div>
+                  <div className="mono-label mt-1 text-white/50">{t("weekStreak")}</div>
                 </div>
                 {/* sky blue — rank/data badge */}
                 <div className="rounded-full bg-[#93dafe] px-2 py-0.5 text-[10px] font-semibold text-[#1a1a1a]">TOP 8%</div>
@@ -145,7 +161,7 @@ export function LandingHero() {
               <span className="grid size-5 place-items-center rounded-full bg-[#93dafe] text-[#1a1a1a]">
                 <Check className="size-3" />
               </span>
-              <span className="mono text-[10px] text-[#1a1a1a]">Nudge sent to Julia</span>
+              <span className="mono text-[10px] text-[#1a1a1a]">{t("nudgeSent")}</span>
             </div>
           </div>
         </motion.div>

@@ -1,36 +1,35 @@
+"use client";
+
 import { Counter } from "@/components/landing/counter";
 import { Reveal } from "@/components/landing/reveal";
 import { HeatStrip } from "@/components/landing/heat-field";
 import { cn } from "@/lib/utils";
+import { useT } from "@/lib/i18n/context";
 
 const STATS: {
   value: number;
   decimals?: number;
   prefix?: string;
   suffix?: string;
-  label: string;
+  labelKey: string;
 }[] = [
-  { value: 81.4, decimals: 1, suffix: "%", label: "Average retention" },
-  { value: 9, label: "Members won back /mo" },
-  { value: 3912, prefix: "€", label: "Aggregator payouts /mo" },
-  { value: 2340, prefix: "€", label: "Saved revenue /mo" },
+  { value: 81.4, decimals: 1, suffix: "%", labelKey: "s1" },
+  { value: 9, labelKey: "s2" },
+  { value: 3912, prefix: "€", labelKey: "s3" },
+  { value: 2340, prefix: "€", labelKey: "s4" },
 ];
 
 export function LandingStats() {
+  const t = useT("stats");
   return (
-    <section id="streak" className="scroll-mt-20 px-5 py-20 md:py-28">
+    <section id="streak" className="scroll-mt-20 px-5 py-16 md:py-28">
       <div className="mx-auto max-w-6xl">
         <Reveal className="max-w-3xl">
-          <span className="mono-label t-faint">01 — The streak effect</span>
+          <span className="mono-label t-faint">{t("eyebrow")}</span>
           <h2 className="font-display mt-3 text-3xl font-semibold leading-[1.05] tracking-tight t-ink md:text-5xl">
-            A member on a streak is a member who&apos;s{" "}
-            <span className="text-heat">staying.</span>
+            {t("titlePre")} <span className="text-heat">{t("titleAccent")}</span>
           </h2>
-          <p className="mt-5 max-w-xl text-base leading-relaxed t-mut">
-            Consistency compounds. Every visit logged, every reward earned, every week kept warms
-            the grid — and the warmer it runs, the longer they stay. FitLoyalty makes that visible,
-            and acts the moment it cools.
-          </p>
+          <p className="mt-5 max-w-xl text-base leading-relaxed t-mut">{t("body")}</p>
         </Reveal>
 
         <div className="mt-10">
@@ -40,7 +39,7 @@ export function LandingStats() {
         <div className="mt-10 grid grid-cols-2 md:grid-cols-4">
           {STATS.map((s, i) => (
             <Reveal
-              key={s.label}
+              key={s.labelKey}
               delay={i * 0.08}
               className={cn(
                 "border-b border-[var(--line)] px-1 py-8 md:border-b-0 md:border-l md:px-6",
@@ -53,7 +52,7 @@ export function LandingStats() {
                 <Counter to={s.value} decimals={s.decimals} />
                 {s.suffix && <span className="t-lime">{s.suffix}</span>}
               </div>
-              <p className="mono-label mt-3 t-mut">{s.label}</p>
+              <p className="mono-label mt-3 t-mut">{t(s.labelKey)}</p>
             </Reveal>
           ))}
         </div>

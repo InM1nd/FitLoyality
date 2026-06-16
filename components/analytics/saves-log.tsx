@@ -1,3 +1,5 @@
+"use client";
+
 import { PiggyBank } from "lucide-react";
 
 import { Card, CardHeader, CardTitle } from "@/components/ui/card";
@@ -12,6 +14,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { formatEUR } from "@/lib/utils";
+import { useT } from "@/lib/i18n/context";
 import { SAVED_LOG } from "@/lib/data";
 
 const CHANNEL_VARIANT = {
@@ -21,6 +24,7 @@ const CHANNEL_VARIANT = {
 } as const;
 
 export function SavesLog() {
+  const t = useT("analytics");
   const total = SAVED_LOG.reduce((sum, s) => sum + s.mrr, 0);
 
   return (
@@ -28,21 +32,21 @@ export function SavesLog() {
       <CardHeader className="flex-row items-center justify-between border-b border-border">
         <div className="flex items-center gap-2">
           <PiggyBank className="size-4 text-brand" />
-          <CardTitle>Saves This Month</CardTitle>
+          <CardTitle>{t("savesTitle")}</CardTitle>
         </div>
         <span className="num rounded-full bg-[var(--accent-subtle)] px-2.5 py-0.5 text-[11px] font-semibold text-brand">
-          {formatEUR(total)} MRR kept
+          {t("mrrKept", { amount: formatEUR(total) })}
         </span>
       </CardHeader>
 
       <Table>
         <TableHeader>
           <TableRow>
-            <TableHead>Member</TableHead>
-            <TableHead className="hidden md:table-cell">Churn-window trigger</TableHead>
-            <TableHead className="hidden sm:table-cell">Nudged</TableHead>
-            <TableHead>Returned</TableHead>
-            <TableHead className="text-right">MRR kept</TableHead>
+            <TableHead>{t("colMember")}</TableHead>
+            <TableHead className="hidden md:table-cell">{t("colTrigger")}</TableHead>
+            <TableHead className="hidden sm:table-cell">{t("colNudged")}</TableHead>
+            <TableHead>{t("colReturned")}</TableHead>
+            <TableHead className="text-right">{t("colMrr")}</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
@@ -66,7 +70,7 @@ export function SavesLog() {
                 </div>
               </TableCell>
               <TableCell className="text-[12px] text-muted-foreground">
-                after {s.returnedAfterDays}d
+                {t("returnedAfter", { n: String(s.returnedAfterDays) })}
               </TableCell>
               <TableCell className="num text-right text-[13px] font-semibold text-success">
                 +{formatEUR(s.mrr)}/mo
@@ -77,8 +81,7 @@ export function SavesLog() {
       </Table>
 
       <p className="border-t border-border px-5 py-3 text-[11px] text-faint">
-        Attribution rule: nudged while in the churn window → visited again within 7 days.
-        Conservative by design — unattributed returns don&apos;t count.
+        {t("attributionNote")}
       </p>
     </Card>
   );

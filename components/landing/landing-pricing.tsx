@@ -1,76 +1,57 @@
+"use client";
+
 import Link from "next/link";
 import { Check, ArrowRight } from "lucide-react";
 
 import { Reveal } from "@/components/landing/reveal";
 import { cn } from "@/lib/utils";
+import { useT } from "@/lib/i18n/context";
 
 const TIERS: {
   name: string;
   price: number;
-  blurb: string;
-  features: string[];
+  blurbKey: string;
+  featureKeys: string[];
   highlighted?: boolean;
-  tag?: string;
+  tagKey?: string;
 }[] = [
   {
     name: "Starter",
     price: 49,
-    blurb: "The retention basics for studios that run on Excel and instinct.",
-    features: [
-      "Up to 150 members",
-      "White-label member app (PWA)",
-      "Weekly streaks, badges & rewards",
-      "Live occupancy for members",
-      "QR check-in + CSV import",
-      "Churn-window alerts + Saved Revenue",
-    ],
+    blurbKey: "starterBlurb",
+    featureKeys: ["sf1", "sf2", "sf3", "sf4", "sf5", "sf6"],
   },
   {
     name: "Growth",
     price: 149,
-    blurb: "For studios living with USC, Wellpass & Hansefit — turn the aggregator flood into revenue.",
-    tag: "Most popular",
+    blurbKey: "growthBlurb",
+    tagKey: "mostPopular",
     highlighted: true,
-    features: [
-      "Everything in Starter · up to 500 members",
-      "Aggregator Hub + payout audit export",
-      "Convertible USC regulars + offers",
-      "WhatsApp nudges (200 conversations/mo incl.)",
-      "Review & referral engine",
-      "Eversports attendance import",
-    ],
+    featureKeys: ["gf1", "gf2", "gf3", "gf4", "gf5", "gf6"],
   },
   {
     name: "Pro",
     price: 249,
-    blurb: "For multi-location operators who want the full white-label experience.",
-    features: [
-      "Everything in Growth · unlimited members",
-      "Multi-location (+€99/additional location)",
-      "Custom app domain & branding",
-      "Onboarding autopilot (first 90 days)",
-      "Win-back campaigns",
-      "API access",
-    ],
+    blurbKey: "proBlurb",
+    featureKeys: ["pf1", "pf2", "pf3", "pf4", "pf5", "pf6"],
   },
 ];
 
 export function LandingPricing() {
+  const t = useT("pricing");
+  const tc = useT("common");
   return (
-    <section id="pricing" className="scroll-mt-20 px-5 py-20 md:py-28">
+    <section id="pricing" className="scroll-mt-20 px-5 py-16 md:py-28">
       <div className="mx-auto max-w-6xl">
         <Reveal>
           <div className="flex flex-col gap-4 border-b border-[var(--line)] pb-5 sm:flex-row sm:items-end sm:justify-between">
             <div>
-              <span className="mono-label t-faint">07 — Pricing</span>
+              <span className="mono-label t-faint">{t("eyebrow")}</span>
               <h2 className="font-display mt-2 text-4xl font-semibold tracking-tight t-ink md:text-5xl">
-                Two saved members and it&apos;s paid for.
+                {t("title")}
               </h2>
             </div>
-            <p className="max-w-xs text-sm leading-relaxed t-mut sm:text-right">
-              No setup fee, no contract longer than your members&apos;. Start with the free
-              Churn-Check — no card needed.
-            </p>
+            <p className="max-w-xs text-sm leading-relaxed t-mut sm:text-right">{t("sub")}</p>
           </div>
         </Reveal>
 
@@ -86,9 +67,9 @@ export function LandingPricing() {
                   : "border-[var(--line)] bg-paper2",
               )}
             >
-              {tier.tag && (
+              {tier.tagKey && (
                 <span className="absolute -top-3 left-7 rounded-full bg-[#ff7403] px-3 py-1 text-[10px] font-bold uppercase tracking-[0.1em] text-white">
-                  {tier.tag}
+                  {t(tier.tagKey)}
                 </span>
               )}
 
@@ -99,22 +80,22 @@ export function LandingPricing() {
                 <div className={cn("font-display num text-3xl font-bold", tier.highlighted ? "text-[#ff7403]" : "t-ink")}>
                   €{tier.price}
                   <span className={cn("text-sm font-medium", tier.highlighted ? "text-[#f5f2ec]/50" : "t-faint")}>
-                    /mo
+                    {t("perMo")}
                   </span>
                 </div>
               </div>
 
               <p className={cn("mt-3 text-sm leading-relaxed", tier.highlighted ? "text-[#f5f2ec]/70" : "t-mut")}>
-                {tier.blurb}
+                {t(tier.blurbKey)}
               </p>
 
               <ul className="mt-6 flex flex-1 flex-col gap-2.5">
-                {tier.features.map((f) => (
-                  <li key={f} className="flex items-start gap-2.5 text-sm">
+                {tier.featureKeys.map((fk) => (
+                  <li key={fk} className="flex items-start gap-2.5 text-sm">
                     <Check
                       className={cn("mt-0.5 size-4 shrink-0", tier.highlighted ? "text-[#ff7403]" : "text-[#ff7403]")}
                     />
-                    <span className={tier.highlighted ? "text-[#f5f2ec]/85" : "t-ink"}>{f}</span>
+                    <span className={tier.highlighted ? "text-[#f5f2ec]/85" : "t-ink"}>{t(fk)}</span>
                   </li>
                 ))}
               </ul>
@@ -128,7 +109,7 @@ export function LandingPricing() {
                     : "bg-[#1a1a1a] text-[#f5f2ec] hover:bg-[#2d2d2d]",
                 )}
               >
-                Try the demo
+                {tc("tryDemo")}
                 <ArrowRight className="size-3.5 transition-transform group-hover:translate-x-0.5" />
               </Link>
             </Reveal>
@@ -136,10 +117,7 @@ export function LandingPricing() {
         </div>
 
         <Reveal className="mt-8">
-          <p className="mono text-center text-[12px] t-faint">
-            All plans: EU hosting · AVV/DSGVO included · cancel monthly · 2 months free on
-            annual billing
-          </p>
+          <p className="mono text-center text-[12px] t-faint">{t("footnote")}</p>
         </Reveal>
       </div>
     </section>

@@ -1,8 +1,11 @@
+"use client";
+
 import Link from "next/link";
 import { Flame, ArrowRight, Lock } from "lucide-react";
 
 import { cn } from "@/lib/utils";
 import { Reveal } from "@/components/landing/reveal";
+import { useT } from "@/lib/i18n/context";
 import {
   MEMBER_ME,
   MEMBER_REWARDS,
@@ -113,7 +116,13 @@ function RewardsScreen() {
 function ActivityScreen() {
   return (
     <div className="flex h-full flex-col gap-3">
-      <p className="text-base font-bold">Activity</p>
+      <div className="flex items-center justify-between">
+        <p className="text-base font-bold">Activity</p>
+        <div className="flex items-center gap-1 rounded-full border border-white/10 bg-white/[0.05] px-1.5 py-0.5 text-[7px] text-zinc-400">
+          <span className="size-1 rounded-full bg-[#93dafe] animate-breathe" />
+          Apple Watch · 2m
+        </div>
+      </div>
       <div className="grid grid-cols-3 gap-2">
         {[["14d", "Streak"], ["2,840", "This mo"], ["642", "Workouts"]].map(([v, l]) => (
           <div key={l} className="rounded-lg border border-white/8 bg-[#111] p-2">
@@ -139,31 +148,29 @@ function ActivityScreen() {
 }
 
 export function PhoneGallery() {
+  const t = useT("phoneGallery");
   return (
-    <section id="member" className="relative scroll-mt-20 overflow-hidden px-5 py-20 md:py-28">
+    <section id="member" className="relative scroll-mt-20 overflow-hidden px-5 py-16 md:py-28">
       <div className="pointer-events-none absolute left-1/2 top-1/2 -z-10 size-[640px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[radial-gradient(closest-side,rgba(147,218,254,0.12),transparent)]" />
       <div className="mx-auto max-w-6xl">
         <Reveal className="flex flex-col gap-4 border-b border-[var(--line)] pb-5 sm:flex-row sm:items-end sm:justify-between">
           <div>
-            <span className="mono-label t-faint">04 — Member app</span>
+            <span className="mono-label t-faint">{t("eyebrow")}</span>
             <h2 className="font-display mt-2 text-4xl font-semibold tracking-tight t-ink md:text-5xl">
-              In their pocket.
+              {t("title")}
             </h2>
           </div>
-          <p className="max-w-xs text-sm leading-relaxed t-mut sm:text-right">
-            Your fully branded white-label app — points, streaks and one-tap rewards that keep members
-            coming back.
-          </p>
+          <p className="max-w-xs text-sm leading-relaxed t-mut sm:text-right">{t("sub")}</p>
         </Reveal>
 
         <Reveal delay={0.05} className="mt-12 flex items-end justify-center gap-5 md:gap-8">
-          <Phone caption="Rewards" className="hidden -rotate-3 md:block">
+          <Phone caption={t("capRewards")} className="hidden -rotate-3 md:block">
             <RewardsScreen />
           </Phone>
-          <Phone caption="Home" className="z-10 md:-translate-y-6">
+          <Phone caption={t("capHome")} className="z-10 md:-translate-y-6">
             <HomeScreen />
           </Phone>
-          <Phone caption="Activity" className="hidden rotate-3 md:block">
+          <Phone caption={t("capActivity")} className="hidden rotate-3 md:block">
             <ActivityScreen />
           </Phone>
         </Reveal>
@@ -173,7 +180,7 @@ export function PhoneGallery() {
             href="/member"
             className="group inline-flex items-center gap-2 rounded-full border border-[var(--line)] px-6 py-3 text-[13px] font-semibold uppercase tracking-[0.06em] t-ink transition-colors hover:border-[var(--lime)] hover:t-lime"
           >
-            Open the member app
+            {t("cta")}
             <ArrowRight className="size-4 transition-transform group-hover:translate-x-1" />
           </Link>
         </div>

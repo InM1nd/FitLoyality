@@ -4,71 +4,55 @@ import * as React from "react";
 import { driver, type Driver } from "driver.js";
 import "driver.js/dist/driver.css";
 
+import { useT } from "@/lib/i18n/context";
+
 const TOUR_SEEN_KEY = "fitloyalty-tour-seen";
 /** DemoBanner dispatches this to restart the tour on demand. */
 export const TOUR_EVENT = "fitloyalty:start-tour";
 
-const STEPS = [
-  {
-    element: '[data-tour="saved-revenue"]',
-    popover: {
-      title: "The number that matters",
-      description:
-        "Every member won back in the churn window, counted in euros. Conservative attribution — this is what pays for FitLoyalty.",
-    },
-  },
-  {
-    element: '[data-tour="churn-window"]',
-    popover: {
-      title: "Who to call today",
-      description:
-        "Inactive 14+ days and close to their cancellation deadline. One tap on Nudge sends a personal message — before it's too late.",
-    },
-  },
-  {
-    element: '[data-tour="aggregator-hub"]',
-    popover: {
-      title: "Your true revenue mix",
-      description:
-        "Direct members vs USC, Wellpass and Hansefit in one view — visits, per-visit payouts and trends for every channel.",
-    },
-  },
-  {
-    element: '[data-tour="usc-converter"]',
-    popover: {
-      title: "Convertible USC regulars",
-      description:
-        "Self-paying USC members who already train here 2×+ a week. One conversion = ~€89 extra MRR, every month.",
-    },
-  },
-  {
-    element: '[data-tour="member-app"]',
-    popover: {
-      title: "What your members get",
-      description:
-        "A white-label app with weekly streaks, rewards and live occupancy — under your studio's name. Open it and take a look.",
-    },
-  },
-];
-
 /**
  * Guided dashboard tour (driver.js). Auto-starts once per browser on the
  * overview page; the DemoBanner "Tour" button restarts it any time.
+ * Re-initialises when the locale changes so all copy stays in sync.
  */
 export function DemoTour() {
+  const t = useT("demo");
   const driverRef = React.useRef<Driver | null>(null);
 
   React.useEffect(() => {
     const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
+    const steps = [
+      {
+        element: '[data-tour="saved-revenue"]',
+        popover: { title: t("tour1Title"), description: t("tour1Desc") },
+      },
+      {
+        element: '[data-tour="churn-window"]',
+        popover: { title: t("tour2Title"), description: t("tour2Desc") },
+      },
+      {
+        element: '[data-tour="aggregator-hub"]',
+        popover: { title: t("tour3Title"), description: t("tour3Desc") },
+      },
+      {
+        element: '[data-tour="usc-converter"]',
+        popover: { title: t("tour4Title"), description: t("tour4Desc") },
+      },
+      {
+        element: '[data-tour="member-app"]',
+        popover: { title: t("tour5Title"), description: t("tour5Desc") },
+      },
+    ];
+
     const d = driver({
-      steps: STEPS,
+      steps,
       animate: !reducedMotion,
       showProgress: true,
-      progressText: "{{current}} of {{total}}",
-      nextBtnText: "Next →",
-      prevBtnText: "← Back",
-      doneBtnText: "Got it",
+      progressText: "{{current}} / {{total}}",
+      nextBtnText: t("tourNext"),
+      prevBtnText: t("tourBack"),
+      doneBtnText: t("tourDone"),
       overlayOpacity: 0.55,
       stagePadding: 6,
       stageRadius: 12,
@@ -84,7 +68,6 @@ export function DemoTour() {
 
     let autoStart: ReturnType<typeof setTimeout> | undefined;
     if (!localStorage.getItem(TOUR_SEEN_KEY)) {
-      // let the count-up animations land first
       autoStart = setTimeout(start, 1200);
     }
 
@@ -94,7 +77,7 @@ export function DemoTour() {
       d.destroy();
       driverRef.current = null;
     };
-  }, []);
+  }, [t]);
 
   return null;
 }

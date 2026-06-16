@@ -1,38 +1,41 @@
+"use client";
+
 import Link from "next/link";
 
 import { LogoMark } from "@/components/layout/logo";
-
-const COLS: { title: string; links: { label: string; href: string }[] }[] = [
-  {
-    title: "Product",
-    links: [
-      { label: "Overview", href: "/overview" },
-      { label: "Members", href: "/members" },
-      { label: "Rewards", href: "/rewards" },
-      { label: "Analytics", href: "/analytics" },
-    ],
-  },
-  {
-    title: "Member app",
-    links: [
-      { label: "Home", href: "/member" },
-      { label: "Rewards", href: "/member/rewards" },
-      { label: "Activity", href: "/member/activity" },
-      { label: "Profile", href: "/member/profile" },
-    ],
-  },
-  {
-    title: "Index",
-    links: [
-      { label: "Capabilities", href: "#capabilities" },
-      { label: "Product", href: "#product" },
-      { label: "Process", href: "#process" },
-      { label: "Settings", href: "/settings" },
-    ],
-  },
-];
+import { useLocale } from "@/lib/i18n/context";
 
 export function LandingFooter() {
+  const { t } = useLocale();
+  const COLS: { title: string; links: { label: string; href: string }[] }[] = [
+    {
+      title: t("footer.colProduct"),
+      links: [
+        { label: t("nav.overview"), href: "/overview" },
+        { label: t("nav.members"), href: "/members" },
+        { label: t("nav.rewards"), href: "/rewards" },
+        { label: t("nav.analytics"), href: "/analytics" },
+      ],
+    },
+    {
+      title: t("footer.colMemberApp"),
+      links: [
+        { label: t("footer.home"), href: "/member" },
+        { label: t("nav.rewards"), href: "/member/rewards" },
+        { label: t("footer.activity"), href: "/member/activity" },
+        { label: t("footer.profile"), href: "/member/profile" },
+      ],
+    },
+    {
+      title: t("footer.colIndex"),
+      links: [
+        { label: t("footer.capabilities"), href: "#capabilities" },
+        { label: t("footer.product"), href: "#product" },
+        { label: t("footer.process"), href: "#process" },
+        { label: t("nav.settings"), href: "/settings" },
+      ],
+    },
+  ];
   return (
     <footer className="border-t border-[var(--line)] px-5 py-14">
       <div className="mx-auto max-w-6xl">
@@ -44,12 +47,10 @@ export function LandingFooter() {
                 FITLOYALTY
               </span>
             </div>
-            <p className="mt-4 max-w-xs text-sm leading-relaxed t-mut">
-              The white-label retention platform for independent fitness studios in the DACH region.
-            </p>
+            <p className="mt-4 max-w-xs text-sm leading-relaxed t-mut">{t("footer.tagline")}</p>
             <p className="mono-label mt-5 inline-flex items-center gap-2 t-faint">
               <span className="size-1.5 rounded-full bg-[var(--lime)]" />
-              Demo · all data simulated
+              {t("footer.demoNote")}
             </p>
           </div>
 
@@ -70,7 +71,7 @@ export function LandingFooter() {
         </div>
 
         <div className="mono mt-12 flex flex-col items-center justify-between gap-2 border-t border-[var(--line)] pt-6 text-[11px] t-faint sm:flex-row">
-          <span>© 2026 FITLOYALTY — A PORTFOLIO DEMO</span>
+          <span>{t("footer.copyright")}</span>
           <span>WIEN · 48°12′N 16°22′E</span>
           <span>NEXT.JS 16 · TAILWIND V4 · MOTION</span>
         </div>

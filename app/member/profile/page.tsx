@@ -20,19 +20,22 @@ import { Avatar } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { formatNumber } from "@/lib/utils";
 import { INSURANCE_CERT, MEMBER_ME } from "@/lib/data";
-
-const SETTINGS: { icon: LucideIcon; label: string }[] = [
-  { icon: Bell, label: "Notifications" },
-  { icon: ShieldCheck, label: "Privacy & data" },
-  { icon: CircleHelp, label: "Help & support" },
-];
+import { useT } from "@/lib/i18n/context";
 
 export default function MemberProfile() {
+  const t = useT("memberHome");
+
   const stats = [
-    { label: "Balance", value: `${formatNumber(MEMBER_ME.balance)} pts` },
-    { label: "Streak", value: `${MEMBER_ME.weekStreak} weeks` },
-    { label: "Workouts", value: formatNumber(MEMBER_ME.lifetimeWorkouts) },
-    { label: "Gym rank", value: `Top ${MEMBER_ME.topPercent}%` },
+    { label: t("profStatBalance"), value: `${formatNumber(MEMBER_ME.balance)} pts` },
+    { label: t("profStatStreak"), value: t("profWeeks", { n: String(MEMBER_ME.weekStreak) }) },
+    { label: t("profStatWorkouts"), value: formatNumber(MEMBER_ME.lifetimeWorkouts) },
+    { label: t("profStatRank"), value: t("profTopPct", { n: String(MEMBER_ME.topPercent) }) },
+  ];
+
+  const SETTINGS: { icon: LucideIcon; label: string; tKey: string }[] = [
+    { icon: Bell, label: t("profNotifications"), tKey: "profNotifications" },
+    { icon: ShieldCheck, label: t("profPrivacy"), tKey: "profPrivacy" },
+    { icon: CircleHelp, label: t("profHelp"), tKey: "profHelp" },
   ];
 
   return (
@@ -61,7 +64,7 @@ export default function MemberProfile() {
       {/* Connected device */}
       <section>
         <h2 className="mb-2.5 text-[11px] font-semibold uppercase tracking-wider text-faint">
-          Connected device
+          {t("profDevice")}
         </h2>
         <Card className="flex items-center gap-3 p-4">
           <div className="grid size-10 place-items-center rounded-lg bg-surface-3">
@@ -69,10 +72,11 @@ export default function MemberProfile() {
           </div>
           <div className="flex-1">
             <p className="text-[13px] font-medium">{MEMBER_ME.device}</p>
-            <p className="text-[11px] text-faint">Synced {MEMBER_ME.syncedAgo}</p>
+            <p className="text-[11px] text-faint">{t("wearableSyncedAgo", { ago: MEMBER_ME.syncedAgo })}</p>
           </div>
           <span className="size-2 rounded-full bg-success" />
         </Card>
+        <p className="mt-2 text-center text-[10.5px] text-faint">{t("wearableVerifies")}</p>
       </section>
 
       {/* Krankenkassen-Bonus attendance certificate */}
@@ -87,11 +91,10 @@ export default function MemberProfile() {
             </div>
             <div className="min-w-0 flex-1">
               <p className="text-[13px] font-medium">
-                Attendance certificate {INSURANCE_CERT.year}
+                {t("profCertTitle", { year: String(INSURANCE_CERT.year) })}
               </p>
               <p className="num text-[11px] text-faint">
-                {INSURANCE_CERT.visitsConfirmed} visits confirmed · ≥
-                {INSURANCE_CERT.visitsRequired} required
+                {t("profCertVisits", { n: String(INSURANCE_CERT.visitsConfirmed), req: String(INSURANCE_CERT.visitsRequired) })}
               </p>
             </div>
             <span className="size-2 rounded-full bg-success" />
@@ -100,13 +103,12 @@ export default function MemberProfile() {
             size="sm"
             variant="secondary"
             className="mt-3 w-full"
-            onClick={() => toast.success("Teilnahmebescheinigung downloaded (demo)")}
+            onClick={() => toast.success(t("certDownloadToast"))}
           >
-            <FileDown className="size-3.5" /> Download PDF
+            <FileDown className="size-3.5" /> {t("profDownloadPdf")}
           </Button>
           <p className="mt-2 text-center text-[10.5px] leading-snug text-faint">
-            Most insurers pay up to €{INSURANCE_CERT.maxBonusEur}/year for proven regular
-            training.
+            {t("profCertNote", { max: String(INSURANCE_CERT.maxBonusEur) })}
           </p>
         </Card>
       </section>
@@ -114,16 +116,16 @@ export default function MemberProfile() {
       {/* Settings */}
       <section>
         <h2 className="mb-2.5 text-[11px] font-semibold uppercase tracking-wider text-faint">
-          Settings
+          {t("profSettings")}
         </h2>
         <Card className="divide-y divide-border">
           {SETTINGS.map((s) => {
             const Icon = s.icon;
             return (
               <button
-                key={s.label}
+                key={s.tKey}
                 type="button"
-                onClick={() => toast(`${s.label} — coming soon in the live app`)}
+                onClick={() => toast(t("profComingSoon", { label: s.label }))}
                 className="flex w-full items-center gap-3 p-3.5 text-left transition-colors hover:bg-surface-2"
               >
                 <Icon className="size-4 text-muted-foreground" />
@@ -138,15 +140,15 @@ export default function MemberProfile() {
       <div className="flex flex-col gap-2.5">
         <Button asChild variant="secondary" className="w-full">
           <Link href="/overview">
-            <LayoutDashboard /> Switch to gym admin view
+            <LayoutDashboard /> {t("profSwitchAdmin")}
           </Link>
         </Button>
         <Button
           variant="ghost"
           className="w-full text-error hover:text-error"
-          onClick={() => toast("Signed out (demo)")}
+          onClick={() => toast(t("profSignOut"))}
         >
-          <LogOut /> Sign out
+          <LogOut /> {t("profSignOut")}
         </Button>
       </div>
     </div>

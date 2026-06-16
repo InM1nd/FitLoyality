@@ -150,6 +150,59 @@ export interface NotificationItem {
   icon: "trending" | "alert" | "gift";
 }
 
+/* ---------- Morning Briefing (daily action list) ---------- */
+
+/**
+ * The category of a daily action, in priority order:
+ * `save` (churn window) → `celebrate` (milestone) → `convert` (USC regular)
+ * → `review` (happy member, ask for a Google review).
+ */
+export type BriefingType = "save" | "celebrate" | "convert" | "review";
+
+export interface BriefingAction {
+  id: string;
+  type: BriefingType;
+  name: string;
+  initials: string;
+  grad: AvatarGrad;
+  /** what happened / why this is on today's list */
+  headline: string;
+  /** a ready-to-send message the owner can fire in one tap */
+  suggestion: string;
+  channel: "WhatsApp" | "Email" | "Push" | "In person";
+  /** short revenue/points context shown as a pill (e.g. "€89 MRR at risk") */
+  meta?: string;
+  /** primary action button label */
+  cta: string;
+}
+
+/* ---------- Review & Referral Engine (B2B) ---------- */
+
+/** A Google review collected through an automated, milestone-triggered ask. */
+export interface ReviewEntry {
+  id: string;
+  name: string;
+  initials: string;
+  grad: AvatarGrad;
+  /** 1-5 stars */
+  rating: number;
+  text: string;
+  when: string;
+  /** the milestone that triggered the automated ask */
+  trigger: string;
+}
+
+/** A member ranked by how many friends they've referred (Mitglieder werben Mitglieder). */
+export interface Referrer {
+  id: string;
+  name: string;
+  initials: string;
+  grad: AvatarGrad;
+  invited: number;
+  joined: number;
+  pointsEarned: number;
+}
+
 /* ---------- Member (client) app ---------- */
 
 export interface Challenge {
@@ -203,4 +256,12 @@ export interface MemberProfile {
   pointsHistory: number[];
   /** 8 weeks × 7 days activity heatmap, levels 0-4 */
   activity: number[];
+  /** wearable-verified breakdown for the most recent workout */
+  todayWorkout: {
+    level: number;
+    label: string;
+    activeMinutes: number;
+    checkInPts: number;
+    intensityPts: number;
+  };
 }

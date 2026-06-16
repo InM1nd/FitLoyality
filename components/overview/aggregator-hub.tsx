@@ -7,6 +7,7 @@ import { Card, CardHeader, CardTitle } from "@/components/ui/card";
 import { Avatar } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { cn, formatEUR } from "@/lib/utils";
+import { useT } from "@/lib/i18n/context";
 import { AGGREGATORS, DIRECT_REVENUE, CONVERSION_CANDIDATES, PAYOUT_AUDIT } from "@/lib/data";
 
 const CHANNEL_DOT: Record<string, string> = {
@@ -26,20 +27,21 @@ interface ChannelRow {
 }
 
 export function AggregatorHub() {
+  const t = useT("overview");
   const channels: ChannelRow[] = [
     {
       id: "direct",
-      name: "Direct members",
+      name: t("directMembers"),
       revenue: DIRECT_REVENUE.revenueThisMonth,
       trendPct: DIRECT_REVENUE.trendPct,
-      detail: "membership MRR",
+      detail: t("membershipMrr"),
     },
     ...AGGREGATORS.map((a) => ({
       id: a.id,
       name: a.name,
       revenue: a.revenueThisMonth,
       trendPct: a.trendPct,
-      detail: `${a.visitsThisMonth} visits · ~€${a.payoutPerVisit.toFixed(2).replace(/\.?0+$/, "")}/visit`,
+      detail: `${a.visitsThisMonth} ${t("visits")} · ~€${a.payoutPerVisit.toFixed(2).replace(/\.?0+$/, "")}/visit`,
     })),
   ];
   const total = channels.reduce((sum, c) => sum + c.revenue, 0);
@@ -49,10 +51,10 @@ export function AggregatorHub() {
       <CardHeader className="flex-row items-center justify-between border-b border-border">
         <div className="flex items-center gap-2">
           <Layers className="size-4 text-brand" />
-          <CardTitle>Aggregator Hub</CardTitle>
+          <CardTitle>{t("aggTitle")}</CardTitle>
         </div>
         <span className="rounded-full bg-[var(--info-bg)] px-2.5 py-0.5 text-[11px] font-semibold text-[var(--info)]">
-          revenue mix · June
+          {t("aggBadge")}
         </span>
       </CardHeader>
 
@@ -69,7 +71,7 @@ export function AggregatorHub() {
             ))}
           </div>
           <p className="num mt-2 text-[11px] text-faint">
-            {formatEUR(total)} total this month
+            {t("totalThisMonth", { amount: formatEUR(total) })}
           </p>
         </div>
 
@@ -107,7 +109,7 @@ export function AggregatorHub() {
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-1.5">
               <Scale className="size-3.5 text-brand" />
-              <p className="text-[12px] font-semibold">Payout audit · June</p>
+              <p className="text-[12px] font-semibold">{t("payoutAudit")}</p>
               {/* export is gated to Growth+; Starter sees discrepancies only */}
               <span className="rounded-full bg-surface-3 px-1.5 py-px text-[9px] font-bold uppercase tracking-wider text-faint">
                 Growth+
@@ -120,7 +122,7 @@ export function AggregatorHub() {
                   0,
                 ),
               )}{" "}
-              unpaid
+              {t("unpaid")}
             </span>
           </div>
           <div className="mt-3 flex flex-col gap-2">
@@ -131,7 +133,7 @@ export function AggregatorHub() {
                   <span className={cn("size-2 shrink-0 rounded-[3px]", CHANNEL_DOT[r.channelId])} />
                   <p className="min-w-0 flex-1 truncate text-[12px] font-medium">{r.channelName}</p>
                   <span className="num text-[11px] text-faint">
-                    {r.loggedVisits} logged → {r.paidVisits} paid
+                    {r.loggedVisits} {t("logged")} → {r.paidVisits} {t("paid")}
                   </span>
                   <span
                     className={cn(
@@ -146,15 +148,15 @@ export function AggregatorHub() {
             })}
           </div>
           <Button size="sm" variant="secondary" className="mt-3 w-full">
-            <FileDown className="size-3.5" /> Export claim list
+            <FileDown className="size-3.5" /> {t("exportClaim")}
           </Button>
         </div>
 
         {/* convertible USC regulars */}
         <div className="rounded-lg border border-border bg-surface-2 p-4" data-tour="usc-converter">
           <div className="flex items-center justify-between">
-            <p className="text-[12px] font-semibold">Convertible USC regulars</p>
-            <span className="text-[11px] text-faint">self-paying · 3+ months loyal</span>
+            <p className="text-[12px] font-semibold">{t("convertibleUsc")}</p>
+            <span className="text-[11px] text-faint">{t("uscSub")}</span>
           </div>
           <div className="mt-3 flex flex-col gap-2.5">
             {CONVERSION_CANDIDATES.map((c) => (
@@ -163,14 +165,14 @@ export function AggregatorHub() {
                 <div className="min-w-0 flex-1">
                   <p className="truncate text-[12.5px] font-medium">{c.name}</p>
                   <p className="text-[11px] text-faint">
-                    {c.visitsPerWeek}×/week · {c.monthsLoyal} months
+                    {t("perWeekMonths", { visits: c.visitsPerWeek, months: c.monthsLoyal })}
                   </p>
                 </div>
                 <span className="num text-[12px] font-semibold text-brand">
                   +{formatEUR(c.estMrr)}/mo
                 </span>
                 <Button size="sm" variant="secondary">
-                  <UserPlus className="size-3.5" /> Offer
+                  <UserPlus className="size-3.5" /> {t("offer")}
                 </Button>
               </div>
             ))}

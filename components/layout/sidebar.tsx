@@ -4,9 +4,11 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import {
   LayoutDashboard,
+  Sunrise,
   Users,
   Gift,
   Route,
+  Megaphone,
   BarChart3,
   Settings,
   type LucideIcon,
@@ -14,11 +16,13 @@ import {
 
 import { cn } from "@/lib/utils";
 import { Logo } from "@/components/layout/logo";
-import { GYM, MEMBER_COUNTS } from "@/lib/data";
+import { useT } from "@/lib/i18n/context";
+import { BRIEFING_ACTIONS, GYM, MEMBER_COUNTS } from "@/lib/data";
 
 interface NavItem {
   href: string;
-  label: string;
+  /** key into the `nav` namespace */
+  labelKey: string;
   icon: LucideIcon;
   count?: number;
   /** renders a "Soon" pill — feature preview pages */
@@ -26,28 +30,35 @@ interface NavItem {
 }
 
 const NAV: NavItem[] = [
-  { href: "/overview", label: "Overview", icon: LayoutDashboard },
-  { href: "/members", label: "Members", icon: Users, count: MEMBER_COUNTS.all },
-  { href: "/rewards", label: "Rewards", icon: Gift },
-  { href: "/journeys", label: "Journeys", icon: Route, soon: true },
-  { href: "/analytics", label: "Analytics", icon: BarChart3 },
-  { href: "/settings", label: "Settings", icon: Settings },
+  { href: "/overview", labelKey: "overview", icon: LayoutDashboard },
+  { href: "/briefing", labelKey: "briefing", icon: Sunrise, count: BRIEFING_ACTIONS.length },
+  { href: "/members", labelKey: "members", icon: Users, count: MEMBER_COUNTS.all },
+  { href: "/rewards", labelKey: "rewards", icon: Gift },
+  { href: "/engage", labelKey: "engage", icon: Megaphone },
+  { href: "/journeys", labelKey: "journeys", icon: Route, soon: true },
+  { href: "/analytics", labelKey: "analytics", icon: BarChart3 },
+  { href: "/settings", labelKey: "settings", icon: Settings },
 ];
 
-export function Sidebar() {
+/**
+ * The sidebar's content (logo, nav, gym card) — shared by the fixed desktop
+ * rail and the mobile slide-in Sheet. `onNavigate` lets the Sheet close on tap.
+ */
+export function SidebarBody({ onNavigate }: { onNavigate?: () => void }) {
   const pathname = usePathname();
+  const t = useT("nav");
 
   return (
-    <aside className="fixed inset-y-0 left-0 z-30 hidden w-60 flex-col border-r border-border bg-surface-1 px-3 pb-4 pt-4 md:flex">
+    <>
       <div className="px-2 pb-5">
-        <Link href="/overview" aria-label="FitLoyalty home">
+        <Link href="/overview" aria-label="FitLoyalty home" onClick={onNavigate}>
           <Logo />
         </Link>
       </div>
 
       <nav className="flex flex-col gap-0.5">
         <p className="px-2.5 pb-1.5 text-[10px] font-semibold uppercase tracking-[0.1em] text-faint">
-          Workspace
+          {t("workspace")}
         </p>
         {NAV.map((item) => {
           const active = pathname === item.href;
@@ -56,6 +67,7 @@ export function Sidebar() {
             <Link
               key={item.href}
               href={item.href}
+              onClick={onNavigate}
               aria-current={active ? "page" : undefined}
               className={cn(
                 "group relative flex items-center gap-3 rounded-lg px-2.5 py-2.5 text-[13.5px] font-medium transition-all",
@@ -73,10 +85,10 @@ export function Sidebar() {
                   active ? "text-brand" : "text-faint group-hover:text-foreground",
                 )}
               />
-              <span>{item.label}</span>
+              <span>{t(item.labelKey)}</span>
               {item.soon && (
                 <span className="ml-auto rounded-full bg-[var(--accent-subtle)] px-1.5 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-brand">
-                  Soon
+                  {t("soon")}
                 </span>
               )}
               {item.count !== undefined && (
@@ -96,7 +108,7 @@ export function Sidebar() {
         })}
       </nav>
 
-      <div className="mt-auto">
+      <div className="mt-auto pt-4">
         <div className="flex items-center gap-3 rounded-xl border border-border bg-surface-2 p-3">
           <div className="grid size-9 shrink-0 place-items-center rounded-lg bg-[var(--accent-subtle)] text-[13px] font-bold text-brand">
             {GYM.initials}
@@ -107,6 +119,14 @@ export function Sidebar() {
           </div>
         </div>
       </div>
+    </>
+  );
+}
+
+export function Sidebar() {
+  return (
+    <aside className="fixed inset-y-0 left-0 z-30 hidden w-60 flex-col border-r border-border bg-surface-1 px-3 pb-4 pt-4 md:flex">
+      <SidebarBody />
     </aside>
   );
 }

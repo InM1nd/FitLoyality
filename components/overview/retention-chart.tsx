@@ -12,26 +12,28 @@ import {
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import type { ChartTooltipProps } from "@/lib/chart-types";
+import { useT } from "@/lib/i18n/context";
 import { DEMO_YEAR, RETENTION_SERIES } from "@/lib/data";
 
-function ChartTooltip({ active, payload, label }: ChartTooltipProps) {
+function ChartTooltip({ active, payload, label, retainedLabel }: ChartTooltipProps & { retainedLabel: string }) {
   if (!active || !payload?.length) return null;
   return (
     <div className="rounded-lg border border-border bg-surface-2 px-3.5 py-2.5 shadow-[var(--shadow-elevated)]">
       <p className="text-[11px] font-medium text-faint">{String(label)} {DEMO_YEAR}</p>
       <p className="num mt-0.5 text-sm font-bold text-foreground">
         {payload[0].value}%{" "}
-        <span className="text-[11px] font-normal text-muted-foreground">retained</span>
+        <span className="text-[11px] font-normal text-muted-foreground">{retainedLabel}</span>
       </p>
     </div>
   );
 }
 
 export function RetentionChart() {
+  const t = useT("overview");
   return (
     <Card className="flex h-full flex-col">
       <CardHeader className="flex-row items-center justify-between border-b border-border">
-        <CardTitle>Retention Rate — Last 6 Months</CardTitle>
+        <CardTitle>{t("retentionTitle")}</CardTitle>
         <span className="rounded-full bg-[var(--accent-subtle)] px-2.5 py-0.5 text-[11px] font-semibold text-brand">
           Jan – Jun 2026
         </span>
@@ -68,7 +70,7 @@ export function RetentionChart() {
                 width={44}
               />
               <Tooltip
-                content={<ChartTooltip />}
+                content={<ChartTooltip retainedLabel={t("retained")} />}
                 cursor={{ stroke: "var(--border-default)", strokeDasharray: "4 3" }}
               />
               <Area

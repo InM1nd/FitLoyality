@@ -10,6 +10,7 @@
 import {
   AGGREGATORS,
   AT_RISK_MEMBERS,
+  BRIEFING_ACTIONS,
   CHURN_SERIES,
   COHORT_SIZES,
   COHORTS,
@@ -34,6 +35,11 @@ import {
   RETENTION_SERIES,
   REWARD_ACTIVITY,
   REWARDS,
+  REVIEW_STATS,
+  REVIEWS,
+  REVIEW_RULES,
+  REFERRAL_STATS,
+  TOP_REFERRERS,
   ROI_DEFAULTS,
   SAVED_LOG,
 } from "@/lib/mock-data";
@@ -45,6 +51,7 @@ export const getKpis = () => KPIS;
 export const getMembers = () => MEMBERS;
 export const getMemberCounts = () => MEMBER_COUNTS;
 export const getAtRiskMembers = () => AT_RISK_MEMBERS;
+export const getBriefingActions = () => BRIEFING_ACTIONS;
 export const getRetentionSeries = () => RETENTION_SERIES;
 export const getRewardActivity = () => REWARD_ACTIVITY;
 export const getRewards = () => REWARDS;
@@ -57,6 +64,11 @@ export const getPayoutAudit = () => PAYOUT_AUDIT;
 export const getDirectRevenue = () => DIRECT_REVENUE;
 export const getConversionCandidates = () => CONVERSION_CANDIDATES;
 export const getSavedLog = () => SAVED_LOG;
+export const getReviewStats = () => REVIEW_STATS;
+export const getReviews = () => REVIEWS;
+export const getReviewRules = () => REVIEW_RULES;
+export const getReferralStats = () => REFERRAL_STATS;
+export const getTopReferrers = () => TOP_REFERRERS;
 export const getIntegrations = () => INTEGRATIONS;
 export const getNotifications = () => NOTIFICATIONS;
 export const getRecentSearches = () => RECENT_SEARCHES;
@@ -79,6 +91,7 @@ export const getOccupancy = () => OCCUPANCY;
 export {
   AGGREGATORS,
   AT_RISK_MEMBERS,
+  BRIEFING_ACTIONS,
   CHURN_SERIES,
   COHORT_SIZES,
   COHORTS,
@@ -103,6 +116,11 @@ export {
   RETENTION_SERIES,
   REWARD_ACTIVITY,
   REWARDS,
+  REVIEW_STATS,
+  REVIEWS,
+  REVIEW_RULES,
+  REFERRAL_STATS,
+  TOP_REFERRERS,
   ROI_DEFAULTS,
   SAVED_LOG,
 };

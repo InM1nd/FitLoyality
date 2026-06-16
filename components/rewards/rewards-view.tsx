@@ -8,9 +8,11 @@ import { Button } from "@/components/ui/button";
 import { RewardCard } from "@/components/rewards/reward-card";
 import { CreateRewardModal } from "@/components/rewards/create-reward-modal";
 import { REWARDS } from "@/lib/data";
+import { useT } from "@/lib/i18n/context";
 import type { Reward } from "@/lib/types";
 
 export function RewardsView() {
+  const t = useT("rewards");
   const [rewards, setRewards] = React.useState<Reward[]>(REWARDS);
   const [createOpen, setCreateOpen] = React.useState(false);
 
@@ -24,12 +26,12 @@ export function RewardsView() {
   return (
     <div className="flex flex-col gap-6">
       <PageHeading
-        eyebrow="Workspace"
-        title="Rewards"
-        description={`${activeCount} active · automated perks that keep members coming back.`}
+        eyebrow={t("eyebrow")}
+        title={t("title")}
+        description={t("descActive", { n: String(activeCount) })}
         action={
           <Button onClick={() => setCreateOpen(true)}>
-            <Plus /> Create Reward
+            <Plus /> {t("createBtn")}
           </Button>
         }
       />

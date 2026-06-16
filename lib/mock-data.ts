@@ -1,5 +1,6 @@
 import type {
   AggregatorChannel,
+  BriefingAction,
   PayoutAuditRow,
   ChartPoint,
   Cohort,
@@ -11,6 +12,8 @@ import type {
   NotificationItem,
   Reward,
   RewardActivity,
+  ReviewEntry,
+  Referrer,
   AvatarGrad,
   DeviceType,
   MemberStatus,
@@ -384,6 +387,152 @@ export const NOTIFICATIONS: NotificationItem[] = [
 
 export const RECENT_SEARCHES = ["Anna Müller", "Free Protein Shake", "At-risk members"];
 
+/* ------------------------------------------------------------------ */
+/* Review & Referral Engine (B2B)                                      */
+/* ------------------------------------------------------------------ */
+
+/**
+ * Reviews: automated, milestone-triggered Google-review asks. Industry data —
+ * a well-timed ask after a happy moment lands ~1 new review/day and lifts the
+ * local rating that drives organic discovery.
+ */
+export const REVIEW_STATS = {
+  avgRating: 4.8,
+  totalReviews: 213,
+  reviewsThisMonth: 11,
+  asksSentThisMonth: 34,
+  /** new reviews attributed to automated asks this month */
+  fromAsks: 11,
+  ratingDelta: 0.3,
+} as const;
+
+export const REVIEWS: ReviewEntry[] = [
+  { id: "rv1", name: "Sarah Klein",   initials: "SK", grad: 5, rating: 5, text: "Best box in Graz. The coaches actually know your name and the app keeps me honest about showing up.", when: "2 days ago",  trigger: "After 12-week streak" },
+  { id: "rv2", name: "David Lang",    initials: "DL", grad: 2, rating: 5, text: "Joined on a guest pass, stayed for the community. The streak rewards are weirdly motivating.",          when: "4 days ago",  trigger: "After badge earned" },
+  { id: "rv3", name: "Michael Bauer", initials: "MB", grad: 3, rating: 4, text: "Great coaching and clean equipment. Evening classes fill up fast — book early.",                       when: "1 week ago",  trigger: "After 50th workout" },
+  { id: "rv4", name: "Lisa Berger",   initials: "LB", grad: 5, rating: 5, text: "Came via Urban Sports, ended up basically living here. Worth every minute.",                            when: "1 week ago",  trigger: "After 100 visits" },
+  { id: "rv5", name: "Anna Müller",   initials: "AM", grad: 1, rating: 5, text: "Three years in and still my favourite part of the week. The team genuinely cares.",                    when: "2 weeks ago", trigger: "After 200th workout" },
+];
+
+/** Auto-ask rules: which happy moment triggers a Google-review request. */
+export const REVIEW_RULES: { id: string; trigger: string; enabled: boolean }[] = [
+  { id: "rr1", trigger: "Member hits a 12-week streak", enabled: true },
+  { id: "rr2", trigger: "Member earns a milestone badge (100/200 workouts)", enabled: true },
+  { id: "rr3", trigger: "Member redeems their first reward", enabled: false },
+];
+
+/**
+ * Referrals: "Mitglieder werben Mitglieder". Industry data — referrals convert
+ * ~41% (vs 1-3% for paid social) and referred members churn ~60% less.
+ */
+export const REFERRAL_STATS = {
+  invitesSent: 58,
+  joined: 24,
+  conversionPct: 41,
+  /** € of MRR currently attributed to referred members */
+  mrrFromReferrals: 1870,
+  churnReductionPct: 60,
+} as const;
+
+export const TOP_REFERRERS: Referrer[] = [
+  { id: "rf1", name: "Thomas Gruber", initials: "TG", grad: 1, invited: 7, joined: 4, pointsEarned: 2000 },
+  { id: "rf2", name: "Anna Müller",   initials: "AM", grad: 1, invited: 5, joined: 3, pointsEarned: 1500 },
+  { id: "rf3", name: "Lisa Berger",   initials: "LB", grad: 5, invited: 4, joined: 2, pointsEarned: 1000 },
+  { id: "rf4", name: "David Lang",    initials: "DL", grad: 2, invited: 3, joined: 2, pointsEarned: 1000 },
+  { id: "rf5", name: "Sarah Klein",   initials: "SK", grad: 5, invited: 3, joined: 1, pointsEarned: 500 },
+];
+
+/* ------------------------------------------------------------------ */
+/* Morning Briefing — the daily prioritized action list                */
+/* ------------------------------------------------------------------ */
+
+/**
+ * What FitLoyalty surfaces first thing each morning: a short, ranked list of
+ * the few member touches that actually move retention today. The studio owner
+ * (chronically short-staffed) clears it in two minutes instead of guessing.
+ * Ordered save → celebrate → convert → review.
+ */
+export const BRIEFING_ACTIONS: BriefingAction[] = [
+  {
+    id: "b1",
+    type: "save",
+    name: "Felix Schmid",
+    initials: "FS",
+    grad: 3,
+    headline: "19 days inactive — cancellation deadline in 3 days",
+    suggestion:
+      "Hi Felix, we've missed you at the box! Your spot in Saturday's 10:00 WOD is still open — come grab it and I'll throw in a free shake. 💪",
+    channel: "WhatsApp",
+    meta: "€89 MRR at risk",
+    cta: "Send nudge",
+  },
+  {
+    id: "b2",
+    type: "save",
+    name: "Nina Wagner",
+    initials: "NW",
+    grad: 4,
+    headline: "Booked 3 classes, attended 0 — deadline in 11 days",
+    suggestion:
+      "Hi Nina, saw you booked in this week but couldn't make it — life happens! Want me to move you to an easier evening slot? Your streak freeze has you covered.",
+    channel: "WhatsApp",
+    meta: "€89 MRR at risk",
+    cta: "Send nudge",
+  },
+  {
+    id: "b3",
+    type: "celebrate",
+    name: "Thomas Gruber",
+    initials: "TG",
+    grad: 1,
+    headline: "Hits his 12-week streak today — your most loyal member",
+    suggestion:
+      "12 weeks straight, Thomas! 🔥 That's the longest active streak in the whole box right now. Free PT session unlocked — see you tomorrow.",
+    channel: "WhatsApp",
+    meta: "+€0, pure goodwill",
+    cta: "Send congrats",
+  },
+  {
+    id: "b4",
+    type: "celebrate",
+    name: "Anna Müller",
+    initials: "AM",
+    grad: 1,
+    headline: "Reaches her 200th lifetime workout today",
+    suggestion:
+      "200 workouts, Anna! 🎉 Since March 2021 you've shown up more than almost anyone here. Drop by the desk — there's a little something waiting.",
+    channel: "In person",
+    meta: "Milestone",
+    cta: "Mark to congratulate",
+  },
+  {
+    id: "b5",
+    type: "convert",
+    name: "Lisa Berger",
+    initials: "LB",
+    grad: 5,
+    headline: "USC self-payer · 4×/week for 8 months — prime to convert",
+    suggestion:
+      "Hi Lisa, you're basically here every other day! A direct membership would save you money vs. your USC visits and unlock member-only perks. Want the numbers?",
+    channel: "WhatsApp",
+    meta: "+€89 MRR if converted",
+    cta: "Send offer",
+  },
+  {
+    id: "b6",
+    type: "review",
+    name: "David Lang",
+    initials: "DL",
+    grad: 2,
+    headline: "Just earned a badge & is in a great streak — happy moment to ask",
+    suggestion:
+      "Loving having you in the box, David! If you've got 20 seconds, a quick Google review helps other locals find us — here's the link. 🙏",
+    channel: "Push",
+    meta: "Reputation",
+    cta: "Ask for review",
+  },
+];
+
 export const GYM = {
   name: "CrossFit Vienna Nord",
   plan: "Pro Plan",
@@ -427,6 +576,13 @@ export const MEMBER_ME: MemberProfile = {
     0, 2, 0, 3, 1, 4, 0, 1, 3, 0, 2, 4, 2, 0, 0, 1, 3, 2, 0, 3, 1, 2, 0, 4, 1, 3, 0, 2,
     3, 1, 0, 2, 4, 1, 0, 0, 3, 2, 0, 1, 4, 2, 1, 0, 3, 2, 4, 0, 1, 2, 4, 1, 3, 0, 2, 4,
   ],
+  todayWorkout: {
+    level: 3,
+    label: "Strong Session",
+    activeMinutes: 62,
+    checkInPts: 50,
+    intensityPts: 100,
+  },
 };
 
 /** Member-facing referral program — the other half of the Review & Referral Engine. */

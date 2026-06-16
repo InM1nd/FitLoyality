@@ -6,6 +6,7 @@ import { TrendingUp, AlertTriangle, PiggyBank, Users, type LucideIcon } from "lu
 import { Card } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
 import { useCountUp } from "@/hooks/use-count-up";
+import { useT } from "@/lib/i18n/context";
 import { KPIS } from "@/lib/data";
 
 type Tone = "brand" | "warning" | "info";
@@ -91,39 +92,40 @@ function KpiCard({ kpi }: { kpi: KpiDef }) {
 }
 
 export function KpiCards() {
+  const t = useT("overview");
   const kpis: KpiDef[] = [
     {
-      label: "Saved Revenue",
+      label: t("kpiSaved"),
       value: KPIS.savedRevenue,
       prefix: "€",
       icon: PiggyBank,
       tone: "brand",
-      trend: { text: `${KPIS.savedMembers} members won back this month`, tone: "up" },
+      trend: { text: t("kpiSavedTrend", { n: KPIS.savedMembers }), tone: "up" },
       tourId: "saved-revenue",
     },
     {
-      label: "Retention Rate",
+      label: t("kpiRetention"),
       value: KPIS.retentionRate,
       decimals: 1,
       suffix: "%",
       icon: TrendingUp,
       tone: "brand",
-      trend: { text: `↑ ${KPIS.retentionDelta}% vs last month`, tone: "up" },
+      trend: { text: t("kpiRetentionTrend", { n: KPIS.retentionDelta }), tone: "up" },
     },
     {
-      label: "Churn Window",
+      label: t("kpiChurn"),
       value: KPIS.atRiskMembers,
       icon: AlertTriangle,
       tone: "warning",
-      trend: { text: "inactive 14+ d · notice deadline soon", tone: "muted" },
+      trend: { text: t("kpiChurnTrend"), tone: "muted" },
       href: "/members?filter=at-risk",
     },
     {
-      label: "Active Members",
+      label: t("kpiActive"),
       value: KPIS.activeMembers,
       icon: Users,
       tone: "info",
-      trend: { text: `+${KPIS.activeMembersDelta} this month`, tone: "up" },
+      trend: { text: t("kpiActiveTrend", { n: KPIS.activeMembersDelta }), tone: "up" },
     },
   ];
 

@@ -33,6 +33,7 @@ const clashGrotesk = localFont({
 });
 
 import { ThemeProvider } from "@/components/theme-provider";
+import { LocaleProvider } from "@/lib/i18n/context";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { Toaster } from "@/components/ui/sonner";
 
@@ -76,10 +77,12 @@ export default function RootLayout({
           enableSystem={false}
           disableTransitionOnChange
         >
-          <TooltipProvider delayDuration={150}>
-            {children}
-            <Toaster />
-          </TooltipProvider>
+          <LocaleProvider>
+            <TooltipProvider delayDuration={150}>
+              {children}
+              <Toaster />
+            </TooltipProvider>
+          </LocaleProvider>
         </ThemeProvider>
       </body>
     </html>

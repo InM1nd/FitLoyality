@@ -24,6 +24,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { useT } from "@/lib/i18n/context";
 import type { Reward, RewardType, TriggerType } from "@/lib/types";
 
 const REWARD_TYPES: RewardType[] = ["Free Item", "Discount", "Service", "Points Bonus"];
@@ -37,7 +38,6 @@ const TRIGGER_TYPES: TriggerType[] = [
   "Birthday",
 ];
 
-/** Trigger types that need a numeric value. */
 const NEEDS_VALUE: TriggerType[] = ["Workout Count", "Streak", "Check-ins"];
 
 const EMOJI: Record<RewardType, string> = {
@@ -69,20 +69,13 @@ type FormValues = z.infer<typeof schema>;
 function triggerLabel(type: TriggerType, value: string): string {
   const v = value || "—";
   switch (type) {
-    case "Workout Count":
-      return `Complete ${v} workouts in a month`;
-    case "Streak":
-      return `${v}-week streak, no missed weeks`;
-    case "Google Review":
-      return "Leave a Google review";
-    case "Check-ins":
-      return `${v} check-ins this month`;
-    case "Referral":
-      return "Refer a friend who joins";
-    case "Comeback":
-      return "First visit after a missed week";
-    case "Birthday":
-      return "On the member's birthday";
+    case "Workout Count": return `Complete ${v} workouts in a month`;
+    case "Streak":        return `${v}-week streak, no missed weeks`;
+    case "Google Review": return "Leave a Google review";
+    case "Check-ins":     return `${v} check-ins this month`;
+    case "Referral":      return "Refer a friend who joins";
+    case "Comeback":      return "First visit after a missed week";
+    case "Birthday":      return "On the member's birthday";
   }
 }
 
@@ -93,6 +86,7 @@ interface CreateRewardModalProps {
 }
 
 export function CreateRewardModal({ open, onOpenChange, onCreate }: CreateRewardModalProps) {
+  const t = useT("rewards");
   const {
     register,
     handleSubmit,
@@ -128,7 +122,7 @@ export function CreateRewardModal({ open, onOpenChange, onCreate }: CreateReward
       redemptions: 0,
       enabled: true,
     });
-    toast.success("Reward created!", { description: `${data.name} is now live for members.` });
+    toast.success(t("createdToast"), { description: t("createdToastDesc", { name: data.name }) });
     reset();
     onOpenChange(false);
   };
@@ -137,38 +131,31 @@ export function CreateRewardModal({ open, onOpenChange, onCreate }: CreateReward
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="max-w-2xl">
         <DialogHeader>
-          <DialogTitle>Create a new reward</DialogTitle>
-          <DialogDescription>
-            Define the trigger and reward — members earn it automatically.
-          </DialogDescription>
+          <DialogTitle>{t("createTitle")}</DialogTitle>
+          <DialogDescription>{t("createDesc")}</DialogDescription>
         </DialogHeader>
 
         <form onSubmit={handleSubmit(onSubmit)}>
           <div className="grid grid-cols-1 md:grid-cols-[1fr_280px]">
-            {/* Form */}
             <div className="flex flex-col gap-4 p-6">
               <div className="flex flex-col gap-1.5">
-                <Label htmlFor="r-name">Reward Name</Label>
-                <Input id="r-name" placeholder="e.g. Free Smoothie" {...register("name")} />
+                <Label htmlFor="r-name">{t("fieldName")}</Label>
+                <Input id="r-name" placeholder={t("namePlaceholder")} {...register("name")} />
                 {errors.name && <p className="text-[11px] text-error">{errors.name.message}</p>}
               </div>
 
               <div className="grid grid-cols-2 gap-3">
                 <div className="flex flex-col gap-1.5">
-                  <Label>Reward Type</Label>
+                  <Label>{t("fieldType")}</Label>
                   <Controller
                     control={control}
                     name="rewardType"
                     render={({ field }) => (
                       <Select value={field.value} onValueChange={field.onChange}>
-                        <SelectTrigger>
-                          <SelectValue />
-                        </SelectTrigger>
+                        <SelectTrigger><SelectValue /></SelectTrigger>
                         <SelectContent>
-                          {REWARD_TYPES.map((t) => (
-                            <SelectItem key={t} value={t}>
-                              {t}
-                            </SelectItem>
+                          {REWARD_TYPES.map((rt) => (
+                            <SelectItem key={rt} value={rt}>{rt}</SelectItem>
                           ))}
                         </SelectContent>
                       </Select>
@@ -176,20 +163,16 @@ export function CreateRewardModal({ open, onOpenChange, onCreate }: CreateReward
                   />
                 </div>
                 <div className="flex flex-col gap-1.5">
-                  <Label>Trigger Type</Label>
+                  <Label>{t("fieldTrigger")}</Label>
                   <Controller
                     control={control}
                     name="triggerType"
                     render={({ field }) => (
                       <Select value={field.value} onValueChange={field.onChange}>
-                        <SelectTrigger>
-                          <SelectValue />
-                        </SelectTrigger>
+                        <SelectTrigger><SelectValue /></SelectTrigger>
                         <SelectContent>
-                          {TRIGGER_TYPES.map((t) => (
-                            <SelectItem key={t} value={t}>
-                              {t}
-                            </SelectItem>
+                          {TRIGGER_TYPES.map((tt) => (
+                            <SelectItem key={tt} value={tt}>{tt}</SelectItem>
                           ))}
                         </SelectContent>
                       </Select>
@@ -200,36 +183,27 @@ export function CreateRewardModal({ open, onOpenChange, onCreate }: CreateReward
 
               {showValue && (
                 <div className="flex flex-col gap-1.5">
-                  <Label htmlFor="r-value">Trigger Value</Label>
+                  <Label htmlFor="r-value">{t("fieldValue")}</Label>
                   <Input id="r-value" type="number" min={1} {...register("triggerValue")} />
                 </div>
               )}
 
               <div className="flex flex-col gap-1.5">
-                <Label htmlFor="r-desc">Description</Label>
-                <Textarea
-                  id="r-desc"
-                  placeholder="What does the member get?"
-                  {...register("description")}
-                />
-                {errors.description && (
-                  <p className="text-[11px] text-error">{errors.description.message}</p>
-                )}
+                <Label htmlFor="r-desc">{t("fieldDesc")}</Label>
+                <Textarea id="r-desc" placeholder={t("descPlaceholder")} {...register("description")} />
+                {errors.description && <p className="text-[11px] text-error">{errors.description.message}</p>}
               </div>
 
               <div className="flex flex-col gap-1.5">
-                <Label htmlFor="r-points">Points Value</Label>
+                <Label htmlFor="r-points">{t("fieldPoints")}</Label>
                 <Input id="r-points" type="number" min={0} {...register("pointsValue")} />
-                {errors.pointsValue && (
-                  <p className="text-[11px] text-error">{errors.pointsValue.message}</p>
-                )}
+                {errors.pointsValue && <p className="text-[11px] text-error">{errors.pointsValue.message}</p>}
               </div>
             </div>
 
-            {/* Live preview */}
             <div className="flex flex-col border-t border-border bg-background p-6 md:border-l md:border-t-0">
               <p className="mb-4 text-[11px] font-semibold uppercase tracking-wider text-faint">
-                How members will see this →
+                {t("previewHint")}
               </p>
               <div className="rounded-xl border border-[color-mix(in_srgb,var(--accent-brand)_40%,transparent)] bg-[linear-gradient(180deg,var(--accent-subtle),transparent_60%)] p-4 shadow-[var(--shadow-glow)]">
                 <div className="flex items-start justify-between">
@@ -240,9 +214,9 @@ export function CreateRewardModal({ open, onOpenChange, onCreate }: CreateReward
                     {values.pointsValue || "0"} pts
                   </span>
                 </div>
-                <p className="mt-3 font-semibold">{values.name || "Reward name"}</p>
+                <p className="mt-3 font-semibold">{values.name || t("nameDefault")}</p>
                 <p className="mt-1 text-sm text-muted-foreground">
-                  {values.description || "Your reward description appears here."}
+                  {values.description || t("descDefault")}
                 </p>
                 <p className="mt-3 border-t border-border pt-2.5 text-xs text-faint">
                   {triggerLabel(values.triggerType, values.triggerValue ?? "")}
@@ -253,9 +227,9 @@ export function CreateRewardModal({ open, onOpenChange, onCreate }: CreateReward
 
           <div className="flex justify-end gap-2 border-t border-border px-6 py-4">
             <Button type="button" variant="secondary" onClick={() => onOpenChange(false)}>
-              Cancel
+              {t("cancelBtn")}
             </Button>
-            <Button type="submit">Create Reward</Button>
+            <Button type="submit">{t("createBtn2")}</Button>
           </div>
         </form>
       </DialogContent>

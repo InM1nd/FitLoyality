@@ -1,26 +1,28 @@
+"use client";
+
 import { Reveal } from "@/components/landing/reveal";
 import { cn } from "@/lib/utils";
+import { useT } from "@/lib/i18n/context";
 
-const STEPS: { no: string; title: string; body: string }[] = [
-  { no: "01", title: "Connect", body: "Import your Eversports attendance export, print one QR code for open-gym check-ins. No migration, no IT team." },
-  { no: "02", title: "Reward", body: "Set up automated perks for the habits you want — weekly streaks, visits, referrals, reviews. FitLoyalty runs them." },
-  { no: "03", title: "Retain", body: "Catch members in the churn window before the notice deadline, nudge them back — and see every save in euros." },
+const STEPS = [
+  { no: "01", n: "1" },
+  { no: "02", n: "2" },
+  { no: "03", n: "3" },
 ];
 
 export function LandingSteps() {
+  const t = useT("steps");
   return (
-    <section id="process" className="scroll-mt-20 px-5 py-20 md:py-28">
+    <section id="process" className="scroll-mt-20 px-5 py-16 md:py-28">
       <div className="mx-auto max-w-6xl">
         <div className="flex flex-col gap-4 border-b border-[var(--line)] pb-5 sm:flex-row sm:items-end sm:justify-between">
           <div>
-            <span className="mono-label t-faint">05 — Process</span>
+            <span className="mono-label t-faint">{t("eyebrow")}</span>
             <h2 className="font-display mt-2 text-4xl font-semibold tracking-tight t-ink md:text-5xl">
-              Live in an afternoon.
+              {t("title")}
             </h2>
           </div>
-          <p className="max-w-xs text-sm leading-relaxed t-mut sm:text-right">
-            Three steps from spreadsheet chaos to a retention engine that runs itself.
-          </p>
+          <p className="max-w-xs text-sm leading-relaxed t-mut sm:text-right">{t("sub")}</p>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3">
@@ -35,9 +37,9 @@ export function LandingSteps() {
             >
               <span className="font-display block text-6xl num-ghost md:text-7xl">{step.no}</span>
               <h3 className="font-display mt-5 text-2xl font-semibold tracking-tight t-ink">
-                {step.title}
+                {t(`t${step.n}`)}
               </h3>
-              <p className="mt-3 max-w-xs text-sm leading-relaxed t-mut">{step.body}</p>
+              <p className="mt-3 max-w-xs text-sm leading-relaxed t-mut">{t(`b${step.n}`)}</p>
             </Reveal>
           ))}
         </div>

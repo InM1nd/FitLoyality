@@ -1,9 +1,9 @@
 # FitLoyalty — Ideas Backlog
 
-> Создан: 2026-06-11 по итогам стратегического ревью всех документов
-> (.claude/CLAUDE.md, docs/MARKET_RESEARCH.md, docs/AUDIT.md, README.md).
+> Создан: 2026-06-11 · Обновлён: 2026-06-16
 > Статус: это **кандидаты**, не роадмап. Принятые решения фиксировать
 > в `.claude/CLAUDE.md`, рыночные проверки — в `MARKET_RESEARCH.md §15`.
+> Wearable-стратегия — в `docs/WEARABLE_STRATEGY.md`.
 
 **Содержание:** 1. Приоритизация · 2. Новые продуктовые идеи ·
 3. Усиление существующих фич · 4. Бизнес-модель и GTM · 5. Демо-беклог
@@ -12,30 +12,35 @@
 
 ## 1. Приоритизация (эффект / усилие)
 
-| # | Идея | Эффект | Усилие | Tier |
-|---|------|--------|--------|------|
-| 2.1 | Payout-Checker (сверка выплат агрегаторов) | 🔥🔥🔥 | Средн. | Growth |
-| 2.2 | Krankenkassen-справки о посещаемости | 🔥🔥🔥 | Средн. | Starter |
-| 3.1 | Churn-Check: CSV-анализ в браузере | 🔥🔥🔥 | Низк. | Lead magnet |
-| 2.3 | Pause statt Kündigung (save-флоу) | 🔥🔥 | Средн. | Growth |
-| 2.4 | Booking-Ghost алерты (no-show = сигнал) | 🔥🔥 | Низк. | Starter |
-| 2.8 | Comeback-Bonus (награда за возврат после пропуска) | 🔥🔥🔥 | Низк. | Starter |
-| 2.5 | Occupancy классов через официальный API | 🔥🔥 | Низк. | Starter |
-| 2.6 | Buddy Streaks (парные стрики) | 🔥🔥 | Средн. | Starter |
-| 2.7 | Trainer View (третья персона) | 🔥🔥 | Высок. | Growth |
-| 3.2 | Explainable alerts (чипы-причины) | 🔥🔥 | Низк. | Starter |
-| 3.3 | Morning Briefing в WhatsApp | 🔥🔥 | Средн. | Growth |
-| 3.4 | Class-retention analytics | 🔥 | Средн. | Pro |
-| 3.5 | Benchmark-тизер в Analytics | 🔥 | Минимальн. | — |
-| 3.6 | Referral в member app (member-facing UI) | 🔥 | Низк. | Growth |
+| # | Идея | Эффект | Усилие | Статус |
+|---|------|--------|--------|--------|
+| W.1 | Wearable: "Today's workout" card в member home | 🔥🔥🔥 | Низк. | ✅ Done |
+| W.2 | Wearable: effort breakdown в activity screen | 🔥🔥🔥 | Низк. | ✅ Done |
+| W.3 | Wearable: landing hero trust strip + cap #6 | 🔥🔥🔥 | Низк. | ✅ Done |
+| W.4 | Wearable: колонка в таблице членов + side panel | 🔥🔥 | Средн. | Backlog |
+| W.5 | Wearable: "intensity declining" сигнал в Briefing | 🔥🔥 | Средн. | Backlog |
+| 2.1 | Payout-Checker (сверка выплат агрегаторов) | 🔥🔥🔥 | Средн. | Backlog |
+| 2.2 | Krankenkassen-справки о посещаемости | 🔥🔥🔥 | Средн. | ✅ Done (demo) |
+| 3.1 | Churn-Check: CSV-анализ в браузере | 🔥🔥🔥 | Низк. | ✅ Done |
+| 2.3 | Pause statt Kündigung (save-флоу) | 🔥🔥 | Средн. | Backlog |
+| 2.4 | Booking-Ghost алерты (no-show = сигнал) | 🔥🔥 | Низк. | Backlog |
+| 2.8 | Comeback-Bonus (награда за возврат после пропуска) | 🔥🔥🔥 | Низк. | ✅ Done (demo) |
+| 2.5 | Occupancy классов | 🔥🔥 | Низк. | ✅ Done (demo) |
+| 2.6 | Buddy Streaks (парные стрики) | 🔥🔥 | Средн. | Backlog |
+| 2.7 | Trainer View (третья персона) | 🔥🔥 | Высок. | Backlog |
+| 3.2 | Explainable alerts (чипы-причины) | 🔥🔥 | Низк. | Backlog |
+| 3.3 | Morning Briefing в WhatsApp | 🔥🔥 | Средн. | Backlog |
+| 3.4 | Class-retention analytics | 🔥 | Средн. | Backlog |
+| 3.5 | Benchmark-тизер в Analytics | 🔥 | Минимальн. | Backlog |
+| 3.6 | Referral в member app (member-facing UI) | 🔥 | Низк. | Backlog |
 
-**Топ-3 по соотношению эффект/усилие:**
-1. **Churn-Check с реальным CSV-анализом в браузере** — усиливает демо и
-   главный канал продаж одновременно; работает без бекенда.
-2. **Payout-Checker** — самая конкретная денежная фича, делает флагманский
-   Aggregator Hub неоспоримым.
-3. **Krankenkassen-справки** — второй DACH-ров после Kündigungsfrist +
-   органический драйвер adoption member app.
+**Следующие по приоритету:**
+1. **W.4 + W.5** — wearable-колонка в таблице + intensity-сигнал в Briefing: дополняют
+   уже внедрённые wearable-фичи, показывают gym owner что происходит с качеством тренировок.
+2. **Payout-Checker** — самая конкретная денежная фича, питч "мы нашли €138 невыплат" —
+   сильнее любой атрибуции. Делает Aggregator Hub неоспоримым.
+3. **Pause statt Kündigung** — самый частый сценарий отмены в DACH (жизненный момент, а
+   не недовольство); закрывает главную дыру в save-флоу.
 
 ---
 

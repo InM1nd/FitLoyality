@@ -1,12 +1,13 @@
 "use client";
 
 import { Area, AreaChart, ResponsiveContainer, Tooltip, XAxis } from "recharts";
-import { Flame, Dumbbell, Star } from "lucide-react";
+import { Flame, Dumbbell, Star, Watch } from "lucide-react";
 
 import { Card } from "@/components/ui/card";
 import { cn, formatNumber } from "@/lib/utils";
 import type { ChartTooltipProps } from "@/lib/chart-types";
 import { MEMBER_ME, MEMBER_BADGES } from "@/lib/data";
+import { useT } from "@/lib/i18n/context";
 
 const MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun"];
 
@@ -36,17 +37,22 @@ function PointsTooltip({ active, payload, label }: ChartTooltipProps) {
 }
 
 export default function MemberActivity() {
+  const t = useT("memberHome");
   const chartData = MEMBER_ME.pointsHistory.map((value, i) => ({ month: MONTHS[i], value }));
 
   const stats = [
-    { icon: Flame, label: "Streak", value: `${MEMBER_ME.weekStreak} weeks` },
-    { icon: Star, label: "This month", value: formatNumber(MEMBER_ME.pointsThisMonth) },
-    { icon: Dumbbell, label: "Workouts", value: formatNumber(MEMBER_ME.lifetimeWorkouts) },
+    { icon: Flame, label: t("actStatStreak"), value: `${MEMBER_ME.weekStreak}w` },
+    { icon: Star, label: t("actStatMonth"), value: formatNumber(MEMBER_ME.pointsThisMonth) },
+    { icon: Dumbbell, label: t("actStatWorkouts"), value: formatNumber(MEMBER_ME.lifetimeWorkouts) },
   ];
 
   return (
     <div className="flex flex-col gap-5 px-5 pb-6 pt-1">
-      <h1 className="text-2xl font-bold tracking-tight">Activity</h1>
+      <h1 className="text-2xl font-bold tracking-tight">{t("activityPageTitle")}</h1>
+      <div className="flex items-center gap-1.5 -mt-3 text-[11px] text-faint">
+        <Watch className="size-3.5 text-brand" />
+        <span>{t("wearableSyncFrom", { device: MEMBER_ME.device, ago: MEMBER_ME.syncedAgo })}</span>
+      </div>
 
       {/* Stats */}
       <div className="grid grid-cols-3 gap-3">
@@ -62,9 +68,33 @@ export default function MemberActivity() {
         })}
       </div>
 
+      {/* Last workout breakdown */}
+      <Card className="p-4">
+        <div className="mb-3 flex items-center justify-between">
+          <p className="text-[11px] font-semibold uppercase tracking-wider text-faint">{t("ptsBreakdown")}</p>
+          <span className="inline-flex items-center rounded-lg bg-primary/10 px-2 py-0.5 text-[10px] font-semibold text-brand">
+            {t("todayWorkoutLevel", { n: String(MEMBER_ME.todayWorkout.level), label: MEMBER_ME.todayWorkout.label })}
+          </span>
+        </div>
+        <div className="flex flex-col gap-1.5">
+          <div className="flex items-center justify-between text-[12px]">
+            <span className="text-muted-foreground">{t("ptsCheckin")}</span>
+            <span className="num font-semibold text-success">+{MEMBER_ME.todayWorkout.checkInPts} pts</span>
+          </div>
+          <div className="flex items-center justify-between text-[12px]">
+            <span className="text-muted-foreground">{t("ptsIntensity", { n: String(MEMBER_ME.todayWorkout.level) })}</span>
+            <span className="num font-semibold text-success">+{MEMBER_ME.todayWorkout.intensityPts} pts</span>
+          </div>
+          <div className="flex items-center justify-between border-t border-border pt-1.5 text-[12.5px]">
+            <span className="font-semibold">{t("ptsTotal")}</span>
+            <span className="num font-bold text-brand">+{MEMBER_ME.todayWorkout.checkInPts + MEMBER_ME.todayWorkout.intensityPts} pts</span>
+          </div>
+        </div>
+      </Card>
+
       {/* Heatmap */}
       <section>
-        <h2 className="mb-3 text-sm font-semibold">Last 8 weeks</h2>
+        <h2 className="mb-3 text-sm font-semibold">{t("actLast8weeks")}</h2>
         <Card className="p-4">
           <div className="grid grid-flow-col grid-rows-7 gap-1.5">
             {MEMBER_ME.activity.map((level, i) => (
@@ -72,18 +102,18 @@ export default function MemberActivity() {
             ))}
           </div>
           <div className="mt-3 flex items-center gap-1.5 text-[10px] text-faint">
-            <span>Less</span>
+            <span>{t("actHeatLess")}</span>
             {[0, 1, 2, 3, 4].map((l) => (
               <div key={l} className={cn("size-2.5 rounded-sm", heatClass(l))} />
             ))}
-            <span>More</span>
+            <span>{t("actHeatMore")}</span>
           </div>
         </Card>
       </section>
 
       {/* Points history */}
       <section>
-        <h2 className="mb-3 text-sm font-semibold">Points · last 6 months</h2>
+        <h2 className="mb-3 text-sm font-semibold">{t("actPoints6months")}</h2>
         <Card className="p-4">
           <div className="h-40 w-full">
             <ResponsiveContainer width="100%" height="100%">
@@ -118,7 +148,7 @@ export default function MemberActivity() {
 
       {/* Badges */}
       <section>
-        <h2 className="mb-3 text-sm font-semibold">Badges</h2>
+        <h2 className="mb-3 text-sm font-semibold">{t("actBadgesTitle")}</h2>
         <div className="grid grid-cols-4 gap-2.5">
           {MEMBER_BADGES.map((b) => (
             <div

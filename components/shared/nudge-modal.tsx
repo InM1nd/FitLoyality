@@ -15,6 +15,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
+import { useT } from "@/lib/i18n/context";
 
 interface NudgeModalProps {
   memberName: string | null;
@@ -26,19 +27,12 @@ function firstName(full: string): string {
   return full.split(" ")[0];
 }
 
-function defaultMessage(name: string): string {
-  return (
-    `Hey ${firstName(name)}! 💪 We've missed you at the studio. ` +
-    `You're only a few workouts away from your next reward — come crush a session this week!`
-  );
-}
-
 export function NudgeModal({ memberName, open, onOpenChange }: NudgeModalProps) {
   const name = memberName ?? "";
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="max-w-md">
-        {/* key remounts the form per member, so the message re-seeds without render-phase setState */}
+        {/* key remounts the form per member so the message re-seeds without render-phase setState */}
         <NudgeForm key={name} name={name} onOpenChange={onOpenChange} />
       </DialogContent>
     </Dialog>
@@ -52,39 +46,39 @@ function NudgeForm({
   name: string;
   onOpenChange: (open: boolean) => void;
 }) {
-  const [message, setMessage] = React.useState(() => (name ? defaultMessage(name) : ""));
+  const t = useT("briefing");
+  const first = firstName(name);
+  const [message, setMessage] = React.useState(() =>
+    name ? t("nudgeDefaultMsg", { first }) : "",
+  );
 
   const handleSend = () => {
     onOpenChange(false);
-    toast.success(`Nudge sent to ${firstName(name)}`, {
-      description: "Push notification delivered to their member app.",
+    toast.success(t("nudgeToastTitle", { name: first }), {
+      description: t("nudgeToastDesc"),
     });
   };
 
   return (
     <>
       <DialogHeader>
-        <DialogTitle>Send a nudge to {name}</DialogTitle>
-        <DialogDescription>
-          A friendly push notification lands directly in their member app.
-        </DialogDescription>
+        <DialogTitle>{t("nudgeTitle", { name })}</DialogTitle>
+        <DialogDescription>{t("nudgeDesc")}</DialogDescription>
       </DialogHeader>
       <div className="flex flex-col gap-2 p-6">
-        <Label htmlFor="nudge-message">Message</Label>
+        <Label htmlFor="nudge-message">{t("nudgeLabel")}</Label>
         <Textarea
           id="nudge-message"
           value={message}
           onChange={(e) => setMessage(e.target.value)}
           className="min-h-28"
         />
-        <p className="text-[11px] text-faint">{message.length} characters</p>
+        <p className="text-[11px] text-faint">{t("nudgeChars", { n: message.length })}</p>
       </div>
       <DialogFooter>
-        <Button variant="secondary" onClick={() => onOpenChange(false)}>
-          Cancel
-        </Button>
+        <Button variant="secondary" onClick={() => onOpenChange(false)}>{t("nudgeCancel")}</Button>
         <Button onClick={handleSend}>
-          <Send /> Send Push Notification
+          <Send /> {t("nudgeSend")}
         </Button>
       </DialogFooter>
     </>

@@ -16,14 +16,16 @@ import {
 import { QrCode } from "@/components/member/qr-code";
 import { formatNumber } from "@/lib/utils";
 import { MEMBER_ME, MEMBER_REFERRAL, MEMBER_REWARDS } from "@/lib/data";
+import { useT } from "@/lib/i18n/context";
 import type { MemberReward } from "@/lib/types";
 
 function ReferralCard() {
+  const t = useT("memberHome");
   const copyLink = () => {
     navigator.clipboard
       ?.writeText(`https://${MEMBER_REFERRAL.link}`)
       .catch(() => undefined);
-    toast.success("Invite link copied — share it with a friend!");
+    toast.success(t("rwdCopySuccess"));
   };
 
   return (
@@ -33,25 +35,24 @@ function ReferralCard() {
           <UserPlus className="size-5 text-brand" />
         </div>
         <div className="min-w-0 flex-1">
-          <p className="text-sm font-semibold leading-tight">Invite a friend</p>
+          <p className="text-sm font-semibold leading-tight">{t("rwdInviteTitle")}</p>
           <p className="mt-0.5 text-[11.5px] leading-snug text-muted-foreground">
-            They get {MEMBER_REFERRAL.friendPerk} — you get{" "}
-            <span className="font-semibold text-brand">+{MEMBER_REFERRAL.points} pts</span> when
-            they join.
+            {t("rwdInviteDesc", { perk: MEMBER_REFERRAL.friendPerk, pts: String(MEMBER_REFERRAL.points) })}
           </p>
         </div>
       </div>
       <Button size="sm" variant="secondary" className="mt-3 w-full" onClick={copyLink}>
-        <Copy className="size-3.5" /> Copy invite link
+        <Copy className="size-3.5" /> {t("rwdCopyLink")}
       </Button>
       <p className="num mt-2 text-center text-[10.5px] text-faint">
-        {MEMBER_REFERRAL.friendsJoined} friend joined · +{MEMBER_REFERRAL.pointsEarned} pts earned
+        {t("rwdFriendsJoined", { n: String(MEMBER_REFERRAL.friendsJoined), pts: String(MEMBER_REFERRAL.pointsEarned) })}
       </p>
     </Card>
   );
 }
 
 export default function MemberRewards() {
+  const t = useT("memberHome");
   const balance = MEMBER_ME.balance;
   const [redeeming, setRedeeming] = React.useState<MemberReward | null>(null);
 
@@ -59,7 +60,7 @@ export default function MemberRewards() {
     <div className="flex flex-col gap-4 px-5 pb-6 pt-1">
       {/* Balance */}
       <div className="rounded-2xl border border-border bg-surface-2 p-4">
-        <p className="text-[11px] font-semibold uppercase tracking-wider text-faint">Your balance</p>
+        <p className="text-[11px] font-semibold uppercase tracking-wider text-faint">{t("rwdBalance")}</p>
         <div className="mt-1 flex items-end gap-1.5">
           <span className="num text-3xl font-bold leading-none text-brand">
             {formatNumber(balance)}
@@ -70,7 +71,7 @@ export default function MemberRewards() {
 
       <ReferralCard />
 
-      <h1 className="text-base font-semibold">Available Rewards</h1>
+      <h1 className="text-base font-semibold">{t("rwdAvailable")}</h1>
 
       <div className="flex flex-col gap-3">
         {MEMBER_REWARDS.map((r) => {
@@ -90,12 +91,12 @@ export default function MemberRewards() {
               </div>
               {affordable ? (
                 <Button size="sm" onClick={() => setRedeeming(r)}>
-                  Redeem
+                  {t("rwdRedeem")}
                 </Button>
               ) : (
                 <div className="flex flex-col items-end gap-1 text-faint">
                   <Lock className="size-4" />
-                  <span className="num text-[10px]">{formatNumber(toGo)} to go</span>
+                  <span className="num text-[10px]">{t("rwdToGo", { n: formatNumber(toGo) })}</span>
                 </div>
               )}
             </Card>
@@ -112,12 +113,12 @@ export default function MemberRewards() {
             <DialogTitle className="flex items-center justify-center gap-1.5">
               <Sparkles className="size-4 text-brand" /> {redeeming?.name}
             </DialogTitle>
-            <DialogDescription>Show this code at the bar to claim your reward.</DialogDescription>
+            <DialogDescription>{t("rwdDialogDesc")}</DialogDescription>
           </DialogHeader>
           <div className="flex flex-col items-center gap-3 px-6 pb-6">
             <QrCode value={redeeming?.id ?? "reward"} className="size-48" />
             <p className="text-center text-[11px] text-faint">
-              Expires once scanned by staff · {redeeming?.cost} pts
+              {t("rwdExpiry", { cost: String(redeeming?.cost ?? 0) })}
             </p>
           </div>
         </DialogContent>
