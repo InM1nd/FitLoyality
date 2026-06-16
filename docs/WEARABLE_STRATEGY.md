@@ -114,6 +114,8 @@ Heatmap levels 0–4 уже есть в продукте. Маппинг на we
 - ✅ Формулировка: "Points based on real effort, not just showing up" в hero
 - ✅ Capabilities cap #6: "Effort-verified points" (заменила White-label)
 - ✅ Phone gallery ActivityScreen: sync chip "Apple Watch · 2m"
+- ✅ "How it works" секция (3 одинаковых шага + шкала интенсивности Light/Normal/Strong/Intense, светлый фон bg-[#ede9e1], editorial grid)
+- ✅ Phone gallery HomeScreen: компактный workout chip "Lv 3 · Strong Session · 62 min · +150 pts"
 
 ### Дашборд (gym owner)
 - [ ] Колонка "Wearable" в таблице членов (подключён / не подключён)

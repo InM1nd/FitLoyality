@@ -67,6 +67,11 @@ function HomeScreen() {
         </div>
         <div className="mt-1 h-1.5 overflow-hidden rounded-full bg-white/25"><div className="h-full w-[94%] rounded-full bg-white" /></div>
       </div>
+      <div className="flex items-center gap-1.5 rounded-lg border border-white/8 bg-white/[0.04] px-2.5 py-1.5">
+        <span className="inline-flex items-center gap-0.5 rounded bg-[#ff7403]/15 px-1.5 py-0.5 text-[6.5px] font-bold text-[#ff7403]">Lv 3</span>
+        <span className="flex-1 truncate text-[7.5px] text-zinc-300">Strong Session · 62 min</span>
+        <span className="text-[7.5px] font-bold text-[#ff7403]">+150 pts</span>
+      </div>
       <div className="inline-flex w-fit items-center gap-1.5 rounded-full border border-white/10 bg-white/5 px-2 py-1 text-[8px] text-zinc-300">
         <span className="size-1 rounded-full bg-[#93dafe]" /> Quiet right now · 21 in · ~26% full
       </div>

@@ -4,6 +4,7 @@ import { LandingNav } from "@/components/landing/landing-nav";
 import { LandingHero } from "@/components/landing/landing-hero";
 import { LandingTicker } from "@/components/landing/landing-ticker";
 import { LandingStats } from "@/components/landing/landing-stats";
+import { LandingHowItWorks } from "@/components/landing/landing-how-it-works";
 import { LandingCapabilities } from "@/components/landing/landing-capabilities";
 import { ProductShowcase } from "@/components/landing/product-showcase";
 import { PhoneGallery } from "@/components/landing/phone-gallery";
@@ -23,6 +24,7 @@ export default function LandingPage() {
           <LandingHero />
           <LandingTicker />
           <LandingStats />
+          <LandingHowItWorks />
           <LandingCapabilities />
           <ProductShowcase />
           <PhoneGallery />

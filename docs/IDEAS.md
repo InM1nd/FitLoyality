@@ -17,6 +17,8 @@
 | W.1 | Wearable: "Today's workout" card в member home | 🔥🔥🔥 | Низк. | ✅ Done |
 | W.2 | Wearable: effort breakdown в activity screen | 🔥🔥🔥 | Низк. | ✅ Done |
 | W.3 | Wearable: landing hero trust strip + cap #6 | 🔥🔥🔥 | Низк. | ✅ Done |
+| W.3a | Wearable: "How it works" секция на лендинге (3 шага + шкала интенсивности) | 🔥🔥🔥 | Низк. | ✅ Done |
+| W.3b | Phone gallery HomeScreen: wearable workout chip | 🔥🔥 | Низк. | ✅ Done |
 | W.4 | Wearable: колонка в таблице членов + side panel | 🔥🔥 | Средн. | Backlog |
 | W.5 | Wearable: "intensity declining" сигнал в Briefing | 🔥🔥 | Средн. | Backlog |
 | 2.1 | Payout-Checker (сверка выплат агрегаторов) | 🔥🔥🔥 | Средн. | Backlog |
