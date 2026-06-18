@@ -26,7 +26,11 @@ interface ChannelRow {
   detail: string;
 }
 
-export function AggregatorHub() {
+interface AggregatorHubProps {
+  className?: string;
+}
+
+export function AggregatorHub({ className }: AggregatorHubProps) {
   const t = useT("overview");
   const channels: ChannelRow[] = [
     {
@@ -47,7 +51,7 @@ export function AggregatorHub() {
   const total = channels.reduce((sum, c) => sum + c.revenue, 0);
 
   return (
-    <Card className="flex h-full flex-col" data-tour="aggregator-hub">
+    <Card className={cn("flex h-full flex-col", className)} data-tour="aggregator-hub">
       <CardHeader className="flex-row items-center justify-between border-b border-border">
         <div className="flex items-center gap-2">
           <Layers className="size-4 text-brand" />

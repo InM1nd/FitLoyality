@@ -29,6 +29,10 @@ export interface Member {
   churnReasons?: string[];
   /** booked classes but stopped attending — the earliest churn signal */
   bookingGhost?: boolean;
+  /** whether this member has connected a wearable health app */
+  wearableConnected: boolean;
+  /** average workout intensity level (1.0–4.0) over the last 4 weeks; null = no wearable */
+  avgIntensity: number | null;
   totalWorkouts: number;
   rewardsRedeemed: number;
   /** longest run of consecutive weeks hitting the weekly goal */
@@ -157,7 +161,7 @@ export interface NotificationItem {
  * `save` (churn window) → `celebrate` (milestone) → `convert` (USC regular)
  * → `review` (happy member, ask for a Google review).
  */
-export type BriefingType = "save" | "celebrate" | "convert" | "review";
+export type BriefingType = "save" | "celebrate" | "convert" | "review" | "intensity";
 
 export interface BriefingAction {
   id: string;

@@ -5,6 +5,8 @@ import { driver, type Driver } from "driver.js";
 import "driver.js/dist/driver.css";
 
 import { useT } from "@/lib/i18n/context";
+import { useStudioProfile } from "@/hooks/use-studio-profile";
+import { STUDIO_PROFILE_READY_EVENT } from "@/lib/studio-profile";
 
 const TOUR_SEEN_KEY = "fitloyalty-tour-seen";
 /** DemoBanner dispatches this to restart the tour on demand. */
@@ -12,17 +14,20 @@ export const TOUR_EVENT = "fitloyalty:start-tour";
 
 /**
  * Guided dashboard tour (driver.js). Auto-starts once per browser on the
- * overview page; the DemoBanner "Tour" button restarts it any time.
- * Re-initialises when the locale changes so all copy stays in sync.
+ * overview page after the setup wizard completes; the DemoBanner "Tour"
+ * button restarts it any time. Re-initialises when locale or profile changes.
  */
 export function DemoTour() {
   const t = useT("demo");
+  const { hydrated, wizardPending, personalization } = useStudioProfile();
   const driverRef = React.useRef<Driver | null>(null);
 
   React.useEffect(() => {
+    if (!hydrated || wizardPending) return;
+
     const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-    const steps = [
+    const allSteps = [
       {
         element: '[data-tour="saved-revenue"]',
         popover: { title: t("tour1Title"), description: t("tour1Desc") },
@@ -44,6 +49,14 @@ export function DemoTour() {
         popover: { title: t("tour5Title"), description: t("tour5Desc") },
       },
     ];
+
+    const steps = personalization.includeAggregatorTourSteps
+      ? allSteps
+      : allSteps.filter(
+          (s) =>
+            s.element !== '[data-tour="aggregator-hub"]' &&
+            s.element !== '[data-tour="usc-converter"]',
+        );
 
     const d = driver({
       steps,
@@ -71,13 +84,21 @@ export function DemoTour() {
       autoStart = setTimeout(start, 1200);
     }
 
+    const onProfileReady = () => {
+      if (!localStorage.getItem(TOUR_SEEN_KEY) && !d.isActive()) {
+        autoStart = setTimeout(start, 800);
+      }
+    };
+    window.addEventListener(STUDIO_PROFILE_READY_EVENT, onProfileReady);
+
     return () => {
       window.removeEventListener(TOUR_EVENT, start);
+      window.removeEventListener(STUDIO_PROFILE_READY_EVENT, onProfileReady);
       if (autoStart) clearTimeout(autoStart);
       d.destroy();
       driverRef.current = null;
     };
-  }, [t]);
+  }, [t, hydrated, wizardPending, personalization.includeAggregatorTourSteps]);
 
   return null;
 }

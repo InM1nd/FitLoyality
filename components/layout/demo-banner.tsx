@@ -5,6 +5,7 @@ import { usePathname, useRouter } from "next/navigation";
 import { X, Smartphone, Sparkles } from "lucide-react";
 
 import { TOUR_EVENT } from "@/components/shared/demo-tour";
+import { useStudioProfile } from "@/hooks/use-studio-profile";
 import { useT } from "@/lib/i18n/context";
 
 const BANNER_KEY = "fitloyalty-banner-seen";
@@ -32,6 +33,7 @@ function subscribeBanner(listener: () => void) {
 
 export function DemoBanner() {
   const t = useT("demo");
+  const { resetProfile } = useStudioProfile();
   const pathname = usePathname();
   const router = useRouter();
 
@@ -63,6 +65,13 @@ export function DemoBanner() {
               fitloyalty.io
             </span>
           </p>
+          <button
+            type="button"
+            onClick={resetProfile}
+            className="hidden shrink-0 items-center gap-1.5 rounded-full bg-white/10 px-3 py-1 font-semibold text-white/70 transition-colors hover:bg-white/15 hover:text-white sm:inline-flex"
+          >
+            {t("reconfigureBtn")}
+          </button>
           <button
             type="button"
             onClick={startTour}

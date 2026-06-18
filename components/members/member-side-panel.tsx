@@ -105,13 +105,57 @@ export function MemberSidePanel({ member, open, onOpenChange, onNudge }: MemberS
               <p className="mb-2.5 text-[11px] font-semibold uppercase tracking-wider text-faint">
                 {t("connectedDevice")}
               </p>
-              <div className="inline-flex items-center gap-2 rounded-md border border-border bg-surface-2 px-3 py-2 text-xs font-medium">
-                <span className="size-1.5 rounded-full bg-success" />
-                <Watch className="size-4 text-muted-foreground" />
-                {member.device}
-                <span className="text-faint">· {t("syncedAgo")}</span>
-              </div>
+              {member.wearableConnected ? (
+                <div className="inline-flex items-center gap-2 rounded-md border border-border bg-surface-2 px-3 py-2 text-xs font-medium">
+                  <span className="size-1.5 rounded-full bg-success" />
+                  <Watch className="size-4 text-muted-foreground" />
+                  {member.device}
+                  <span className="text-faint">· {t("syncedAgo")}</span>
+                </div>
+              ) : (
+                <div className="inline-flex items-center gap-2 rounded-md border border-border bg-surface-2 px-3 py-2 text-xs font-medium text-faint">
+                  <span className="size-1.5 rounded-full bg-surface-3 border border-border" />
+                  {t("noWearable")}
+                </div>
+              )}
             </div>
+
+            {member.wearableConnected && member.avgIntensity !== null && (
+              <div>
+                <p className="mb-2.5 text-[11px] font-semibold uppercase tracking-wider text-faint">
+                  {t("avgIntensityTitle")}
+                </p>
+                <div className="grid grid-cols-4 gap-1.5">
+                  {(["Light", "Normal", "Strong", "Intense"] as const).map((label, i) => {
+                    const levelVal = i + 1;
+                    const avg = member.avgIntensity as number;
+                    const isActive = Math.round(avg) === levelVal;
+                    const isPast = levelVal < avg;
+                    return (
+                      <div key={label} className="flex flex-col gap-1">
+                        <div
+                          className={cn(
+                            "h-1.5 w-full rounded-full",
+                            isActive ? "bg-primary" : isPast ? "bg-primary/40" : "bg-surface-3",
+                          )}
+                        />
+                        <span className={cn("text-[9px] text-center", isActive ? "font-semibold text-brand" : "text-faint")}>
+                          {label}
+                        </span>
+                      </div>
+                    );
+                  })}
+                </div>
+                <p className="mt-1.5 text-[10.5px] text-faint">
+                  Avg Lv {(member.avgIntensity as number).toFixed(1)} · last 4 weeks
+                  {(member.avgIntensity as number) < 2 && (
+                    <span className="ml-1.5 inline-flex items-center gap-0.5 rounded bg-[#0d9488]/15 px-1.5 py-0.5 text-[9px] font-semibold text-[#0d9488]">
+                      ↓ declining
+                    </span>
+                  )}
+                </p>
+              </div>
+            )}
 
             <div>
               <p className="mb-2.5 text-[11px] font-semibold uppercase tracking-wider text-faint">

@@ -15,7 +15,7 @@ const STATS: {
 }[] = [
   { value: 81.4, decimals: 1, suffix: "%", labelKey: "s1" },
   { value: 9, labelKey: "s2" },
-  { value: 3912, prefix: "€", labelKey: "s3" },
+  { value: 92, suffix: "%", labelKey: "s3" },
   { value: 2340, prefix: "€", labelKey: "s4" },
 ];
 

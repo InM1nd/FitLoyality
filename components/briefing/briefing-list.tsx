@@ -6,6 +6,7 @@ import {
   PartyPopper,
   UserPlus,
   Star,
+  TrendingDown,
   Check,
   Send,
   MessageCircle,
@@ -54,6 +55,12 @@ const TYPE_META: Record<
     accent: "bg-[#a78bfa]",
     iconBox: "bg-[#a78bfa]/15 text-[#a78bfa]",
   },
+  intensity: {
+    icon: TrendingDown,
+    labelKey: "typeIntensity",
+    accent: "bg-[#0d9488]",
+    iconBox: "bg-[#0d9488]/15 text-[#0d9488]",
+  },
 };
 
 const CHANNEL_ICON: Record<BriefingAction["channel"], LucideIcon> = {
@@ -94,6 +101,7 @@ export function BriefingList() {
       celebrate: "toastCelebrate",
       convert: "toastConvert",
       review: "toastReview",
+      intensity: "toastIntensity",
     };
     toast.success(t(toastKey[action.type as Exclude<BriefingType, "save">], { name: first }), {
       description: t("toastDeliveredVia", { channel: action.channel }),

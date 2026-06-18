@@ -2,6 +2,8 @@
 
 import { Flame, Snowflake, Users, ChevronRight, TrendingUp, PartyPopper, HeartPulse } from "lucide-react";
 
+import { WearableOnboardingModal } from "@/components/member/wearable-onboarding-modal";
+
 import { Card } from "@/components/ui/card";
 import { useCountUp } from "@/hooks/use-count-up";
 import { cn, formatNumber } from "@/lib/utils";
@@ -298,6 +300,8 @@ export default function MemberHome() {
           ))}
         </Card>
       </section>
+
+      <WearableOnboardingModal />
     </div>
   );
 }

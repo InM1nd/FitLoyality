@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import { useRouter, useSearchParams } from "next/navigation";
-import { Search, Download, ArrowUpDown, ArrowUp, ArrowDown } from "lucide-react";
+import { Search, Download, ArrowUpDown, ArrowUp, ArrowDown, Watch } from "lucide-react";
 import { toast } from "sonner";
 
 import { Card } from "@/components/ui/card";
@@ -221,6 +221,7 @@ export function MembersTable() {
                 />
                 <SortHeader label={t("colSince")} active={sortKey === "since"} dir={sortDir} onClick={() => toggleSort("since")} />
                 <TableHead>{t("colSource")}</TableHead>
+                <TableHead>{t("colWearable")}</TableHead>
                 <SortHeader label={t("colLastVisit")} active={sortKey === "lastVisit"} dir={sortDir} onClick={() => toggleSort("lastVisit")} />
                 <SortHeader label={t("colWorkouts")} active={sortKey === "workouts"} dir={sortDir} onClick={() => toggleSort("workouts")} className="text-right [&>button]:flex-row-reverse" />
                 <SortHeader label={t("colPoints")} active={sortKey === "points"} dir={sortDir} onClick={() => toggleSort("points")} className="text-right [&>button]:flex-row-reverse" />
@@ -250,6 +251,17 @@ export function MembersTable() {
                       {SOURCE_BADGE[m.source].label}
                     </Badge>
                   </TableCell>
+                  <TableCell>
+                    {m.wearableConnected ? (
+                      <div className="flex items-center gap-1.5 text-[12px] text-muted-foreground">
+                        <span className="size-1.5 rounded-full bg-success" />
+                        <Watch className="size-3" />
+                        {m.device}
+                      </div>
+                    ) : (
+                      <span className="text-[12px] text-faint">{t("wearableQrOnly")}</span>
+                    )}
+                  </TableCell>
                   <TableCell className="text-muted-foreground">{m.lastVisit}</TableCell>
                   <TableCell className="num text-right">{m.workoutsThisMonth}</TableCell>
                   <TableCell className="num text-right font-medium">{formatNumber(m.points)}</TableCell>
@@ -262,7 +274,7 @@ export function MembersTable() {
               ))}
               {rows.length === 0 && (
                 <TableRow className="hover:bg-transparent">
-                  <TableCell colSpan={7} className="py-10 text-center text-muted-foreground">
+                  <TableCell colSpan={8} className="py-10 text-center text-muted-foreground">
                     {t("noResults")}
                   </TableCell>
                 </TableRow>

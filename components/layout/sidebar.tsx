@@ -17,6 +17,7 @@ import {
 import { cn } from "@/lib/utils";
 import { Logo } from "@/components/layout/logo";
 import { useT } from "@/lib/i18n/context";
+import { useStudioProfile } from "@/hooks/use-studio-profile";
 import { BRIEFING_ACTIONS, GYM, MEMBER_COUNTS } from "@/lib/data";
 
 interface NavItem {
@@ -47,6 +48,19 @@ const NAV: NavItem[] = [
 export function SidebarBody({ onNavigate }: { onNavigate?: () => void }) {
   const pathname = usePathname();
   const t = useT("nav");
+  const tDemo = useT("demo");
+  const { personalization } = useStudioProfile();
+
+  const planLabel = (() => {
+    if (!personalization.recommendedPlanKey) return GYM.plan;
+    const key =
+      personalization.recommendedPlanKey === "starter"
+        ? "planStarter"
+        : personalization.recommendedPlanKey === "growth"
+          ? "planGrowth"
+          : "planPro";
+    return tDemo(key);
+  })();
 
   return (
     <>
@@ -115,7 +129,14 @@ export function SidebarBody({ onNavigate }: { onNavigate?: () => void }) {
           </div>
           <div className="min-w-0">
             <p className="truncate text-[13px] font-semibold leading-tight">{GYM.name}</p>
-            <p className="mt-0.5 text-[11px] text-faint">{GYM.plan}</p>
+            <p
+              className={cn(
+                "mt-0.5 text-[11px]",
+                personalization.recommendedPlanKey ? "font-semibold text-brand" : "text-faint",
+              )}
+            >
+              {planLabel}
+            </p>
           </div>
         </div>
       </div>

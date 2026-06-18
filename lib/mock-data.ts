@@ -78,25 +78,28 @@ interface MemberSeed {
   churnReasons?: string[];
   /** still booking classes but not showing up — earliest churn signal */
   bookingGhost?: boolean;
+  wearableConnected: boolean;
+  /** average intensity level 1.0–4.0 over last 4 weeks; null if no wearable */
+  avgIntensity: number | null;
 }
 
 const MEMBER_SEEDS: MemberSeed[] = [
-  { name: "Anna Müller",    grad: 1, since: "Mar 2021", lastVisitDays: 0,  workoutsThisMonth: 18, points: 2840, status: "active",  city: "Wien",      source: "direct",   noticeDeadlineDays: 92 },
-  { name: "Lukas Fischer",  grad: 2, since: "Jan 2022", lastVisitDays: 1,  workoutsThisMonth: 14, points: 1920, status: "active",  city: "Wien",      source: "usc",      noticeDeadlineDays: null },
-  { name: "Sarah Klein",    grad: 5, since: "Sep 2020", lastVisitDays: 2,  workoutsThisMonth: 11, points: 3410, status: "active",  city: "Graz",      source: "direct",   noticeDeadlineDays: 47 },
-  { name: "Michael Bauer",  grad: 3, since: "Apr 2024", lastVisitDays: 3,  workoutsThisMonth: 9,  points: 720,  status: "active",  city: "Wien",      source: "wellpass", noticeDeadlineDays: null },
-  { name: "Julia Hofmann",  grad: 4, since: "Nov 2023", lastVisitDays: 16, workoutsThisMonth: 3,  points: 640,  status: "at-risk", city: "Wien",      source: "direct",   noticeDeadlineDays: 5,
+  { name: "Anna Müller",    grad: 1, since: "Mar 2021", lastVisitDays: 0,  workoutsThisMonth: 18, points: 2840, status: "active",  city: "Wien",      source: "direct",   noticeDeadlineDays: 92,   wearableConnected: true,  avgIntensity: 3.4 },
+  { name: "Lukas Fischer",  grad: 2, since: "Jan 2022", lastVisitDays: 1,  workoutsThisMonth: 14, points: 1920, status: "active",  city: "Wien",      source: "usc",      noticeDeadlineDays: null, wearableConnected: true,  avgIntensity: 2.8 },
+  { name: "Sarah Klein",    grad: 5, since: "Sep 2020", lastVisitDays: 2,  workoutsThisMonth: 11, points: 3410, status: "active",  city: "Graz",      source: "direct",   noticeDeadlineDays: 47,   wearableConnected: false, avgIntensity: null },
+  { name: "Michael Bauer",  grad: 3, since: "Apr 2024", lastVisitDays: 3,  workoutsThisMonth: 9,  points: 720,  status: "active",  city: "Wien",      source: "wellpass", noticeDeadlineDays: null, wearableConnected: true,  avgIntensity: 2.3 },
+  { name: "Julia Hofmann",  grad: 4, since: "Nov 2023", lastVisitDays: 16, workoutsThisMonth: 3,  points: 640,  status: "at-risk", city: "Wien",      source: "direct",   noticeDeadlineDays: 5,    wearableConnected: true,  avgIntensity: 1.2,
     churnReasons: ["Frequency −58% vs her 6-mo baseline", "16d inactive"] },
-  { name: "David Lang",     grad: 2, since: "May 2023", lastVisitDays: 1,  workoutsThisMonth: 12, points: 1340, status: "active",  city: "Linz",      source: "direct",   noticeDeadlineDays: 120 },
-  { name: "Nina Wagner",    grad: 4, since: "Feb 2022", lastVisitDays: 21, workoutsThisMonth: 2,  points: 910,  status: "at-risk", city: "Linz",      source: "direct",   noticeDeadlineDays: 11,
+  { name: "David Lang",     grad: 2, since: "May 2023", lastVisitDays: 1,  workoutsThisMonth: 12, points: 1340, status: "active",  city: "Linz",      source: "direct",   noticeDeadlineDays: 120,  wearableConnected: false, avgIntensity: null },
+  { name: "Nina Wagner",    grad: 4, since: "Feb 2022", lastVisitDays: 21, workoutsThisMonth: 2,  points: 910,  status: "at-risk", city: "Linz",      source: "direct",   noticeDeadlineDays: 11,   wearableConnected: true,  avgIntensity: 0.8,
     churnReasons: ["3 booked · 0 attended", "Motivation fading, intent intact"], bookingGhost: true },
-  { name: "Thomas Gruber",  grad: 1, since: "Dec 2022", lastVisitDays: 0,  workoutsThisMonth: 20, points: 3980, status: "active",  city: "Wien",      source: "direct",   noticeDeadlineDays: 154 },
-  { name: "Lisa Berger",    grad: 5, since: "Jun 2023", lastVisitDays: 0,  workoutsThisMonth: 16, points: 2110, status: "active",  city: "Wien",      source: "usc",      noticeDeadlineDays: null },
-  { name: "Felix Schmid",   grad: 3, since: "Oct 2021", lastVisitDays: 19, workoutsThisMonth: 4,  points: 1560, status: "at-risk", city: "Innsbruck", source: "direct",   noticeDeadlineDays: 3,
+  { name: "Thomas Gruber",  grad: 1, since: "Dec 2022", lastVisitDays: 0,  workoutsThisMonth: 20, points: 3980, status: "active",  city: "Wien",      source: "direct",   noticeDeadlineDays: 154,  wearableConnected: true,  avgIntensity: 3.8 },
+  { name: "Lisa Berger",    grad: 5, since: "Jun 2023", lastVisitDays: 0,  workoutsThisMonth: 16, points: 2110, status: "active",  city: "Wien",      source: "usc",      noticeDeadlineDays: null, wearableConnected: true,  avgIntensity: 3.2 },
+  { name: "Felix Schmid",   grad: 3, since: "Oct 2021", lastVisitDays: 19, workoutsThisMonth: 4,  points: 1560, status: "at-risk", city: "Innsbruck", source: "direct",   noticeDeadlineDays: 3,    wearableConnected: true,  avgIntensity: 1.5,
     churnReasons: ["Frequency −45% vs baseline", "Dropped evening classes"] },
-  { name: "Maria Steiner",  grad: 5, since: "Jul 2022", lastVisitDays: 44, workoutsThisMonth: 0,  points: 880,  status: "churned", city: "Wien",      source: "direct",   noticeDeadlineDays: null,
+  { name: "Maria Steiner",  grad: 5, since: "Jul 2022", lastVisitDays: 44, workoutsThisMonth: 0,  points: 880,  status: "churned", city: "Wien",      source: "direct",   noticeDeadlineDays: null, wearableConnected: false, avgIntensity: null,
     churnReasons: ["No visits in 44d", "Ignored 2 nudges"] },
-  { name: "Robert Huber",   grad: 2, since: "Aug 2019", lastVisitDays: 38, workoutsThisMonth: 0,  points: 1180, status: "churned", city: "Salzburg",  source: "hansefit", noticeDeadlineDays: null,
+  { name: "Robert Huber",   grad: 2, since: "Aug 2019", lastVisitDays: 38, workoutsThisMonth: 0,  points: 1180, status: "churned", city: "Salzburg",  source: "hansefit", noticeDeadlineDays: null, wearableConnected: false, avgIntensity: null,
     churnReasons: ["Aggregator visits stopped"] },
 ];
 
@@ -143,6 +146,8 @@ export const MEMBERS: Member[] = MEMBER_SEEDS.map((m, i) => {
     noticeDeadlineDays: m.noticeDeadlineDays,
     churnReasons: m.churnReasons,
     bookingGhost: m.bookingGhost,
+    wearableConnected: m.wearableConnected,
+    avgIntensity: m.avgIntensity,
     totalWorkouts,
     rewardsRedeemed: 2 + (i % 7),
     streakRecord: m.status === "churned" ? 6 + (i % 5) : 9 + (i % 12),
@@ -530,6 +535,19 @@ export const BRIEFING_ACTIONS: BriefingAction[] = [
     channel: "Push",
     meta: "Reputation",
     cta: "Ask for review",
+  },
+  {
+    id: "b7",
+    type: "intensity",
+    name: "Julia Hofmann",
+    initials: "JH",
+    grad: 4,
+    headline: "Effort score dropped Lv 3 → Lv 1 over 4 weeks — possible early burnout",
+    suggestion:
+      "Hi Julia, love that you're still showing up! Noticed your sessions have been feeling lighter lately — everything okay? Happy to adjust the format or just have a quick chat this week.",
+    channel: "WhatsApp",
+    meta: "Avg effort ↓ Lv 1",
+    cta: "Check in",
   },
 ];
 

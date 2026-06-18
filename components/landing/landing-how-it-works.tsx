@@ -17,10 +17,10 @@ const LEVELS: {
   pts: number;
   w: string;
 }[] = [
-  { key: "levelLight",   pts: 100, w: "25%" },
-  { key: "levelNormal",  pts: 150, w: "50%" },
-  { key: "levelStrong",  pts: 200, w: "75%" },
-  { key: "levelIntense", pts: 250, w: "100%" },
+  { key: "levelLight",   pts: 50,  w: "25%" },
+  { key: "levelNormal",  pts: 100, w: "50%" },
+  { key: "levelStrong",  pts: 150, w: "75%" },
+  { key: "levelIntense", pts: 200, w: "100%" },
 ];
 
 export function LandingHowItWorks() {
