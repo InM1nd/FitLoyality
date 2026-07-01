@@ -1,6 +1,6 @@
 # FitLoyalty — Ideas Backlog
 
-> Обновлён: 2026-06-17. Стратегический контекст — `.claude/CLAUDE.md`.
+> Обновлён: 2026-07-01. Стратегический контекст — `.claude/CLAUDE.md`.
 > Wearable-стратегия — `docs/WEARABLE_STRATEGY.md`.
 > Исследование рынка — `docs/MARKET_RESEARCH.md`.
 >
@@ -14,61 +14,40 @@
 
 | # | Идея | Эффект | Усилие | Статус |
 |---|------|--------|--------|--------|
-| — | Setup Wizard — форма перед дашбордом | 🔥🔥🔥 | Средн. | ✅ Done (см. §6) |
+| **NEW** | Setup Wizard — форма перед дашбордом | 🔥🔥🔥 | Средн. | **Done** (см. §4) |
 | **NEW** | Setup Wizard v2 — вертикали EMS/Boxen/Dance | 🔥🔥 | Низк.-Средн. | **Backlog** |
-| W.4 | Wearable: колонка в таблице членов + side panel | 🔥🔥🔥 | Средн. | **Backlog** |
-| W.5 | Wearable: "intensity declining" сигнал в Briefing | 🔥🔥 | Средн. | **Backlog** |
-| W.6 | Wearable: онбординг member app "Connect health app" | 🔥🔥 | Низк. | **Backlog** |
-| 2.1 | Payout-Checker (сверка выплат агрегаторов) | 🔥🔥🔥 | Средн. | Backlog |
-| 3.1 | Churn-Check: реальный CSV-анализ в браузере | 🔥🔥🔥 | Средн. | Backlog |
-| 2.3 | Pause statt Kündigung (save-флоу) | 🔥🔥 | Средн. | Backlog |
+| W.4 | Wearable: колонка в таблице членов + side panel | 🔥🔥🔥 | Средн. | **Done** (см. §4) |
+| W.5 | Wearable: "intensity declining" сигнал в Briefing | 🔥🔥 | Средн. | **Done** (см. §4) |
+| W.6 | Wearable: онбординг member app "Connect health app" | 🔥🔥 | Низк. | **Done** (см. §4) |
+| 2.1 | Payout-Checker (сверка выплат агрегаторов) | 🔥🔥🔥 | Средн. | **Done** (см. §4) |
+| 3.1 | Churn-Check: реальный CSV-анализ в браузере | 🔥🔥🔥 | Средн. | **Done** (см. §4) |
+| 2.3 | Pause statt Kündigung (save-флоу) | 🔥🔥 | Средн. | **Done** (см. §4) |
 | 3.3 | Morning Briefing в WhatsApp | 🔥🔥 | Средн. | Backlog |
 | 3.5 | Benchmark-тизер в Analytics | 🔥 | Минимальн. | Backlog |
 | 2.6 | Buddy Streaks (парные стрики) | 🔥🔥 | Средн. | Backlog |
 | 2.7 | Trainer View (третья персона) | 🔥🔥 | Высок. | Backlog |
 | 3.4 | Class-retention analytics | 🔥 | Средн. | Backlog |
+| — | Consent Manager (Settings, DSGVO) | 🔥🔥 | Низк. | **Done** (см. §4) |
+| — | Multi-location switcher (sidebar "Soon") | 🔥 | Низк. | Backlog |
+| — | Review & Referral campaign (B2B side) | 🔥 | Средн. | Backlog |
 
-**Следующие по приоритету:**
-1. **Setup Wizard** — персонализирует демо, снимает "это не про мой бизнес" возражение
-2. **W.4 + W.5** — дашборд должен показывать wearable-данные; без этого лендинг
-   обещает то, что в продукте невидимо для gym owner
-3. **Payout-Checker** — самая конкретная денежная фича, не требует wearable
-
----
-
-## 2. Setup Wizard — "Tell us about your studio"
-
-**Суть:** модальная форма или первый экран при заходе на `/overview` (до того, как
-демо-тур запустится). 3–4 вопроса → демо подстраивается.
-
-**Вопросы:**
-1. **Тип студии** — Yoga / Pilates · CrossFit / Functional · Open gym · Другое
-2. **Размер** — < 150 членов · 150–500 · 500+
-3. **Агрегаторы?** — Нет / USC · Wellpass · Hansefit (мультиселект)
-4. **Wearable loyalty?** — Да, интересно · Пока нет, сначала базовое
-
-**Что меняется в демо на основе ответов:**
-- Yoga → скрыть/приглушить Aggregator Hub, усилить wearable-story и occupancy через классы
-- Open gym → вынести AggregatorHub на первый план, показать USC Converter
-- ≤150 членов → Starter tier выделен в pricing
-- Wearable=нет → убрать "How it works" из тура, не акцентировать cap #6
-
-**Почему важно:**
-Сейчас все видят CrossFit Vienna Nord demo независимо от своего бизнеса. Форма делает
-демо релевантным за 20 секунд. Это стандартная тактика для B2B SaaS demo flows.
-
-**Реализация в демо (без бекенда):**
-- 1 React state объект `StudioProfile` в контексте
-- Значения читаются компонентами через хук `useStudioProfile()`
-- Данные не персистируются (сброс при обновлении — нормально для демо)
-- Форма показывается при первом визите (localStorage флаг, как у demo-tour)
-
-**Статус:** ✅ реализовано (`lib/studio-profile.ts`, `components/shared/setup-wizard.tsx`,
-`hooks/use-studio-profile.tsx`). Текущие типы: `yoga | crossfit | opengym | other`.
+**Следующие по приоритету** (Setup Wizard v1, W.4/W.5/W.6, Payout-Checker, Churn-Check CSV,
+Pause statt Kündigung, Consent Manager — уже реализованы в коде, см. §4):
+1. **Setup Wizard v2** — расширяет уже готовый механизм на EMS/Boxen/Dance-аутрич,
+   низкий-средний объём работы, см. §2
+2. **Benchmark-тизер** — один час работы, продаёт data-moat в питче
+3. **Multi-location switcher** — "Soon" пилюля в sidebar, минимальный объём работы
+4. **Review & Referral campaign (B2B)** — управление кампанией на стороне gym owner
 
 ---
 
-## 2a. Setup Wizard v2 — расширенные вертикали (EMS / Boxen / Dance)
+## 2. Оставшийся продуктовый беклог
+
+> Setup Wizard v1, W.4–W.6, Payout-Checker, Churn-Check CSV, Pause statt Kündigung и Consent
+> Manager описаны в предыдущих версиях этого документа как беклог — все они уже реализованы,
+> см. §4 "Выполнено".
+
+### Setup Wizard v2 — расширенные вертикали (EMS / Boxen / Dance)
 
 **Зачем:** аутрич расширился за пределы йоги/пилатес на EMS-студии, Boxen/Kickbox
 и Tanzstudios (см. `MARKET_RESEARCH.md` §9a). Сейчас все три попадают в generic
@@ -108,63 +87,7 @@
   не class-based), пока не приоритет по аутричу (см. `MARKET_RESEARCH.md` §9a).
 
 **Эффект:** средний, усилие низкое-среднее — расширение существующего enum +
-copy, без новой архитектуры. Можно сделать за один заход после того, как W.4/W.5
-(wearable-колонка) будут закрыты.
-
----
-
-## 3. Wearable-дашборд (W.4 / W.5 / W.6)
-
-### W.4 — Wearable колонка в Members table
-
-Новый столбец "Activity source" рядом со Status:
-- `🟢 Watch connected` — член подключил Apple Watch / Garmin / Fitbit
-- `⚪ QR only` — чекин без wearable
-- `—` — нет данных
-
-В side panel члена: блок "Workout quality" — средняя интенсивность за последние 4 недели
-(tiny bar chart 1–4), процент занятий с wearable, "Avg. effort: Level 3".
-
-### W.5 — Intensity declining → Morning Briefing сигнал
-
-Новый тип алерта рядом с "inactive 14+ days": "Workout quality dropping".
-Триггер: средняя интенсивность упала на ≥1 уровень за последние 4 недели.
-Питч для gym owner: "Maria still comes 3×/week but her effort scores dropped from
-Level 3 to Level 1 — potential early burnout or injury signal."
-
-Это то, чего не может дать ни одна конкурирующая система без wearable.
-
-### W.6 — Member app онбординг "Connect your health app"
-
-Шаг между регистрацией и главным экраном:
-"Connect your Apple Watch, Fitbit or Garmin to earn effort-verified bonus points."
-Skip option: "I'll use QR check-in only — I still earn base points."
-После connect → объяснение level система (1–4 = 100/150/200/250 pts).
-
----
-
-## 4. Оставшийся продуктовый беклог
-
-### 2.1 Payout-Checker
-
-Студия подключена к 2–3 агрегаторам и никто не сверяет их отчёты с собственными данными.
-USC говорит «412 визитов», чек-ины показывают 437 → недополученные выплаты, которые никто не ловит.
-Питч: *«Мы нашли €138 невыплат за прошлый месяц»* — это не атрибуция, а факт.
-Демо: карточка в AggregatorHub с "Payout audit" блоком (уже в демо!), но без claim-list
-экспорта (locked Growth+).
-
-### 2.3 Pause statt Kündigung
-
-В DACH юридически признана пауза членства (Stilllegung — травма, беременность, командировка).
-Автоматический save-оффер: «Не расторгай — заморозь на 2 месяца бесплатно».
-Замыкает цепочку: Churn Window → Pause offer → Win-back.
-Демо: вторая кнопка «Offer pause» в NudgeModal рядом с nudge.
-
-### 3.1 Churn-Check CSV (настоящий)
-
-Сейчас слайдер-калькулятор. Настоящий upload с client-side парсингом (без бекенда).
-DSGVO-позиция: «ваши данные не покидают браузер» — снимает главный барьер для немецкого
-владельца. Поддержать Eversports CSV + generic mapper.
+copy, без новой архитектуры.
 
 ### 3.3 Morning Briefing → WhatsApp
 
@@ -195,25 +118,31 @@ DSGVO-позиция: «ваши данные не покидают браузе
 
 ---
 
-## 5. Демо-беклог (обещано в pricing, отсутствует)
+## 3. Демо-беклог (обещано в pricing, отсутствует)
 
-- [ ] **Setup Wizard** — форма перед дашбордом (новый, высокий приоритет)
-- [ ] **W.4** — wearable колонка в Members table + side panel intensity
-- [ ] **W.5** — intensity declining сигнал в Morning Briefing
-- [ ] **W.6** — "Connect health app" onboarding шаг в member app
-- [ ] **Churn-Check upload** — реальный CSV-анализ (слайдер → настоящий)
-- [ ] **Consent Manager** — в Settings (продаваемая DSGVO-фича)
+- [ ] **Setup Wizard v2** — карточки EMS/Boxen/Dance + descKey-варианты копирайта
 - [ ] **Multi-location** — location-switcher в sidebar как "Soon"
 - [ ] **Review & Referral (B2B)** — управление кампанией на стороне gym owner
 - [ ] **Benchmark-тизер** в Analytics
-- [ ] **Pause statt Kündigung** в NudgeModal
+- [ ] **Morning Briefing → WhatsApp** дайджест
+- [ ] **Buddy Streaks**
+- [ ] **Trainer View**
+- [ ] **Class-retention analytics**
 
 ---
 
-## 6. Выполнено (справка)
+## 4. Выполнено (справка)
 
 | | Фича | Дата |
 |---|------|------|
+| — | Consent Manager — новая карточка в Settings (`components/settings/consent-manager.tsx`): zero-knowledge biometrics badge, double opt-in audit, AVV, auto-delete retention toggle, export | 2026-07-01 |
+| 2.3 | Pause statt Kündigung — второй CTA "Offer pause" в `NudgeModal` (Churn Window, save-briefing-actions, at-risk/churned в Members) | 2026-07-01 |
+| NEW | Setup Wizard — `components/shared/setup-wizard.tsx` + `useStudioProfile()` | 2026-06-17 |
+| W.4 | Wearable-колонка + side panel intensity в Members table (`members-table.tsx`, `member-side-panel.tsx`) | 2026-06-17 |
+| W.5 | "Intensity declining" сигнал (`intensity` type) в Morning Briefing (`briefing-list.tsx`) | 2026-06-17 |
+| W.6 | `WearableOnboardingModal` в member home — i18n-нарушение исправлено (EN/DE keys) | 2026-07-01 |
+| 2.1 | Payout-Checker: audit-карточка в AggregatorHub — export-кнопка теперь даёт feedback (Growth+ upsell toast) вместо dead click | 2026-07-01 |
+| 3.1 | Churn-Check: настоящий client-side CSV-парсер (`lib/churn-check.ts`), не слайдер | 2026-06-17 |
 | W.1 | Wearable "Today's workout" card в member home | 2026-06-16 |
 | W.2 | Effort breakdown в activity screen | 2026-06-16 |
 | W.3 | Wearable hero trust strip + cap #6 "Effort-verified points" | 2026-06-16 |

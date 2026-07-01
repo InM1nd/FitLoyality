@@ -4,6 +4,7 @@ import { PageHeading } from "@/components/layout/page-heading";
 import { GymProfile } from "@/components/settings/gym-profile";
 import { Branding } from "@/components/settings/branding";
 import { Integrations } from "@/components/settings/integrations";
+import { ConsentManager } from "@/components/settings/consent-manager";
 import { useT } from "@/lib/i18n/context";
 
 export default function SettingsPage() {
@@ -19,6 +20,7 @@ export default function SettingsPage() {
         <GymProfile />
         <Branding />
         <Integrations />
+        <ConsentManager />
       </div>
     </div>
   );

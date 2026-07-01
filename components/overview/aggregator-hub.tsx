@@ -2,6 +2,7 @@
 
 import * as React from "react";
 import { Layers, ArrowUpRight, ArrowDownRight, UserPlus, FileDown, Scale } from "lucide-react";
+import { toast } from "sonner";
 
 import { Card, CardHeader, CardTitle } from "@/components/ui/card";
 import { Avatar } from "@/components/ui/avatar";
@@ -151,7 +152,14 @@ export function AggregatorHub({ className }: AggregatorHubProps) {
               );
             })}
           </div>
-          <Button size="sm" variant="secondary" className="mt-3 w-full">
+          <Button
+            size="sm"
+            variant="secondary"
+            className="mt-3 w-full"
+            onClick={() =>
+              toast(t("exportClaimToast"), { description: t("exportClaimToastDesc") })
+            }
+          >
             <FileDown className="size-3.5" /> {t("exportClaim")}
           </Button>
         </div>

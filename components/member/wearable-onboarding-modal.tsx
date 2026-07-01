@@ -12,6 +12,7 @@ import {
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
+import { useT } from "@/lib/i18n/context";
 
 const DEVICES = [
   {
@@ -43,12 +44,13 @@ const DEVICES = [
 const STORAGE_KEY = "fitloyalty-wearable-onboarded";
 
 export function WearableOnboardingModal() {
+  const t = useT("memberHome");
   const [open, setOpen] = React.useState(false);
 
   React.useEffect(() => {
     if (typeof window !== "undefined" && !localStorage.getItem(STORAGE_KEY)) {
-      const t = setTimeout(() => setOpen(true), 800);
-      return () => clearTimeout(t);
+      const timer = setTimeout(() => setOpen(true), 800);
+      return () => clearTimeout(timer);
     }
   }, []);
 
@@ -56,8 +58,8 @@ export function WearableOnboardingModal() {
     localStorage.setItem(STORAGE_KEY, "1");
     setOpen(false);
     if (deviceLabel) {
-      toast.success(`${deviceLabel} connected!`, {
-        description: "You can now earn up to +250 bonus pts per session based on your effort.",
+      toast.success(t("onbConnected", { device: deviceLabel }), {
+        description: t("onbConnectedDesc"),
       });
     }
   };
@@ -71,10 +73,10 @@ export function WearableOnboardingModal() {
             <HeartPulse className="size-5 text-brand" />
           </div>
           <DialogTitle className="text-base font-bold leading-snug">
-            Earn more with every workout
+            {t("onbTitle")}
           </DialogTitle>
           <DialogDescription className="mt-1 text-[12.5px] leading-relaxed">
-            Connect your smartwatch to unlock effort-verified bonus points — the harder you train, the more you earn.
+            {t("onbDesc")}
           </DialogDescription>
         </div>
 
@@ -99,8 +101,8 @@ export function WearableOnboardingModal() {
                   <p className="text-[11px] text-faint">{d.sub}</p>
                 </div>
                 <div className="flex flex-col items-end gap-0.5">
-                  <span className="text-[10px] font-bold text-brand">+250 pts</span>
-                  <span className="text-[9px] text-faint">max / session</span>
+                  <span className="text-[10px] font-bold text-brand">{t("onbMaxPts")}</span>
+                  <span className="text-[9px] text-faint">{t("onbMaxSession")}</span>
                 </div>
               </button>
             );
@@ -110,14 +112,14 @@ export function WearableOnboardingModal() {
         {/* base pts note + skip */}
         <div className="border-t border-border px-6 py-4">
           <p className="text-[11px] text-faint text-center mb-3">
-            +50 base points per check-in regardless of wearable — no one is excluded.
+            {t("onbBaseNote")}
           </p>
           <Button
             variant="ghost"
             className="w-full text-[12px] text-faint"
             onClick={() => dismiss()}
           >
-            Skip — I&apos;ll use QR check-in only
+            {t("onbSkip")}
           </Button>
         </div>
       </DialogContent>

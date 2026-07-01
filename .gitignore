@@ -42,3 +42,6 @@ next-env.d.ts
 
 # Claude Code context (local AI instructions — not for version control)
 .claude/
+
+# playwright-cli session artifacts
+.playwright-cli/

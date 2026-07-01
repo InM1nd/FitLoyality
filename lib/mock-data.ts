@@ -4,6 +4,7 @@ import type {
   PayoutAuditRow,
   ChartPoint,
   Cohort,
+  ConsentStats,
   ConversionCandidate,
   GymOccupancy,
   Integration,
@@ -379,6 +380,19 @@ export const INTEGRATIONS: Integration[] = [
   { id: "magic",    name: "Magicline",            description: "Two-way sync with your membership CRM.",                connected: false, detail: "Not connected" },
   { id: "apple",    name: "Apple HealthKit",      description: "Life outside the box — workouts beyond the gym (Phase 3).", connected: false, detail: "Coming soon" },
 ];
+
+/* ------------------------------------------------------------------ */
+/* Consent Manager — DSGVO / member consent posture                    */
+/* ------------------------------------------------------------------ */
+
+export const CONSENT_STATS: ConsentStats = {
+  membersTotal: KPIS.activeMembers,
+  nudgeConsentCount: 327,
+  avvSignedDate: "12 Jan 2026",
+  dataRegion: "EU (Frankfurt)",
+  autoDeleteEnabled: false,
+  autoDeleteMonths: 12,
+};
 
 /* ------------------------------------------------------------------ */
 /* Header — notifications, search                                      */

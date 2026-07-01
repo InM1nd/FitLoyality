@@ -14,6 +14,7 @@ import {
   CHURN_SERIES,
   COHORT_SIZES,
   COHORTS,
+  CONSENT_STATS,
   CONVERSION_CANDIDATES,
   DIRECT_REVENUE,
   GYM,
@@ -70,6 +71,7 @@ export const getReviewRules = () => REVIEW_RULES;
 export const getReferralStats = () => REFERRAL_STATS;
 export const getTopReferrers = () => TOP_REFERRERS;
 export const getIntegrations = () => INTEGRATIONS;
+export const getConsentStats = () => CONSENT_STATS;
 export const getNotifications = () => NOTIFICATIONS;
 export const getRecentSearches = () => RECENT_SEARCHES;
 
@@ -95,6 +97,7 @@ export {
   CHURN_SERIES,
   COHORT_SIZES,
   COHORTS,
+  CONSENT_STATS,
   CONVERSION_CANDIDATES,
   DIRECT_REVENUE,
   GYM,
