@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { Send } from "lucide-react";
+import { Send, Pause } from "lucide-react";
 import { toast } from "sonner";
 
 import {
@@ -21,19 +21,21 @@ interface NudgeModalProps {
   memberName: string | null;
   open: boolean;
   onOpenChange: (open: boolean) => void;
+  /** Show the "Offer pause" save-flow CTA — only relevant for at-risk/churn-window members. */
+  offerPause?: boolean;
 }
 
 function firstName(full: string): string {
   return full.split(" ")[0];
 }
 
-export function NudgeModal({ memberName, open, onOpenChange }: NudgeModalProps) {
+export function NudgeModal({ memberName, open, onOpenChange, offerPause = false }: NudgeModalProps) {
   const name = memberName ?? "";
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="max-w-md">
         {/* key remounts the form per member so the message re-seeds without render-phase setState */}
-        <NudgeForm key={name} name={name} onOpenChange={onOpenChange} />
+        <NudgeForm key={name} name={name} onOpenChange={onOpenChange} offerPause={offerPause} />
       </DialogContent>
     </Dialog>
   );
@@ -42,9 +44,11 @@ export function NudgeModal({ memberName, open, onOpenChange }: NudgeModalProps) 
 function NudgeForm({
   name,
   onOpenChange,
+  offerPause,
 }: {
   name: string;
   onOpenChange: (open: boolean) => void;
+  offerPause: boolean;
 }) {
   const t = useT("briefing");
   const first = firstName(name);
@@ -56,6 +60,13 @@ function NudgeForm({
     onOpenChange(false);
     toast.success(t("nudgeToastTitle", { name: first }), {
       description: t("nudgeToastDesc"),
+    });
+  };
+
+  const handleOfferPause = () => {
+    onOpenChange(false);
+    toast.success(t("pauseToastTitle", { name: first }), {
+      description: t("pauseToastDesc"),
     });
   };
 
@@ -77,6 +88,11 @@ function NudgeForm({
       </div>
       <DialogFooter>
         <Button variant="secondary" onClick={() => onOpenChange(false)}>{t("nudgeCancel")}</Button>
+        {offerPause && (
+          <Button variant="secondary" onClick={handleOfferPause}>
+            <Pause /> {t("pauseCta")}
+          </Button>
+        )}
         <Button onClick={handleSend}>
           <Send /> {t("nudgeSend")}
         </Button>

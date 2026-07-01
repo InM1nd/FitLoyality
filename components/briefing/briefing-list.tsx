@@ -232,6 +232,7 @@ export function BriefingList() {
       <NudgeModal
         memberName={nudgeTarget}
         open={nudgeOpen}
+        offerPause
         onOpenChange={(o) => {
           setNudgeOpen(o);
           // closing after a send-or-cancel clears the corresponding action

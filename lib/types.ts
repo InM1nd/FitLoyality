@@ -96,6 +96,15 @@ export interface Integration {
   detail: string;
 }
 
+export interface ConsentStats {
+  membersTotal: number;
+  nudgeConsentCount: number;
+  avvSignedDate: string;
+  dataRegion: string;
+  autoDeleteEnabled: boolean;
+  autoDeleteMonths: number;
+}
+
 /* ---------- Aggregator Hub ---------- */
 
 export interface AggregatorChannel {

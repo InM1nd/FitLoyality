@@ -290,7 +290,12 @@ export function MembersTable() {
         onOpenChange={setPanelOpen}
         onNudge={openNudge}
       />
-      <NudgeModal memberName={nudgeTarget} open={nudgeOpen} onOpenChange={setNudgeOpen} />
+      <NudgeModal
+        memberName={nudgeTarget}
+        open={nudgeOpen}
+        onOpenChange={setNudgeOpen}
+        offerPause={selected?.status === "at-risk" || selected?.status === "churned"}
+      />
     </>
   );
 }

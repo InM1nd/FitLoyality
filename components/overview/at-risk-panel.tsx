@@ -91,7 +91,7 @@ export function AtRiskPanel() {
         </ScrollArea>
       </Card>
 
-      <NudgeModal memberName={target} open={open} onOpenChange={setOpen} />
+      <NudgeModal memberName={target} open={open} onOpenChange={setOpen} offerPause />
     </>
   );
 }
