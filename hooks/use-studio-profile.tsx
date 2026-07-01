@@ -25,24 +25,35 @@ interface StudioProfileContextValue {
 
 const StudioProfileContext = React.createContext<StudioProfileContextValue | null>(null);
 
-export function StudioProfileProvider({ children }: { children: React.ReactNode }) {
-  const [profile, setProfile] = React.useState<StudioProfileState>(null);
-  const [hydrated, setHydrated] = React.useState(false);
+const PROFILE_CHANGED_EVENT = "fitloyalty:studio-profile-changed";
+const emptySubscribe = () => () => {};
 
-  React.useEffect(() => {
-    setProfile(readStudioProfile());
-    setHydrated(true);
-  }, []);
+function subscribeToProfile(callback: () => void) {
+  window.addEventListener(PROFILE_CHANGED_EVENT, callback);
+  return () => window.removeEventListener(PROFILE_CHANGED_EVENT, callback);
+}
+
+const getServerProfileSnapshot = (): StudioProfileState => null;
+
+export function StudioProfileProvider({ children }: { children: React.ReactNode }) {
+  // Read localStorage via useSyncExternalStore (not useEffect+setState) so the
+  // profile is available on the client's first render, SSR-safe, no extra render.
+  const profile = React.useSyncExternalStore(
+    subscribeToProfile,
+    readStudioProfile,
+    getServerProfileSnapshot,
+  );
+  const hydrated = React.useSyncExternalStore(emptySubscribe, () => true, () => false);
 
   const saveProfile = React.useCallback((next: StudioProfile | "skipped") => {
     writeStudioProfile(next);
-    setProfile(next);
+    window.dispatchEvent(new CustomEvent(PROFILE_CHANGED_EVENT));
     window.dispatchEvent(new CustomEvent(STUDIO_PROFILE_READY_EVENT));
   }, []);
 
   const resetProfile = React.useCallback(() => {
     clearStudioProfile();
-    setProfile(null);
+    window.dispatchEvent(new CustomEvent(PROFILE_CHANGED_EVENT));
     window.dispatchEvent(new CustomEvent(REOPEN_WIZARD_EVENT));
   }, []);
 

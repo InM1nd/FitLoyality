@@ -49,11 +49,8 @@ export function SetupWizard() {
   const [profile, setProfile] = React.useState<Partial<StudioProfile>>({});
 
   React.useEffect(() => {
-    if (wizardPending) {
-      const timer = setTimeout(() => setOpen(true), 400);
-      return () => clearTimeout(timer);
-    }
-    setOpen(false);
+    const timer = setTimeout(() => setOpen(wizardPending), wizardPending ? 400 : 0);
+    return () => clearTimeout(timer);
   }, [wizardPending]);
 
   React.useEffect(() => {
