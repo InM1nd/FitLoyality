@@ -417,6 +417,36 @@
 
 ---
 
+## 9a. Аутрич-вертикали (добавлено 2026-07-01) — где искать, помимо йоги/пилатес
+
+Раз холодный контакт идёт через email/соцсети (не звонки), список кандидатов
+нужен заранее. Ниже — вертикали внутри ICP (100-500 членов, независимая
+студия, не сеть/не клиент Magicline) с реальными источниками для сбора списка.
+
+| Вертикаль | Приоритет | Источник списка | Найденный масштаб (Wien) | Хук в аутриче |
+|---|---|---|---|---|
+| Йога/Пилатес | Основной (Штефани) | [eversports.at/l/yoga(pilates)/wien](https://www.eversports.at/l/yogapilates/wien) | 18–230 студий | silent churn, Churn-Check |
+| CrossFit/Functional | Основной (Маркус) | Instagram-поиск по городу — многие не листятся на Eversports | 3 реальных бокса найдено в Граце (@crossfitgraz, @crossfitmurstadt, @crossfitliveandtrain) | комьюнити, недельные стрики/лидерборды |
+| Boxen/Kickbox | Высокий | [eversports.at/l/boxen/wien](https://www.eversports.at/l/boxen/wien) | 25–32 студии | тот же паттерн, что CrossFit |
+| Tanzstudios | Высокий | [eversports.at/l/tanzen/wien](https://www.eversports.at/l/tanzen/wien) | 58–78 студий | occupancy/заполненность классов, тихий отток без "напарника", который заметит отсутствие |
+| EMS-студии | Высокий (Даниэла) | [eversports.at/l/ems-training/wien](https://www.eversports.at/l/ems-training/wien) (только 6) + отдельный директорий [ems-training.at/at/wien](https://www.ems-training.at/at/wien) | 6 на Eversports + Körperformen, EMS-Station, EMS Workout, WORXOUT напрямую | цена одного ушедшего члена (€1800+/год), Kündigungsfrist |
+| Боулдер/скалодромы | Низкий (пока) | нет единого директория, часто day-pass ПО, не class-based | не исследовано | стрик-механика подходит хуже — не приоритет |
+| General "Fitness" (не сети) | Средний, требует фильтрации | [eversports.de/l/fitness/wien](https://www.eversports.de/l/fitness/wien) | 117 студий, нужно вручную отсеять франшизы | зависит от формата студии |
+
+**Явные исключения (уже зафиксированы в `.claude/CLAUDE.md`):**
+- Сети/франшизы и клиенты Magicline Basic/Advanced — получат retention нативно
+  от MagicAI Engage, не наш клиент.
+- **Никакого прямого аутрича по контактам, добытым из member-баз агрегаторов**
+  (USC/Wellpass/Hansefit) — Abwerbeverbot-риск. Списки из публичных бизнес-
+  директориев (Eversports, сайты студий, Instagram самой студии) — это ОК,
+  это не member-данные агрегаторов, а публичные профили самих студий.
+
+**Демо-следствие:** см. `docs/IDEAS.md` §2a (Setup Wizard v2) — расширение
+типов студии на `ems`/`boxen`/`dance`, чтобы демо визуально адаптировалось под
+эти вертикали при холодном аутриче без звонка, который мог бы это объяснить.
+
+---
+
 ## 10. Цены конкурентов и наше позиционирование
 
 | Продукт | Цена | Что даёт |

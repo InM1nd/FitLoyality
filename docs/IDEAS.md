@@ -15,6 +15,7 @@
 | # | Идея | Эффект | Усилие | Статус |
 |---|------|--------|--------|--------|
 | **NEW** | Setup Wizard — форма перед дашбордом | 🔥🔥🔥 | Средн. | **Done** (см. §4) |
+| **NEW** | Setup Wizard v2 — вертикали EMS/Boxen/Dance | 🔥🔥 | Низк.-Средн. | **Backlog** |
 | W.4 | Wearable: колонка в таблице членов + side panel | 🔥🔥🔥 | Средн. | **Done** (см. §4) |
 | W.5 | Wearable: "intensity declining" сигнал в Briefing | 🔥🔥 | Средн. | **Done** (см. §4) |
 | W.6 | Wearable: онбординг member app "Connect health app" | 🔥🔥 | Низк. | **Done** (см. §4) |
@@ -30,19 +31,63 @@
 | — | Multi-location switcher (sidebar "Soon") | 🔥 | Низк. | Backlog |
 | — | Review & Referral campaign (B2B side) | 🔥 | Средн. | Backlog |
 
-**Следующие по приоритету** (Setup Wizard, W.4/W.5, Payout-Checker, Pause statt Kündigung,
-Consent Manager — уже реализованы в коде, см. §4):
-1. **Benchmark-тизер** — один час работы, продаёт data-moat в питче
-2. **Multi-location switcher** — "Soon" пилюля в sidebar, минимальный объём работы
-3. **Review & Referral campaign (B2B)** — управление кампанией на стороне gym owner
+**Следующие по приоритету** (Setup Wizard v1, W.4/W.5/W.6, Payout-Checker, Churn-Check CSV,
+Pause statt Kündigung, Consent Manager — уже реализованы в коде, см. §4):
+1. **Setup Wizard v2** — расширяет уже готовый механизм на EMS/Boxen/Dance-аутрич,
+   низкий-средний объём работы, см. §2
+2. **Benchmark-тизер** — один час работы, продаёт data-moat в питче
+3. **Multi-location switcher** — "Soon" пилюля в sidebar, минимальный объём работы
+4. **Review & Referral campaign (B2B)** — управление кампанией на стороне gym owner
 
 ---
 
 ## 2. Оставшийся продуктовый беклог
 
-> Setup Wizard, W.4–W.6, Payout-Checker, Churn-Check CSV, Pause statt Kündigung и Consent
+> Setup Wizard v1, W.4–W.6, Payout-Checker, Churn-Check CSV, Pause statt Kündigung и Consent
 > Manager описаны в предыдущих версиях этого документа как беклог — все они уже реализованы,
 > см. §4 "Выполнено".
+
+### Setup Wizard v2 — расширенные вертикали (EMS / Boxen / Dance)
+
+**Зачем:** аутрич расширился за пределы йоги/пилатес на EMS-студии, Boxen/Kickbox
+и Tanzstudios (см. `MARKET_RESEARCH.md` §9a). Сейчас все три попадают в generic
+`"other"` в Setup Wizard — владелец EMS-студии, открывший демо-ссылку, не увидит
+ничего специфичного для своего бизнеса. Для холодного аутрича по email/соцсетям
+(без звонка, который объяснил бы контекст) это особенно важно — демо должно
+продать адаптацию само, без комментария продавца.
+
+**Скоуп (сознательно небольшой — расширение существующего механизма, не новая система):**
+
+1. **Новые значения `StudioType`:** `"ems" | "boxen" | "dance"` — добавить к
+   существующим 4 в `lib/studio-profile.ts` и как новые карточки в
+   `components/shared/setup-wizard.tsx` (шаг 1, тот же UI-паттерн).
+2. **`OverviewDescKey` — 3 новых варианта копирайта на `/overview`:**
+   - `ems` — акцент на цену пропущенного члена (€150+/мес чек → -€1800/год за
+     одного ушедшего), не на объём/occupancy. Персона Даниэла уже описана в
+     `MARKET_RESEARCH.md` §9.
+   - `boxen` — тот же паттерн, что `crossfit` (комьюнити, недельные стрики,
+     лидерборды) — можно завести общий `descKey` вместо дублирования, если
+     копирайт совпадает.
+   - `dance` — тот же паттерн, что `yoga` (классовая заполненность, occupancy
+     teaser), но с формулировкой под группу/танец, не под соло-практику.
+3. **`aggregatorLayout` для EMS:** `"deemphasized"` по умолчанию — EMS-члены
+   почти никогда не приходят через USC/Wellpass (высокий чек, персональный
+   формат), не стоит выводить Aggregator Hub на первый план.
+4. **`recommendedPlanKey`:** логика по размеру (`size`) не меняется — EMS-студии
+   обычно попадают в `small` (Starter) естественным образом через ответ на
+   шаг 2, доп. правил не нужно.
+5. **i18n:** новые ключи в namespace `setupWizard` (label + sub для 3 карточек)
+   и в `capabilities`/`overview` для descKey-вариантов — EN + DE, как обычно.
+
+**Что НЕ входит в v1 этого расширения (осознанно, чтобы не разрастаться):**
+- Изменение текста challenge-названий/badge в member app под вертикаль (WOD
+  vs Reformer vs EMS-сессия) — красиво, но не критично для B2B-демо, где
+  решение принимает владелец, а не член. Кандидат на v2.2, если появится спрос.
+- Отдельная ветка для боулдера/скалодромов — другая бизнес-модель (day-pass,
+  не class-based), пока не приоритет по аутричу (см. `MARKET_RESEARCH.md` §9a).
+
+**Эффект:** средний, усилие низкое-среднее — расширение существующего enum +
+copy, без новой архитектуры.
 
 ### 3.3 Morning Briefing → WhatsApp
 
@@ -75,6 +120,7 @@ Consent Manager — уже реализованы в коде, см. §4):
 
 ## 3. Демо-беклог (обещано в pricing, отсутствует)
 
+- [ ] **Setup Wizard v2** — карточки EMS/Boxen/Dance + descKey-варианты копирайта
 - [ ] **Multi-location** — location-switcher в sidebar как "Soon"
 - [ ] **Review & Referral (B2B)** — управление кампанией на стороне gym owner
 - [ ] **Benchmark-тизер** в Analytics
