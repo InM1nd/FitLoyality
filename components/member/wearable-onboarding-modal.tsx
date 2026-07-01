@@ -117,7 +117,7 @@ export function WearableOnboardingModal() {
             className="w-full text-[12px] text-faint"
             onClick={() => dismiss()}
           >
-            Skip — I'll use QR check-in only
+            Skip — I&apos;ll use QR check-in only
           </Button>
         </div>
       </DialogContent>
