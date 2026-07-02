@@ -8,7 +8,7 @@ export default function robots(): MetadataRoute.Robots {
       userAgent: "*",
       allow: "/",
       // demo app surfaces — not meant for search results
-      disallow: ["/overview", "/members", "/rewards", "/analytics", "/settings", "/member"],
+      disallow: ["/overview", "/members", "/rewards", "/analytics", "/settings", "/member", "/dev"],
     },
     sitemap: `${BASE_URL}/sitemap.xml`,
   };
